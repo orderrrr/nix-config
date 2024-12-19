@@ -1,171 +1,11 @@
 return {
-    -- easy to use git interface
-    {
-        'kdheepak/lazygit.nvim',
-        config = function()
-            vim.keymap.set('n', '<leader>lg', ':LazyGit<CR>', { desc = 'LazyGit' })
-        end,
-    },
-    -- Detect tabstop and shiftwidth automatically
-    'tpope/vim-sleuth',
-    {
-        -- LSP Configuration & Plugins
-        'neovim/nvim-lspconfig',
-        dependencies = {
-            -- Automatically install LSPs to stdpath for neovim
-            { 'williamboman/mason.nvim', config = true },
-            'williamboman/mason-lspconfig.nvim',
-            {
-                'j-hui/fidget.nvim',
-                opts = {
-                    notification = {
-                        window = {
-                            winblend = 0, -- note: not winblend!
-                            relative = "editor"
-                        }
-                    }
-                }
-            },
-            -- Additional lua configuration, makes nvim stuff amazing!
-            'folke/neodev.nvim',
-        },
-    },
-    -- Useful status updates for LSP
-    { 'rcarriga/nvim-notify', opts = {} },
-    {
-        'saghen/blink.cmp',
-        -- optional: provides snippets for the snippet source
-        dependencies = 'rafamadriz/friendly-snippets',
+    -- require('plugins.lsp'),
+    -- require('plugins.completion'),
+    -- require('plugins.git'),
+    -- require('plugins.luasnip'),
 
-        -- use a release tag to download pre-built binaries
-        version = 'v0.*',
-        -- AND/OR build from source, requires nightly: https://rust-lang.github.io/rustup/concepts/channels.html#working-with-nightly-rust
-        -- build = 'cargo build --release',
-        -- If you use nix, you can build from source using latest nightly rust with:
-        -- build = 'nix run .#build-plugin',
-
-        ---@module 'blink.cmp'
-        ---@type blink.cmp.Config
-        opts = {
-            -- 'default' for mappings similar to built-in completion
-            -- 'super-tab' for mappings similar to vscode (tab to accept, arrow keys to navigate)
-            -- 'enter' for mappings similar to 'super-tab' but with 'enter' to accept
-            -- see the "default configuration" section below for full documentation on how to define
-            -- your own keymap.
-            keymap = { preset = 'default' },
-            snippets = {
-                expand = function(snippet) require('luasnip').lsp_expand(snippet) end,
-                active = function(filter)
-                    if filter and filter.direction then
-                        return require('luasnip').jumpable(filter.direction)
-                    end
-                    return require('luasnip').in_snippet()
-                end,
-                jump = function(direction) require('luasnip').jump(direction) end,
-            },
-
-            completion = {
-                menu = {
-                    draw = {
-                        columns = { { "label", "label_description", gap = 1 }, { "kind_icon", "kind" } },
-                    },
-                },
-            },
-
-
-            appearance = {
-                -- Sets the fallback highlight groups to nvim-cmp's highlight groups
-                -- Useful for when your theme doesn't support blink.cmp
-                -- will be removed in a future release
-                use_nvim_cmp_as_default = true,
-                -- Set to 'mono' for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
-                -- Adjusts spacing to ensure icons are aligned
-                nerd_font_variant = 'mono'
-            },
-
-            -- default list of enabled providers defined so that you can extend it
-            -- elsewhere in your config, without redefining it, via `opts_extend`
-            sources = {
-                default = { 'lsp', 'path', 'luasnip', 'buffer' },
-                -- optionally disable cmdline completions
-                -- cmdline = {},
-            },
-
-            -- experimental signature help support
-            signature = { enabled = true }
-        },
-        -- allows extending the providers array elsewhere in your config
-        -- without having to redefine it
-        opts_extend = { "sources.default" }
-    },
-    -- {
-    --     "ray-x/lsp_signature.nvim",
-    --     event = "VeryLazy",
-    --     opts = {},
-    --     config = function(_, opts) require 'lsp_signature'.setup(opts) end
-    -- },
-    -- {
-    --     'windwp/nvim-autopairs',
-    --     -- Optional dependency
-    --     dependencies = { 'iguanacucumber/magazine.nvim' },
-    --     config = function()
-    --         require('nvim-autopairs').setup {}
-    --         -- If you want to automatically add `(` after selecting a function or method
-    --         local cmp_autopairs = require 'nvim-autopairs.completion.cmp'
-    --         local cmp = require 'cmp'
-    --         cmp.event:on('confirm_done', cmp_autopairs.on_confirm_done())
-    --     end,
-    -- },
-    -- {
-    --     -- Autocompletion
-    --     "hrsh7th/nvim-cmp",
-    --     name = "nvim-cmp",
-    --     dependencies = {
-    --         -- Snippet Engine & its associated nvim-cmp source
-    --         'L3MON4D3/LuaSnip',
-    --         'saadparwaiz1/cmp_luasnip',
-    --         'hrsh7th/cmp-buffer',
-    --         'hrsh7th/cmp-path',
-    --         'hrsh7th/cmp-cmdline',
-    --         -- Adds LSP completion capabilities
-    --         'hrsh7th/cmp-nvim-lsp',
-    --         -- Adds a number of user-friendly snippets
-    --         'rafamadriz/friendly-snippets',
-    --         {
-    --             "MattiasMTS/cmp-dbee",
-    --             dependencies = {
-    --                 { "kndndrj/nvim-dbee", "MunifTanjim/nui.nvim", }
-    --             },
-    --             ft = "sql", -- optional but good to have
-    --             opts = {},  -- needed
-    --         },
-    --     },
-    --     event = 'InsertEnter',
-    -- },
     -- Useful plugin to show you pending keybinds.
-    { 'folke/which-key.nvim', opts = {} },
-    {
-        -- Adds git related signs to the gutter, as well as utilities for managing changes
-        'lewis6991/gitsigns.nvim',
-        opts = {
-            -- See `:help gitsigns.txt`
-            signs = {
-                add = { text = '+' },
-                change = { text = '~' },
-                delete = { text = '_' },
-                topdelete = { text = '‾' },
-                changedelete = { text = '~' },
-            },
-            on_attach = function(bufnr)
-                vim.keymap.set('n', '<leader>gp', require('gitsigns').prev_hunk,
-                    { buffer = bufnr, desc = '[G]o to [P]revious Hunk' })
-                vim.keymap.set('n', '<leader>gn', require('gitsigns').next_hunk,
-                    { buffer = bufnr, desc = '[G]o to [N]ext Hunk' })
-                vim.keymap.set('n', '<leader>ph', require('gitsigns').preview_hunk,
-                    { buffer = bufnr, desc = '[P]review [H]unk' })
-            end,
-        },
-    },
+    { 'folke/which-key.nvim',  opts = {} },
 
     {
         -- Add indentation guides even on blank lines
@@ -197,57 +37,6 @@ return {
         end,
     },
 
-    -- Fuzzy Finder (files, lsp, etc)
-    {
-        'nvim-telescope/telescope.nvim',
-        branch = '0.1.x',
-        dependencies = {
-            'nvim-lua/plenary.nvim',
-            'gbrlsnchs/telescope-lsp-handlers.nvim',
-            'nvim-telescope/telescope-ui-select.nvim',
-            -- Fuzzy Finder Algorithm which requires local dependencies to be built.
-            -- Only load if `make` is available. Make sure you have the system
-            -- requirements installed.
-            {
-                'nvim-telescope/telescope-fzf-native.nvim',
-                -- NOTE: If you are having trouble with this installation,
-                --       refer to the README for telescope-fzf-native for more instructions.
-                build = 'make',
-                cond = function()
-                    return vim.fn.executable 'make' == 1
-                end,
-            },
-        },
-    },
-    {
-        "aaronhallaert/advanced-git-search.nvim",
-        cmd = { "AdvancedGitSearch" },
-        config = function()
-            -- optional: setup telescope before loading the extension
-            require("telescope").setup {
-                -- move this to the place where you call the telescope setup function
-                extensions = {
-                    advanced_git_search = {
-                        -- See Config
-                    }
-                }
-            }
-
-            require("telescope").load_extension("advanced_git_search")
-        end,
-        dependencies = {
-            --- See dependencies
-        },
-    },
-    {
-        -- Highlight, edit, and navigate code
-        'nvim-treesitter/nvim-treesitter',
-        dependencies = {
-            'nvim-treesitter/nvim-treesitter-textobjects',
-            'nvim-treesitter/nvim-treesitter-context'
-        },
-        build = ':TSUpdate',
-    },
     {
         'nvimdev/guard.nvim',
 
@@ -262,44 +51,6 @@ return {
                 -- Use lsp if no formatter was defined for this filetype
                 lsp_as_default_formatter = false,
             }
-        end,
-    },
-    {
-        'onsails/lspkind.nvim',
-        opts = {
-            mode = 'symbol',
-            symbol_map = {
-                Text = '󰉿',
-                Method = '󰆧',
-                Function = '󰊕',
-                Constructor = '',
-                Field = '󰜢',
-                Variable = '󰀫',
-                Class = '󰠱',
-                Interface = '',
-                Module = '',
-                Property = '󰜢',
-                Unit = '󰑭',
-                Value = '󰎠',
-                Enum = '',
-                Keyword = '󰌋',
-                Snippet = '',
-                Color = '󰏘',
-                File = '󰈙',
-                Reference = '󰈇',
-                Folder = '󰉋',
-                EnumMember = '',
-                Constant = '󰏿',
-                Struct = '󰙅',
-                Event = '',
-                Operator = '󰆕',
-                TypeParameter = '',
-            },
-            menu = {},
-        },
-        enabled = true,
-        config = function(_, opts)
-            require('lspkind').init(opts)
         end,
     },
     { 'unblevable/quick-scope' },
@@ -357,12 +108,6 @@ return {
                 },
                 under_cursor = true,
             }
-        end,
-    },
-    {
-        'L3MON4D3/LuaSnip',
-        config = function()
-            require 'plugins.luasnip'
         end,
     },
     {
@@ -435,12 +180,6 @@ return {
             })
         end,
         dependencies = { "nvim-tree/nvim-web-devicons" },
-    },
-    {
-        "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
-        config = function()
-            require("lsp_lines").setup()
-        end,
     },
     {
         'stevearc/conform.nvim',
@@ -528,7 +267,7 @@ return {
             'stevearc/dressing.nvim', -- optional for vim.ui.select
         },
     },
-    { 'rcarriga/nvim-dap-ui',  dependencies = { 'mfussenegger/nvim-dap', 'nvim-neotest/nvim-nio' } },
+    { 'rcarriga/nvim-dap-ui', dependencies = { 'mfussenegger/nvim-dap', 'nvim-neotest/nvim-nio' } },
     'mfussenegger/nvim-jdtls',
     {
         'nvim-neotest/neotest',

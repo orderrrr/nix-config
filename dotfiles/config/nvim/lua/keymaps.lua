@@ -13,7 +13,6 @@ vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnos
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
 vim.keymap.set("n", "<leader>ld", vim.diagnostic.open_float, { desc = "Hover diagnostics" })
-vim.keymap.set('n', "<leader>lD", require("telescope.builtin").diagnostics, { desc = "List diagnostics" })
 -- vim.keymap.set('n', '<leader>nt', ":Neotree filesystem reveal left<CR>", { desc = "Open Neotree" })
 vim.keymap.set('n', '<leader>ff', vim.lsp.buf.format, { desc = "Format File" })
 vim.keymap.set('v', '<leader>ff', vim.lsp.buf.format, { desc = "Format File" })
