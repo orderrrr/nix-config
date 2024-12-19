@@ -33,7 +33,7 @@ return {
             require('toggleterm').setup {}
 
             vim.cmd [[autocmd TermEnter term://*toggleterm#*\ tnoremap <silent><c-t> <Cmd>exe v:count1 . "ToggleTerm"<CR>]]
-            vim.keymap.set('n', '<leader>tt', ':ToggleTerm<CR>', { desc = 'Open Term' })
+            vim.keymap.set({ 'n', 't' }, '<leader>tt', ':ToggleTerm<CR>', { desc = 'Open Term' })
         end,
     },
     {

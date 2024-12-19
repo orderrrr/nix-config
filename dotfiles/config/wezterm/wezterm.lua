@@ -14,7 +14,7 @@ end
 
 -- For example, changing the color scheme:
 -- config.color_scheme = 'AdventureTime'
-config.font = wezterm.font("ZedMono Nerd Font Mono", { weight = "Bold" })
+config.font = wezterm.font("JetBrains Mono", { weight = "Bold" })
 config.enable_tab_bar = false
 -- config.color_scheme = "Catppuccin Mocha" -- or Macchiato, Frappe, Latte
 config.window_decorations = "RESIZE"
