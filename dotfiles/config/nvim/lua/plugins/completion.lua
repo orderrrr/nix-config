@@ -1,11 +1,5 @@
 return {
     'saghen/blink.cmp',
-    dependencies = {
-        {
-            'L3MON4D3/LuaSnip',
-            version = "v2.*",
-        }
-    },
     -- use a release tag to download pre-built binaries
     version = '*',
     opts = {
