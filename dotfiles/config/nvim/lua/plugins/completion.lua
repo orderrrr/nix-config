@@ -37,7 +37,6 @@ return {
                 return require('luasnip').in_snippet()
             end,
             jump = function(direction) require('luasnip').jump(direction) end,
-            uuid = function() require("luasnip").uuid() end
         },
 
         completion = {
