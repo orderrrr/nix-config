@@ -1,5 +1,25 @@
+local function has_value(tab, val)
+    for _, value in ipairs(tab) do
+        if value == val then return true end
+    end
+
+    return false
+end
+
 return {
     'saghen/blink.cmp',
+
+    dependencies = {
+        {
+            "MattiasMTS/cmp-dbee",
+            dependencies = {
+                { "kndndrj/nvim-dbee", "MunifTanjim/nui.nvim", }
+            },
+            ft = "sql", -- optional but good to have
+            opts = {},  -- needed
+        },
+    },
+
     -- use a release tag to download pre-built binaries
     version = '*',
     opts = {
@@ -42,7 +62,15 @@ return {
         -- default list of enabled providers defined so that you can extend it
         -- elsewhere in your config, without redefining it, via `opts_extend`
         sources = {
-            default = { 'lsp', 'path', 'luasnip', 'buffer' },
+            default = function()
+                local ftype = { "sql", "mysql", "plsql" }
+
+                if has_value(ftype, vim.bo.filetype) then
+                    return { 'lsp', 'cmp-dbee', 'path', 'luasnip', 'buffer' }
+                end
+
+                return { 'lsp', 'path', 'luasnip', 'buffer' }
+            end,
             -- optionally disable cmdline completions
             -- cmdline = {},
         },
