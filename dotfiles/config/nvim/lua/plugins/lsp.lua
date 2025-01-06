@@ -61,21 +61,23 @@ return {
           end
         })
 
+        local ivy = require('telescope.themes').get_ivy({})
+
         nmap('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
         nmap('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
 
         nmap('gd', vim.lsp.buf.definition, '[G]oto [D]efinition')
-        nmap('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
+        nmap('gr', function() require('telescope.builtin').lsp_references(ivy) end, '[G]oto [R]eferences')
         nmap('gI', vim.lsp.buf.implementation, '[G]oto [I]mplementation')
         nmap('<leader>D', vim.lsp.buf.type_definition, 'Type [D]efinition')
-        nmap('<leader>ds', require('telescope.builtin').lsp_document_symbols, '[D]ocument [S]ymbols')
-        nmap('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
+        nmap('<leader>ds', function() require('telescope.builtin').lsp_document_symbols(ivy) end, '[D]ocument [S]ymbols')
+        nmap('<leader>ws', function() require('telescope.builtin').lsp_dynamic_workspace_symbols(ivy) end, '[W]orkspace [S]ymbols')
 
         nmap('<leader>jf', function()
           if vim.bo.filetype == 'java' then
-            require('telescope.builtin').lsp_document_symbols({ symbols = 'method' })
+            require('telescope.builtin').lsp_document_symbols(require('telescope.themes').get_ivy({ symbols = 'method' }))
           else
-            require('telescope.builtin').lsp_document_symbols({ symbols = 'function' })
+            require('telescope.builtin').lsp_document_symbols(require('telescope.themes').get_ivy({ symbols = 'function' }))
           end
         end, '[J]ump to [F]unction')
 
