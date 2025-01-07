@@ -19,6 +19,32 @@ return {
             })
         end
     },
+    {
+        "sindrets/diffview.nvim",
+        dependencies = { 'nvim-tree/nvim-web-devicons' },
+        opts = {
+            use_icons = true, -- Requires nvim-web-devicons
+            show_help_hints = true, -- Show hints for how to open the help panel
+            watch_index = true, -- Update views and index buffers when the git index changes.
+            icons = {        -- Only applies when use_icons is true.
+                folder_closed = "",
+                folder_open = "",
+            },
+            signs = {
+                fold_closed = "",
+                fold_open = "",
+                done = "✓",
+            },
+        }
+    },
+    {
+        "rbong/vim-flog",
+        lazy = true,
+        cmd = { "Flog", "Flogsplit", "Floggit" },
+        dependencies = {
+            "tpope/vim-fugitive",
+        },
+    },
     { 'unblevable/quick-scope' },
     {
         'stevearc/dressing.nvim',
