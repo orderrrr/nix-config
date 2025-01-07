@@ -10,6 +10,12 @@ return {
       { 'tpope/vim-sleuth' },
       { 'rcarriga/nvim-notify',             opts = {} },
       {
+        "aznhe21/actions-preview.nvim",
+        config = function()
+          vim.keymap.set({ "v", "n" }, "<leader>ca", require("actions-preview").code_actions)
+        end,
+      },
+      {
         'j-hui/fidget.nvim',
         opts = {
           notification = {
@@ -64,14 +70,15 @@ return {
         local ivy = require('telescope.themes').get_ivy({})
 
         nmap('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
-        nmap('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
+        -- nmap('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
 
         nmap('gd', vim.lsp.buf.definition, '[G]oto [D]efinition')
         nmap('gr', function() require('telescope.builtin').lsp_references(ivy) end, '[G]oto [R]eferences')
         nmap('gI', vim.lsp.buf.implementation, '[G]oto [I]mplementation')
         nmap('<leader>D', vim.lsp.buf.type_definition, 'Type [D]efinition')
         nmap('<leader>ds', function() require('telescope.builtin').lsp_document_symbols(ivy) end, '[D]ocument [S]ymbols')
-        nmap('<leader>ws', function() require('telescope.builtin').lsp_dynamic_workspace_symbols(ivy) end, '[W]orkspace [S]ymbols')
+        nmap('<leader>ws', function() require('telescope.builtin').lsp_dynamic_workspace_symbols(ivy) end,
+          '[W]orkspace [S]ymbols')
 
         nmap('<leader>jf', function()
           if vim.bo.filetype == 'java' then

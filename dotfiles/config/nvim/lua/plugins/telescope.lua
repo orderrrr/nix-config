@@ -15,7 +15,8 @@ local config = function()
     },
     pickers = {},
     extensions = {
-      fzf = {}
+      fzf = {},
+      ["ui-select"] = {},
     }
   }
 
@@ -53,6 +54,9 @@ local config = function()
     { desc = '[S]earch [D]iagnostics' })
   vim.keymap.set('n', "<leader>lD", function() require("telescope.builtin").diagnostics(ivy) end,
     { desc = "List diagnostics" })
+  vim.keymap.set('n', "<leader>lDD",
+    function() require("telescope.builtin").diagnostics(require('telescope.themes').get_ivy({ severity = "ERROR" })) end,
+    { desc = "List errors" })
 end
 
 return {

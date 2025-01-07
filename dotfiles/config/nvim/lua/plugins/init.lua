@@ -1,6 +1,7 @@
 return {
     -- Useful plugin to show you pending keybinds.
-    { 'folke/which-key.nvim',  opts = {} },
+    { 'folke/which-key.nvim',   opts = {} },
+    { 'nvim-pack/nvim-spectre', opts = {} },
     { 'unblevable/quick-scope' },
     {
         'stevearc/dressing.nvim',

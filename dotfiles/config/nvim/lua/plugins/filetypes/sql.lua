@@ -8,6 +8,5 @@ end
 
 vim.api.nvim_create_autocmd({ "FileType" }, {
     callback = function()
-        local ftype = { "sql", "mysql", "plsql" }
-    end,
+    end
 })

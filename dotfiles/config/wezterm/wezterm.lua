@@ -20,7 +20,7 @@ config.enable_tab_bar = false
 config.window_decorations = "RESIZE"
 config.font_size = 18.0
 
-config.window_background_opacity = 0.9
+config.window_background_opacity = 0.85
 config.macos_window_background_blur = 999
 config.force_reverse_video_cursor = true
 -- config.color_scheme = "Catppuccin Mocha"
