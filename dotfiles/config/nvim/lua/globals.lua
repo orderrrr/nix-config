@@ -57,8 +57,6 @@ map! <D-v> <C-R>+
 tmap <D-v> <C-R>+
 vmap <D-c> "+y<CR>]]
 
-vim.keymap.set({ "n", "v" }, "<leader>y", vim.cmd('"*y'), { desc = "Copy text to clipboard" })
-
 -- vim.cmd [[
 -- augroup remember_folds
 --   autocmd!

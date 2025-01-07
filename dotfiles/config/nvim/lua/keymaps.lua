@@ -27,5 +27,16 @@ vim.keymap.set('n', "<leader>ti", ":tabnew<CR>", { desc = "tabnew" });
 vim.keymap.set('n', "<leader>tn", ":tabnext<CR>", { desc = "tabnext" });
 vim.keymap.set('n', "<leader>tp", ":tabprevious<CR>", { desc = "tabprevious" });
 
+-- Copy to clipboard operations
+vim.keymap.set('v', '<leader>y', '"+y', { desc = 'Copy selected text to clipboard' })
+vim.keymap.set('n', '<leader>Y', '"+yg_', { desc = 'Copy from cursor to end of line to clipboard' })
+vim.keymap.set('n', '<leader>y', '"+y', { desc = 'Copy text to clipboard (with motion)' })
+vim.keymap.set('n', '<leader>yy', '"+yy', { desc = 'Copy current line to clipboard' })
+
+-- Paste from clipboard operations
+vim.keymap.set('n', '<leader>p', '"+p', { desc = 'Paste from clipboard after cursor' })
+vim.keymap.set('n', '<leader>P', '"+P', { desc = 'Paste from clipboard before cursor' })
+vim.keymap.set('v', '<leader>p', '"+p', { desc = 'Paste from clipboard after selection' })
+vim.keymap.set('v', '<leader>P', '"+P', { desc = 'Paste from clipboard before selection' })
 
 -- vim: ts=2 sts=2 sw=2 et
