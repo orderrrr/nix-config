@@ -1,5 +1,17 @@
 return {
-    { 'rcarriga/nvim-dap-ui', dependencies = { 'mfussenegger/nvim-dap', 'nvim-neotest/nvim-nio' } },
+    {
+        'rcarriga/nvim-dap-ui',
+        dependencies = { 'mfussenegger/nvim-dap', 'nvim-neotest/nvim-nio' },
+        config = function()
+            vim.keymap.set('n', '<leader>do', function()
+                require('dapui').setup(); require('dapui').open()
+            end, { desc = 'Open dapui' })
+
+            vim.keymap.set('n', '<leader>dt', function()
+                require('dap').toggle_breakpoint()
+            end, { desc = 'Toggle breakpoint' })
+        end
+    },
     {
         'nvim-neotest/neotest',
         dependencies = {

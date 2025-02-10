@@ -130,10 +130,9 @@ local function enable_debugger(bufnr)
     require('jdtls.dap').setup_dap_main_class_configs()
 
     local opts = { buffer = bufnr }
-    vim.keymap.set('n', '<leader>df', "<cmd>lua require('jdtls').test_class({ config = { console = 'console' }})<cr>",
+    vim.keymap.set('n', '<leader>df', function() require('jdtls').test_class({ config = { console = 'console' } }) end,
         opts)
-    vim.keymap.set('n', '<leader>dn',
-        "<cmd>lua require('jdtls').test_nearest_method({ config = { console = 'console' }})<cr>", opts)
+    vim.keymap.set('n', '<leader>dn', function() require('jdtls').test_nearest_method({ config = { console = 'console' }}) end, opts)
 end
 
 local function jdtls_on_attach(_, bufnr)
