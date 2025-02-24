@@ -6,6 +6,9 @@ return {
             vim.keymap.set('n', '<leader>do', function()
                 require('dapui').setup(); require('dapui').open()
             end, { desc = 'Open dapui' })
+            vim.keymap.set('n', '<leader>dc', function()
+                require('dapui').setup(); require('dapui').close()
+            end, { desc = 'Close dapui' })
 
             vim.keymap.set('n', '<leader>dt', function()
                 require('dap').toggle_breakpoint()

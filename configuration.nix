@@ -1,7 +1,7 @@
 {pkgs, ... }: {
 
       environment.systemPackages =
-        [ pkgs.vim
+        [ pkgs.vim pkgs.rename
         ];
 
       # Auto upgrade nix package and the daemon service.
