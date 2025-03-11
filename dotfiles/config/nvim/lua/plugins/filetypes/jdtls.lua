@@ -84,27 +84,14 @@ local function get_jdtls_paths()
     -- different from the one the project uses.
     ---
     path.runtimes = {
-        -- Note: the field `name` must be a valid `ExecutionEnvironment`,
-        -- you can find the list here:
-        -- https://github.com/eclipse/eclipse.jdt.ls/wiki/Running-the-JAVA-LS-server-from-the-command-line#initialize-request
-        --
-        -- This example assume you are using sdkman: https://sdkman.io
-        -- {
-        --   name = 'JavaSE-17',
-        --   path = vim.fn.expand('~/.sdkman/candidates/java/17.0.6-tem'),
-        -- },
+        {
+            name = 'JavaSE-23',
+            path = '/Library/Java/JavaVirtualMachines/zulu-23.jdk/Contents/Home/',
+        },
         {
             name = 'JavaSE-1.8',
-            path = vim.fn.expand(home .. '/.sdk/java-1.8.0-openjdk'),
+            path = '/Library/Java/JavaVirtualMachines/zulu-8.jdk/Contents/Home',
         },
-        {
-            name = 'JavaSE-17',
-            path = home .. '/.sdk/java-17-openjdk',
-        },
-        -- {
-        --     name = 'JavaSE-19',
-        --     path = vim.fn.expand '/Library/Java/JavaVirtualMachines/jdk-21.jdk/Contents/Home',
-        -- },
     }
 
     cache_vars.paths = path
@@ -132,7 +119,8 @@ local function enable_debugger(bufnr)
     local opts = { buffer = bufnr }
     vim.keymap.set('n', '<leader>df', function() require('jdtls').test_class({ config = { console = 'console' } }) end,
         opts)
-    vim.keymap.set('n', '<leader>dn', function() require('jdtls').test_nearest_method({ config = { console = 'console' }}) end, opts)
+    vim.keymap.set('n', '<leader>dn',
+        function() require('jdtls').test_nearest_method({ config = { console = 'console' } }) end, opts)
 end
 
 local function jdtls_on_attach(_, bufnr)
@@ -221,8 +209,8 @@ local function jdtls_setup(on_attach, capabilities)
                 updateBuildConfiguration = 'interactive',
                 runtimes = {
                     {
-                        name = 'JavaSE-17',
-                        path = '/Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Home',
+                        name = 'JavaSE-23',
+                        path = '/Library/Java/JavaVirtualMachines/zulu-23.jdk/Contents/Home/',
                     },
                     {
                         name = 'JavaSE-1.8',

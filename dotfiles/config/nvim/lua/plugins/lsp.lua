@@ -9,6 +9,7 @@ return {
       -- Detect tabstop and shiftwidth automatically
       { 'tpope/vim-sleuth' },
       { 'rcarriga/nvim-notify',             opts = {} },
+      { 'alnav3/sonarlint.nvim' },
       {
         "aznhe21/actions-preview.nvim",
         config = function()
@@ -313,12 +314,40 @@ return {
         handlers = vim.lsp.handlers,
       })
 
+      require('lspconfig').sonarlint.setup({
+        capabilities = capabilities,
+        on_attach = on_attach,
+        handlers = vim.lsp.handlers,
+        filetypes = { 'java' },
+      })
+
       require 'lspconfig'.futhark_lsp.setup {
         capabilities = capabilities,
         on_attach = on_attach,
         handlers = vim.lsp.handlers,
         filetypes = { "fut" },
       }
+
+      require('sonarlint').setup({
+        server = {
+          cmd = {
+            'sonarlint-language-server',
+            -- Ensure that sonarlint-language-server uses stdio channel
+            '-stdio',
+            '-analyzers',
+            -- paths to the analyzers you need, using those for python and java in this example
+            vim.fn.expand("$MASON/share/sonarlint-analyzers/sonarpython.jar"),
+            vim.fn.expand("$MASON/share/sonarlint-analyzers/sonarcfamily.jar"),
+            vim.fn.expand("$MASON/share/sonarlint-analyzers/sonarjava.jar"),
+          }
+        },
+        filetypes = {
+          -- Tested and working
+          'python',
+          'cpp',
+          'java',
+        }
+      })
 
       -- require("flutter-tools").setup({
       --   lsp = {
