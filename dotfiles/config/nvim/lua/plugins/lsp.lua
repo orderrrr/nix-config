@@ -316,13 +316,6 @@ return {
         handlers = vim.lsp.handlers,
       })
 
-      require('lspconfig').sonarlint.setup({
-        capabilities = capabilities,
-        on_attach = on_attach,
-        handlers = vim.lsp.handlers,
-        filetypes = { 'java' },
-      })
-
       require 'lspconfig'.futhark_lsp.setup {
         capabilities = capabilities,
         on_attach = on_attach,

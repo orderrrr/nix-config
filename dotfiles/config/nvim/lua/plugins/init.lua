@@ -201,5 +201,5 @@ return {
             "nvim-lua/plenary.nvim",
         },
         config = true,
-    }
+    },
 }
