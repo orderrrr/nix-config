@@ -1,11 +1,7 @@
 return {
     'stevearc/oil.nvim',
-    ---@module 'oil'
-    ---@type oil.SetupOpts
-    -- opts = {},
-    -- Optional dependencies
     config = function()
-        vim.keymap.set('n', '<leader>nt', ':Oil<CR>', { desc = 'Open oil.nvim' })
+        vim.keymap.set('n', '<leader>nt', require("oil").open, { desc = 'Open oil.nvim' })
 
         require('oil').setup({
             default_file_explorer = true,
@@ -43,6 +39,9 @@ return {
                 ["g."] = { "actions.toggle_hidden", mode = "n" },
                 ["g\\"] = { "actions.toggle_trash", mode = "n" },
             },
+            float = {
+                max_height = .5
+            }
 
         })
     end,
