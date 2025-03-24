@@ -116,69 +116,69 @@ return {
             }
         end,
     },
-    {
-        "RRethy/base16-nvim",
-        config = function()
-            require('base16-colorscheme').with_config({
-                telescope = true,
-                indentblankline = true,
-                notify = true,
-                ts_rainbow = true,
-                cmp = true,
-                illuminate = true,
-                dapui = true,
-            })
-
-            local light = function()
-                require('base16-colorscheme').setup({
-
-                    base00 = '#d0d0d0', -- Background (same as white)
-                    base01 = '#c1c1c1', -- Slightly darker highlight
-                    base02 = '#b2b2b2', -- Muted selection background
-                    base03 = '#909090', -- Comments
-                    base04 = '#707070', -- Medium gray foreground
-                    base05 = '#454545', -- Main text
-                    base06 = '#353535', -- Darker foreground
-                    base07 = '#252525', -- Darkest foreground
-                    base08 = '#8c6066', -- Desaturated rose
-                    base09 = '#8a7c6a', -- Muted tan
-                    base0A = '#8e8670', -- Soft taupe
-                    base0B = '#687a65', -- Sage green
-                    base0C = '#67858e', -- Muted steel blue
-                    base0D = '#5c7783', -- Slate blue
-                    base0E = '#84788c', -- Soft mauve
-                    base0F = '#7a6e66', -- Muted taupe
-
-                })
-            end
-
-            local dark = function()
-                require('base16-colorscheme').setup({
-                    base00 = '#1e1e24', -- Desaturated dark background
-                    base01 = '#2a2a32', -- Subtle dark highlight
-                    base02 = '#3a3a45', -- Muted selection background
-                    base03 = '#656570', -- Desaturated comments
-                    base04 = '#7f8088', -- Medium gray foreground
-                    base05 = '#9a9aa5', -- Desaturated main text
-                    base06 = '#b0b0b8', -- Lighter foreground
-                    base07 = '#c6c6cc', -- Lightest foreground
-                    base08 = '#9e7c80', -- Desaturated rose (was vibrant red)
-                    base09 = '#9c8b7e', -- Muted tan (was orange)
-                    base0A = '#a09784', -- Soft taupe (was yellow)
-                    base0B = '#7e9082', -- Sage green (was vibrant green)
-                    base0C = '#7a969e', -- Muted steel blue (was aqua)
-                    base0D = '#758b96', -- Desaturated slate blue (was blue)
-                    base0E = '#907e95', -- Soft mauve (was purple)
-                    base0F = '#8a7c74', -- Muted taupe (was brown)
-                })
-            end
-
-            vim.keymap.set({ 'n', 't' }, '<leader>cd', dark, { desc = 'Dark Mode' })
-            vim.keymap.set({ 'n', 't' }, '<leader>cl', dark, { desc = 'Light Mode' })
-
-            light()
-        end
-    },
+    -- {
+    --     "RRethy/base16-nvim",
+    --     config = function()
+    --         require('base16-colorscheme').with_config({
+    --             telescope = true,
+    --             indentblankline = true,
+    --             notify = true,
+    --             ts_rainbow = true,
+    --             cmp = true,
+    --             illuminate = true,
+    --             dapui = true,
+    --         })
+    --
+    --         local light = function()
+    --             require('base16-colorscheme').setup({
+    --
+    --                 base00 = '#d0d0d0', -- Background (same as white)
+    --                 base01 = '#c1c1c1', -- Slightly darker highlight
+    --                 base02 = '#b2b2b2', -- Muted selection background
+    --                 base03 = '#909090', -- Comments
+    --                 base04 = '#707070', -- Medium gray foreground
+    --                 base05 = '#454545', -- Main text
+    --                 base06 = '#353535', -- Darker foreground
+    --                 base07 = '#252525', -- Darkest foreground
+    --                 base08 = '#8c6066', -- Desaturated rose
+    --                 base09 = '#8a7c6a', -- Muted tan
+    --                 base0A = '#8e8670', -- Soft taupe
+    --                 base0B = '#687a65', -- Sage green
+    --                 base0C = '#67858e', -- Muted steel blue
+    --                 base0D = '#5c7783', -- Slate blue
+    --                 base0E = '#84788c', -- Soft mauve
+    --                 base0F = '#7a6e66', -- Muted taupe
+    --
+    --             })
+    --         end
+    --
+    --         local dark = function()
+    --             require('base16-colorscheme').setup({
+    --                 base00 = '#1e1e24', -- Desaturated dark background
+    --                 base01 = '#2a2a32', -- Subtle dark highlight
+    --                 base02 = '#3a3a45', -- Muted selection background
+    --                 base03 = '#656570', -- Desaturated comments
+    --                 base04 = '#7f8088', -- Medium gray foreground
+    --                 base05 = '#9a9aa5', -- Desaturated main text
+    --                 base06 = '#b0b0b8', -- Lighter foreground
+    --                 base07 = '#c6c6cc', -- Lightest foreground
+    --                 base08 = '#9e7c80', -- Desaturated rose (was vibrant red)
+    --                 base09 = '#9c8b7e', -- Muted tan (was orange)
+    --                 base0A = '#a09784', -- Soft taupe (was yellow)
+    --                 base0B = '#7e9082', -- Sage green (was vibrant green)
+    --                 base0C = '#7a969e', -- Muted steel blue (was aqua)
+    --                 base0D = '#758b96', -- Desaturated slate blue (was blue)
+    --                 base0E = '#907e95', -- Soft mauve (was purple)
+    --                 base0F = '#8a7c74', -- Muted taupe (was brown)
+    --             })
+    --         end
+    --
+    --         vim.keymap.set({ 'n', 't' }, '<leader>cd', dark, { desc = 'Dark Mode' })
+    --         vim.keymap.set({ 'n', 't' }, '<leader>cl', dark, { desc = 'Light Mode' })
+    --
+    --         light()
+    --     end
+    -- },
     -- {
     --     "vague2k/vague.nvim",
     --     config = function()
