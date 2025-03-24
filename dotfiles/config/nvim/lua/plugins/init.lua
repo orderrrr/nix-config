@@ -106,54 +106,105 @@ return {
         end,
     },
     {
-        "vague2k/vague.nvim",
+        "RRethy/base16-nvim",
         config = function()
-            require("vague").setup({
-                -- optional configuration here
-                transparent = true,
-                style = {
-                    -- "none" is the same thing as default. But "italic" and "bold" are also valid options
-                    boolean = "none",
-                    number = "none",
-                    float = "none",
-                    error = "none",
-                    comments = "none",
-                    conditionals = "none",
-                    functions = "none",
-                    headings = "bold",
-                    operators = "none",
-                    strings = "none",
-                    variables = "none",
+            local light = function()
+                require('base16-colorscheme').setup({
+                    base00 = '#efeeee', -- Light background (was dark)
+                    base01 = '#eaeae8', -- Subtle highlight
+                    base02 = '#d8d8d6', -- Muted selection background
+                    base03 = '#b0b0b0', -- Desaturated comments
+                    base04 = '#808080', -- Medium gray foreground
+                    base05 = '#505050', -- Desaturated main text
+                    base06 = '#404040', -- Darker foreground
+                    base07 = '#303030', -- Darkest foreground
+                    base08 = '#a07078', -- Desaturated rose (was red)
+                    base09 = '#9d8f7c', -- Muted tan (was orange)
+                    base0A = '#a49b80', -- Soft taupe (was yellow)
+                    base0B = '#7d9178', -- Sage green (was vibrant green)
+                    base0C = '#7c9ca6', -- Muted steel blue (was aqua)
+                    base0D = '#6f8e9a', -- Desaturated slate blue (was blue)
+                    base0E = '#9c8fa4', -- Soft mauve (was purple)
+                    base0F = '#8f8276', -- Muted taupe (was brown))
+                })
+            end
 
-                    -- keywords
-                    keywords = "none",
-                    keyword_return = "none",
-                    keywords_loop = "none",
-                    keywords_label = "none",
-                    keywords_exception = "none",
+            local dark = function()
+                require('base16-colorscheme').setup({
+                    base00 = '#1e1e24', -- Desaturated dark background
+                    base01 = '#2a2a32', -- Subtle dark highlight
+                    base02 = '#3a3a45', -- Muted selection background
+                    base03 = '#656570', -- Desaturated comments
+                    base04 = '#7f8088', -- Medium gray foreground
+                    base05 = '#9a9aa5', -- Desaturated main text
+                    base06 = '#b0b0b8', -- Lighter foreground
+                    base07 = '#c6c6cc', -- Lightest foreground
+                    base08 = '#9e7c80', -- Desaturated rose (was vibrant red)
+                    base09 = '#9c8b7e', -- Muted tan (was orange)
+                    base0A = '#a09784', -- Soft taupe (was yellow)
+                    base0B = '#7e9082', -- Sage green (was vibrant green)
+                    base0C = '#7a969e', -- Muted steel blue (was aqua)
+                    base0D = '#758b96', -- Desaturated slate blue (was blue)
+                    base0E = '#907e95', -- Soft mauve (was purple)
+                    base0F = '#8a7c74', -- Muted taupe (was brown)
+                })
+            end
 
-                    -- builtin
-                    builtin_constants = "none",
-                    builtin_functions = "none",
-                    builtin_types = "none",
-                    builtin_variables = "none",
-                },
-                colors = {
-                    func = "#bc96b0",
-                    keyword = "#787bab",
-                    -- string = "#d4bd98",
-                    string = "#8a739a",
-                    -- string = "#f2e6ff",
-                    -- number = "#f2e6ff",
-                    -- string = "#d8d5b1",
-                    number = "#8f729e",
-                    -- type = "#dcaed7",
-                },
-            })
+            vim.keymap.set({ 'n', 't' }, '<leader>cd', dark, { desc = 'Dark Mode' })
+            vim.keymap.set({ 'n', 't' }, '<leader>cl', dark, { desc = 'Light Mode' })
 
-            vim.cmd.colorscheme("vague")
+            light()
         end
     },
+    -- {
+    --     "vague2k/vague.nvim",
+    --     config = function()
+    --         require("vague").setup({
+    --             -- optional configuration here
+    --             transparent = true,
+    --             style = {
+    --                 -- "none" is the same thing as default. But "italic" and "bold" are also valid options
+    --                 boolean = "none",
+    --                 number = "none",
+    --                 float = "none",
+    --                 error = "none",
+    --                 comments = "none",
+    --                 conditionals = "none",
+    --                 functions = "none",
+    --                 headings = "bold",
+    --                 operators = "none",
+    --                 strings = "none",
+    --                 variables = "none",
+    --
+    --                 -- keywords
+    --                 keywords = "none",
+    --                 keyword_return = "none",
+    --                 keywords_loop = "none",
+    --                 keywords_label = "none",
+    --                 keywords_exception = "none",
+    --
+    --                 -- builtin
+    --                 builtin_constants = "none",
+    --                 builtin_functions = "none",
+    --                 builtin_types = "none",
+    --                 builtin_variables = "none",
+    --             },
+    --             colors = {
+    --                 func = "#bc96b0",
+    --                 keyword = "#787bab",
+    --                 -- string = "#d4bd98",
+    --                 string = "#8a739a",
+    --                 -- string = "#f2e6ff",
+    --                 -- number = "#f2e6ff",
+    --                 -- string = "#d8d5b1",
+    --                 number = "#8f729e",
+    --                 -- type = "#dcaed7",
+    --             },
+    --         })
+    --
+    --         vim.cmd.colorscheme("vague")
+    --     end
+    -- },
     {
         'ziglang/zig.vim'
     },
