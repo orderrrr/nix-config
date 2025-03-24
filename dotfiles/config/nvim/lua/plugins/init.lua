@@ -74,7 +74,18 @@ return {
         'akinsho/toggleterm.nvim',
         version = '*',
         config = function()
-            require('toggleterm').setup {}
+            require('toggleterm').setup {
+                highlights = {
+                    Normal = { guibg = "#d0d0d0" },
+                    NormalFloat = { guibg = "#d0d0d0" },
+                    FloatBorder = { guibg = "#d0d0d0", guifg = "#454545" },
+                },
+                shade_terminals = false,
+                float_opts = {
+                    -- Explicitly set float background
+                    winblend = 0, -- No transparency
+                },
+            }
 
             vim.cmd [[autocmd TermEnter term://*toggleterm#*\ tnoremap <silent><c-t> <Cmd>exe v:count1 . "ToggleTerm"<CR>]]
             local tt = function() vim.cmd(":ToggleTerm<CR>") end
@@ -108,24 +119,36 @@ return {
     {
         "RRethy/base16-nvim",
         config = function()
+            require('base16-colorscheme').with_config({
+                telescope = true,
+                indentblankline = true,
+                notify = true,
+                ts_rainbow = true,
+                cmp = true,
+                illuminate = true,
+                dapui = true,
+            })
+
             local light = function()
                 require('base16-colorscheme').setup({
-                    base00 = '#efeeee', -- Light background (was dark)
-                    base01 = '#eaeae8', -- Subtle highlight
-                    base02 = '#d8d8d6', -- Muted selection background
-                    base03 = '#b0b0b0', -- Desaturated comments
-                    base04 = '#808080', -- Medium gray foreground
-                    base05 = '#505050', -- Desaturated main text
-                    base06 = '#404040', -- Darker foreground
-                    base07 = '#303030', -- Darkest foreground
-                    base08 = '#a07078', -- Desaturated rose (was red)
-                    base09 = '#9d8f7c', -- Muted tan (was orange)
-                    base0A = '#a49b80', -- Soft taupe (was yellow)
-                    base0B = '#7d9178', -- Sage green (was vibrant green)
-                    base0C = '#7c9ca6', -- Muted steel blue (was aqua)
-                    base0D = '#6f8e9a', -- Desaturated slate blue (was blue)
-                    base0E = '#9c8fa4', -- Soft mauve (was purple)
-                    base0F = '#8f8276', -- Muted taupe (was brown))
+
+                    base00 = '#d0d0d0', -- Background (same as white)
+                    base01 = '#c1c1c1', -- Slightly darker highlight
+                    base02 = '#b2b2b2', -- Muted selection background
+                    base03 = '#909090', -- Comments
+                    base04 = '#707070', -- Medium gray foreground
+                    base05 = '#454545', -- Main text
+                    base06 = '#353535', -- Darker foreground
+                    base07 = '#252525', -- Darkest foreground
+                    base08 = '#8c6066', -- Desaturated rose
+                    base09 = '#8a7c6a', -- Muted tan
+                    base0A = '#8e8670', -- Soft taupe
+                    base0B = '#687a65', -- Sage green
+                    base0C = '#67858e', -- Muted steel blue
+                    base0D = '#5c7783', -- Slate blue
+                    base0E = '#84788c', -- Soft mauve
+                    base0F = '#7a6e66', -- Muted taupe
+
                 })
             end
 
