@@ -85,8 +85,8 @@ local function get_jdtls_paths()
     ---
     path.runtimes = {
         {
-            name = 'JavaSE-23',
-            path = '/Library/Java/JavaVirtualMachines/zulu-23.jdk/Contents/Home/',
+            name = 'JavaSE-24',
+            path = '/Library/Java/JavaVirtualMachines/zulu-24.jdk/Contents/Home/',
         },
         {
             name = 'JavaSE-1.8',
