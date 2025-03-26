@@ -9,7 +9,33 @@ return {
       -- Detect tabstop and shiftwidth automatically
       { 'tpope/vim-sleuth' },
       { 'rcarriga/nvim-notify',             opts = {} },
-      { 'alnav3/sonarlint.nvim' },
+      {
+        'alnav3/sonarlint.nvim',
+        lazy = true,
+        ft = { "java" },
+        config = function()
+          require('sonarlint').setup({
+            server = {
+              cmd = {
+                'sonarlint-language-server',
+                -- Ensure that sonarlint-language-server uses stdio channel
+                '-stdio',
+                '-analyzers',
+                -- paths to the analyzers you need, using those for python and java in this example
+                vim.fn.expand("$MASON/share/sonarlint-analyzers/sonarpython.jar"),
+                vim.fn.expand("$MASON/share/sonarlint-analyzers/sonarcfamily.jar"),
+                vim.fn.expand("$MASON/share/sonarlint-analyzers/sonarjava.jar"),
+              }
+            },
+            filetypes = {
+              -- Tested and working
+              'python',
+              'cpp',
+              'java',
+            }
+          })
+        end
+      },
       {
         "aznhe21/actions-preview.nvim",
         config = function()
@@ -137,7 +163,6 @@ return {
         svelte = {},
         rust_analyzer = {},
         wgsl_analyzer = {},
-        jdtls = {},
         lua_ls = {
           Lua = {
             workspace = { checkThirdParty = false },
@@ -322,27 +347,6 @@ return {
         handlers = vim.lsp.handlers,
         filetypes = { "fut" },
       }
-
-      require('sonarlint').setup({
-        server = {
-          cmd = {
-            'sonarlint-language-server',
-            -- Ensure that sonarlint-language-server uses stdio channel
-            '-stdio',
-            '-analyzers',
-            -- paths to the analyzers you need, using those for python and java in this example
-            vim.fn.expand("$MASON/share/sonarlint-analyzers/sonarpython.jar"),
-            vim.fn.expand("$MASON/share/sonarlint-analyzers/sonarcfamily.jar"),
-            vim.fn.expand("$MASON/share/sonarlint-analyzers/sonarjava.jar"),
-          }
-        },
-        filetypes = {
-          -- Tested and working
-          'python',
-          'cpp',
-          'java',
-        }
-      })
 
       require("flutter-tools").setup({
         lsp = {

@@ -85,9 +85,13 @@ local function get_jdtls_paths()
     ---
     path.runtimes = {
         {
-            name = 'JavaSE-24',
-            path = '/Library/Java/JavaVirtualMachines/zulu-24.jdk/Contents/Home/',
+            name = 'JavaSE-21',
+            path = '/Library/Java/JavaVirtualMachines/zulu-21.jdk/Contents/Home/',
         },
+        -- {
+        --     name = 'JavaSE-24',
+        --     path = '/Library/Java/JavaVirtualMachines/zulu-24.jdk/Contents/Home/',
+        -- },
         {
             name = 'JavaSE-1.8',
             path = '/Library/Java/JavaVirtualMachines/zulu-8.jdk/Contents/Home',
@@ -209,9 +213,13 @@ local function jdtls_setup(on_attach, capabilities)
                 updateBuildConfiguration = 'interactive',
                 runtimes = {
                     {
-                        name = 'JavaSE-24',
-                        path = '/Library/Java/JavaVirtualMachines/zulu-24.jdk/Contents/Home/',
+                        name = 'JavaSE-21',
+                        path = '/Library/Java/JavaVirtualMachines/zulu-21.jdk/Contents/Home/',
                     },
+                    -- {
+                    --     name = 'JavaSE-24',
+                    --     path = '/Library/Java/JavaVirtualMachines/zulu-24.jdk/Contents/Home/',
+                    -- },
                     {
                         name = 'JavaSE-1.8',
                         path = '/Library/Java/JavaVirtualMachines/zulu-8.jdk/Contents/Home',
@@ -276,7 +284,7 @@ local function jdtls_setup(on_attach, capabilities)
 
     -- This starts a new client & server,
     -- or attaches to an existing client & server depending on the `root_dir`.
-    jdtls.start_or_attach {
+    jdtls.start_or_attach({
         cmd = cmd,
         settings = lsp_settings,
         on_attach = function(unknown, bufnr)
@@ -293,13 +301,14 @@ local function jdtls_setup(on_attach, capabilities)
             bundles = path.bundles,
             extendedClientCapabilities = extendedClientCapabilities,
         },
-    }
+    })
 end
 
 local jdtls_autocmd = function(on_attach, capabilities)
+    -- jdtls_setup(on_attach, capabilities)
     vim.api.nvim_create_autocmd('FileType', {
         group = java_cmds,
-        pattern = { 'java' },
+        pattern = 'java',
         desc = 'Setup jdtls',
         callback = function()
             jdtls_setup(on_attach, capabilities)
