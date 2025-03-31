@@ -9,33 +9,33 @@ return {
       -- Detect tabstop and shiftwidth automatically
       { 'tpope/vim-sleuth' },
       { 'rcarriga/nvim-notify',             opts = {} },
-      {
-        'alnav3/sonarlint.nvim',
-        lazy = true,
-        ft = { "java" },
-        config = function()
-          require('sonarlint').setup({
-            server = {
-              cmd = {
-                'sonarlint-language-server',
-                -- Ensure that sonarlint-language-server uses stdio channel
-                '-stdio',
-                '-analyzers',
-                -- paths to the analyzers you need, using those for python and java in this example
-                vim.fn.expand("$MASON/share/sonarlint-analyzers/sonarpython.jar"),
-                vim.fn.expand("$MASON/share/sonarlint-analyzers/sonarcfamily.jar"),
-                vim.fn.expand("$MASON/share/sonarlint-analyzers/sonarjava.jar"),
-              }
-            },
-            filetypes = {
-              -- Tested and working
-              'python',
-              'cpp',
-              'java',
-            }
-          })
-        end
-      },
+      -- {
+      --   'alnav3/sonarlint.nvim',
+      --   lazy = true,
+      --   ft = { "java" },
+      --   config = function()
+      --     require('sonarlint').setup({
+      --       server = {
+      --         cmd = {
+      --           'sonarlint-language-server',
+      --           -- Ensure that sonarlint-language-server uses stdio channel
+      --           '-stdio',
+      --           '-analyzers',
+      --           -- paths to the analyzers you need, using those for python and java in this example
+      --           vim.fn.expand("$MASON/share/sonarlint-analyzers/sonarpython.jar"),
+      --           vim.fn.expand("$MASON/share/sonarlint-analyzers/sonarcfamily.jar"),
+      --           vim.fn.expand("$MASON/share/sonarlint-analyzers/sonarjava.jar"),
+      --         }
+      --       },
+      --       filetypes = {
+      --         -- Tested and working
+      --         'python',
+      --         'cpp',
+      --         'java',
+      --       }
+      --     })
+      --   end
+      -- },
       {
         "aznhe21/actions-preview.nvim",
         config = function()
@@ -380,6 +380,7 @@ return {
 
       require('plugins.filetypes.sql')
       require('plugins.filetypes.jdtls')(on_attach, capabilities)
+      require('plugins.filetypes.hlsl')
 
       vim.api.nvim_exec_autocmds("FileType", {})
     end

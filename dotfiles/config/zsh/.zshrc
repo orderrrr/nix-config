@@ -47,6 +47,7 @@ export PATH="$HOME/.ghcup/bin:$PATH"
 export PATH="$HOME/.pub-cache/bin:$PATH"
 export PATH="$HOME/.sdk/flutter/bin:$PATH"
 export PATH="$HOME/.node_modules/bin/:$PATH"
+export PATH="$HOME/git/slang/bin/:$PATH"
 export PATH="/opt/homebrew/opt/rustup/bin:$PATH"
 export PATH="/run/current-system/sw/bin:$PATH"
 

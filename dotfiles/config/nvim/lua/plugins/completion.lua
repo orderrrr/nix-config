@@ -58,7 +58,6 @@ return {
             },
         },
 
-
         appearance = {
             -- Sets the fallback highlight groups to nvim-cmp's highlight groups
             -- Useful for when your theme doesn't support blink.cmp
@@ -72,36 +71,7 @@ return {
         -- default list of enabled providers defined so that you can extend it
         -- elsewhere in your config, without redefining it, via `opts_extend`
         sources = {
-            default = function()
-                local ftype = { "sql", "mysql", "plsql" }
-
-                if has_value(ftype, vim.bo.filetype) then
-                    return { 'lsp', 'dbee', 'path', 'snippets', 'buffer' }
-                end
-
-                return { 'lsp', 'dbee', 'path', 'snippets', 'buffer' }
-            end,
-            -- create provider
-            providers = {
-                dbee = {
-                    name = 'cmp-dbee', -- IMPORTANT: use the same name as you would for nvim-cmp
-                    module = 'blink.compat.source',
-
-                    -- all blink.cmp source config options work as normal:
-                    score_offset = -3,
-
-                    -- this table is passed directly to the proxied completion source
-                    -- as the `option` field in nvim-cmp's source config
-                    --
-                    -- this is NOT the same as the opts in a plugin's lazy.nvim spec
-                    opts = {
-                        -- this is an option from cmp-digraphs
-                        cache_digraphs_on_start = true,
-                    },
-                }
-            },
-            -- optionally disable cmdline completions
-            -- cmdline = {},
+            default = { 'lsp', 'path', 'snippets', 'buffer' },
         },
 
         -- experimental signature help support

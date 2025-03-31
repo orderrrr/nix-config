@@ -250,17 +250,6 @@ local function jdtls_setup(on_attach, capabilities)
         signatureHelp = {
             enabled = true,
         },
-        completion = {
-            favoriteStaticMembers = {
-                'org.hamcrest.MatcherAssert.assertThat',
-                'org.hamcrest.Matchers.*',
-                'org.hamcrest.CoreMatchers.*',
-                'org.junit.jupiter.api.Assertions.*',
-                'java.util.Objects.requireNonNull',
-                'java.util.Objects.requireNonNullElse',
-                'org.mockito.Mockito.*',
-            },
-        },
         contentProvider = {
             preferred = 'fernflower',
         },
@@ -305,7 +294,6 @@ local function jdtls_setup(on_attach, capabilities)
 end
 
 local jdtls_autocmd = function(on_attach, capabilities)
-    -- jdtls_setup(on_attach, capabilities)
     vim.api.nvim_create_autocmd('FileType', {
         group = java_cmds,
         pattern = 'java',
