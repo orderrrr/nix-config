@@ -20,6 +20,11 @@ vim.keymap.set('n', 'S', ":%s//g<Left><Left>", { desc = "縷  Sed in scope of fi
 vim.keymap.set('v', 'S', ":s//g<Left><Left>", { desc = "縷  Sed in scope of file" })
 vim.keymap.set('n', '<A-S>', ":%g//d<Left><Left>", { desc = "縷  Delete lines in file containing" })
 vim.keymap.set('v', '<A-S>', ":g//d<Left><Left>", { desc = "縷  Delete lines in file containing" })
+
+-- Delete lines in file NOT containing the pattern
+vim.keymap.set('n', '<A-D>', ":%v//d<Left><Left>", { desc = "縷  Delete lines in file NOT containing" })
+vim.keymap.set('v', '<A-D>', ":v//d<Left><Left>", { desc = "縷  Delete lines in file NOT containing" })
+
 vim.keymap.set('n', "<leader>ip", ":diffpu<CR>", { desc = "diff push" })
 vim.keymap.set('n', "<leader>ig", ":diffg<CR>", { desc = "diff get" })
 

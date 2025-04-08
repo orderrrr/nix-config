@@ -235,5 +235,9 @@ if.app-name-regex-substring = 'initial'
 run = 'layout floating'
 
 [[on-window-detected]]
+if.app-name-regex-substring = 'sphere_render'
+run = 'layout floating'
+
+[[on-window-detected]]
 if.app-name-regex-substring = 'reaction_diffusion'
 run = 'layout floating'
