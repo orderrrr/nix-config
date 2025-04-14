@@ -60,6 +60,9 @@ export PATH="$HOME/.cargo/bin/rust-analyzer:$PATH"
 export PATH=$PATH:$HOME/.cargo/bin
 export PATH=$PATH:$HOME/.spicetify
 
+export PATH="/opt/homebrew/opt/gnu-getopt/bin:$PATH"
+
+export DYLD_LIBRARY_PATH=/opt/homebrew/lib
 
 [[ -x $ZSH ]] || sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
