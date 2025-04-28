@@ -12,7 +12,9 @@
   # want to update the value, then make sure to first check the Home Manager
   # release notes.
   home.stateVersion = "24.05"; # Please read the comment before changing.
-  home.packages = with pkgs; [];
+  home.packages = with pkgs; [
+    pkgs.orbstack
+  ];
 
   home.file = {
     ".config/nvim".source = dotfiles/config/nvim;
