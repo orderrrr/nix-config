@@ -5,7 +5,7 @@
         ];
 
       # Auto upgrade nix package and the daemon service.
-      nix.enable = true;
+      nix.enable = false;
       #services.nix-daemon.enable = true;
       # nix.package = pkgs.nix;
 
