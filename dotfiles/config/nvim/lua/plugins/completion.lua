@@ -35,6 +35,40 @@ return {
                 impersonate_nvim_cmp = true,
             },
         },
+        {
+            "Exafunction/windsurf.nvim",
+            config = function()
+                require("codeium").setup({
+                })
+            end
+        },
+        -- {
+        --     'tzachar/cmp-ai',
+        --     config = function()
+        --         local cmp_ai = require('cmp_ai.config')
+        --         cmp_ai:setup({
+        --             max_lines = 100,
+        --             provider = 'Ollama',
+        --             provider_options = {
+        --                 model = 'codeqwen:7b',
+        --                 auto_unload = true,
+        --             },
+        --             prompt = function(lines_before, lines_after)
+        --                 return lines_before
+        --             end,
+        --             suffix = function(lines_after)
+        --                 return lines_after
+        --             end,
+        --             notify = true,
+        --             notify_callback = function(msg)
+        --                 vim.notify(msg)
+        --             end,
+        --             run_on_every_keystroke = true,
+        --             ignored_file_types = {
+        --             },
+        --         })
+        --     end
+        -- },
     },
 
     -- use a release tag to download pre-built binaries
@@ -72,6 +106,9 @@ return {
         -- elsewhere in your config, without redefining it, via `opts_extend`
         sources = {
             default = { 'lsp', 'path', 'snippets', 'buffer' },
+            providers = {
+                -- codeium = { name = 'Codeium', module = 'codeium.blink', async = true },
+            },
         },
 
         -- experimental signature help support

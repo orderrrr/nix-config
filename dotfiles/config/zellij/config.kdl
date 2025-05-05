@@ -256,6 +256,19 @@ themes {
         black "#d0d0d0"
         white "#454545"
     }
+    kanagawa {
+      bg "#DCD7BA"
+      fg "#1F1F28"
+      white "#090618"
+      black "#dcd6ba"
+      red "#e82424"
+      green "#98bb6c"
+      yellow "#e6c384"
+      blue "#7fb4ca"
+      magenta "#938aa9"
+      cyan "#7aa89f"
+      orange "#FFA066"
+    }
 }
 
 ui {
@@ -264,7 +277,7 @@ ui {
     }
 }
 
-theme "base16"
+theme "kanagawa"
 
 // The name of the default layout to load on startup
 // Default: "default"
