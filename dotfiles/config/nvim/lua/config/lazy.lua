@@ -24,3 +24,5 @@ require('lazy').setup(
         lockfile = vim.g.lazyvim_json,
     }
 )
+
+vim.cmd("colorscheme kanagawa-wave")

@@ -75,11 +75,11 @@ return {
         version = '*',
         config = function()
             require('toggleterm').setup {
-                highlights = {
-                    Normal = { guibg = "#d0d0d0" },
-                    NormalFloat = { guibg = "#d0d0d0" },
-                    FloatBorder = { guibg = "#d0d0d0", guifg = "#454545" },
-                },
+                -- highlights = {
+                --     Normal = { guibg = "#d0d0d0" },
+                --     NormalFloat = { guibg = "#d0d0d0" },
+                --     FloatBorder = { guibg = "#d0d0d0", guifg = "#454545" },
+                -- },
                 shade_terminals = false,
                 float_opts = {
                     -- Explicitly set float background
@@ -116,11 +116,9 @@ return {
             }
         end,
     },
-
     {
         "rebelot/kanagawa.nvim",
         config = function()
-            -- Default options:
             require('kanagawa').setup({
                 compile = false,  -- enable compiling the colorscheme
                 undercurl = true, -- enable undercurls
@@ -130,7 +128,7 @@ return {
                 statementStyle = { bold = true },
                 typeStyle = {},
                 transparent = false,   -- do not set background color
-                dimInactive = false,   -- dim inactive window `:h hl-NormalNC`
+                dimInactive = true,    -- dim inactive window `:h hl-NormalNC`
                 terminalColors = true, -- define vim.g.terminal_color_{0,17}
                 colors = {             -- add/modify theme and palette colors
                     palette = {},
@@ -139,128 +137,15 @@ return {
                 overrides = function(colors) -- add/modify highlights
                     return {}
                 end,
-                theme = "dragon",    -- Load "wave" theme
-                background = {       -- map the value of 'background' option to a theme
-                    dark = "dragon", -- try "dragon" !
-                    light = "lotus"
+                theme = "wave",    -- Load "wave" theme
+                background = {     -- map the value of 'background' option to a theme
+                    dark = "wave", -- try "dragon" !
+                    light = "wave"
                 },
             })
-            vim.cmd("colorscheme kanagawa")
             vim.cmd("colorscheme kanagawa-wave")
         end
     },
-    -- {
-    --     "RRethy/base16-nvim",
-    --     config = function()
-    --         require('base16-colorscheme').with_config({
-    --             telescope = true,
-    --             indentblankline = true,
-    --             notify = true,
-    --             ts_rainbow = true,
-    --             cmp = true,
-    --             illuminate = true,
-    --             dapui = true,
-    --         })
-    --
-    --         local light = function()
-    --             require('base16-colorscheme').setup({
-    --
-    --                 base00 = '#d0d0d0', -- Background (same as white)
-    --                 base01 = '#c1c1c1', -- Slightly darker highlight
-    --                 base02 = '#b2b2b2', -- Muted selection background
-    --                 base03 = '#909090', -- Comments
-    --                 base04 = '#707070', -- Medium gray foreground
-    --                 base05 = '#454545', -- Main text
-    --                 base06 = '#353535', -- Darker foreground
-    --                 base07 = '#252525', -- Darkest foreground
-    --                 base08 = '#8c6066', -- Desaturated rose
-    --                 base09 = '#8a7c6a', -- Muted tan
-    --                 base0A = '#8e8670', -- Soft taupe
-    --                 base0B = '#687a65', -- Sage green
-    --                 base0C = '#67858e', -- Muted steel blue
-    --                 base0D = '#5c7783', -- Slate blue
-    --                 base0E = '#84788c', -- Soft mauve
-    --                 base0F = '#7a6e66', -- Muted taupe
-    --
-    --             })
-    --         end
-    --
-    --         local dark = function()
-    --             require('base16-colorscheme').setup({
-    --                 base00 = '#1e1e24', -- Desaturated dark background
-    --                 base01 = '#2a2a32', -- Subtle dark highlight
-    --                 base02 = '#3a3a45', -- Muted selection background
-    --                 base03 = '#656570', -- Desaturated comments
-    --                 base04 = '#7f8088', -- Medium gray foreground
-    --                 base05 = '#9a9aa5', -- Desaturated main text
-    --                 base06 = '#b0b0b8', -- Lighter foreground
-    --                 base07 = '#c6c6cc', -- Lightest foreground
-    --                 base08 = '#9e7c80', -- Desaturated rose (was vibrant red)
-    --                 base09 = '#9c8b7e', -- Muted tan (was orange)
-    --                 base0A = '#a09784', -- Soft taupe (was yellow)
-    --                 base0B = '#7e9082', -- Sage green (was vibrant green)
-    --                 base0C = '#7a969e', -- Muted steel blue (was aqua)
-    --                 base0D = '#758b96', -- Desaturated slate blue (was blue)
-    --                 base0E = '#907e95', -- Soft mauve (was purple)
-    --                 base0F = '#8a7c74', -- Muted taupe (was brown)
-    --             })
-    --         end
-    --
-    --         vim.keymap.set({ 'n', 't' }, '<leader>cd', dark, { desc = 'Dark Mode' })
-    --         vim.keymap.set({ 'n', 't' }, '<leader>cl', dark, { desc = 'Light Mode' })
-    --
-    --         light()
-    --     end
-    -- },
-    -- {
-    --     "vague2k/vague.nvim",
-    --     config = function()
-    --         require("vague").setup({
-    --             -- optional configuration here
-    --             transparent = true,
-    --             style = {
-    --                 -- "none" is the same thing as default. But "italic" and "bold" are also valid options
-    --                 boolean = "none",
-    --                 number = "none",
-    --                 float = "none",
-    --                 error = "none",
-    --                 comments = "none",
-    --                 conditionals = "none",
-    --                 functions = "none",
-    --                 headings = "bold",
-    --                 operators = "none",
-    --                 strings = "none",
-    --                 variables = "none",
-    --
-    --                 -- keywords
-    --                 keywords = "none",
-    --                 keyword_return = "none",
-    --                 keywords_loop = "none",
-    --                 keywords_label = "none",
-    --                 keywords_exception = "none",
-    --
-    --                 -- builtin
-    --                 builtin_constants = "none",
-    --                 builtin_functions = "none",
-    --                 builtin_types = "none",
-    --                 builtin_variables = "none",
-    --             },
-    --             colors = {
-    --                 func = "#bc96b0",
-    --                 keyword = "#787bab",
-    --                 -- string = "#d4bd98",
-    --                 string = "#8a739a",
-    --                 -- string = "#f2e6ff",
-    --                 -- number = "#f2e6ff",
-    --                 -- string = "#d8d5b1",
-    --                 number = "#8f729e",
-    --                 -- type = "#dcaed7",
-    --             },
-    --         })
-    --
-    --         vim.cmd.colorscheme("vague")
-    --     end
-    -- },
     {
         'ziglang/zig.vim'
     },
