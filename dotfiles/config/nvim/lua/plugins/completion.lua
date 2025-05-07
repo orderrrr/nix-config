@@ -105,9 +105,13 @@ return {
         -- default list of enabled providers defined so that you can extend it
         -- elsewhere in your config, without redefining it, via `opts_extend`
         sources = {
-            default = { 'lsp', 'path', 'snippets', 'buffer' },
+            default = { 'lsp', 'codeium', 'path', 'snippets', 'buffer' },
+            per_filetype = {
+                prompt = { 'lsp', 'path', 'snippets', 'buffer' },
+                oil = { 'lsp', 'path', 'snippets', 'buffer' },
+            },
             providers = {
-                -- codeium = { name = 'Codeium', module = 'codeium.blink', async = true },
+                codeium = { name = 'Codeium', module = 'codeium.blink', async = true },
             },
         },
 
