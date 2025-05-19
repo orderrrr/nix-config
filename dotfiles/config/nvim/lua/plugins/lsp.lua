@@ -331,21 +331,10 @@ return {
 
       mason_lspconfig.setup {
         ensure_installed = vim.tbl_keys(servers),
+        automatic_enable = {
+          exclude = { "jdtls" }
+        }
       }
-
-      -- mason_lspconfig.setup_handlers {
-      --   function(server_name)
-      --     if (server_name ~= 'jdtls') then
-      --       require('lspconfig')[server_name].setup {
-      --         capabilities = capabilities,
-      --         on_attach = on_attach,
-      --         handlers = vim.lsp.handlers,
-      --         settings = servers[server_name],
-      --         filetypes = (servers[server_name] or {}).filetypes,
-      --       }
-      --     end
-      --   end
-      -- }
 
       require('lspconfig').fennel_ls.setup({
         capabilities = capabilities,

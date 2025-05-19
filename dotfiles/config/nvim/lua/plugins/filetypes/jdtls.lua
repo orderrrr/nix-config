@@ -27,7 +27,8 @@ local function get_jdtls_paths()
 
     path.data_dir = vim.fn.stdpath 'cache' .. '/nvim-jdtls'
 
-    local jdtls_install = require('mason-registry').get_package('jdtls'):get_install_path()
+    local home = os.getenv 'HOME'
+    local jdtls_install = home .. "/.local/share/nvim/mason/packages/jdtls/";
 
     path.java_agent = jdtls_install .. '/lombok.jar'
     path.launcher_jar = vim.fn.glob(jdtls_install .. '/plugins/org.eclipse.equinox.launcher_*.jar')
@@ -45,7 +46,7 @@ local function get_jdtls_paths()
     ---
     -- Include java-test bundle if present
     ---
-    local java_test_path = require('mason-registry').get_package('java-test'):get_install_path()
+    local java_test_path = home .. "/.local/share/nvim/mason/packages/java-test/";
 
     local java_test_bundle = vim.split(vim.fn.glob(java_test_path .. '/extension/server/*.jar'), '\n')
 
@@ -56,7 +57,7 @@ local function get_jdtls_paths()
     ---
     -- Include java-debug-adapter bundle if present
     ---
-    local java_debug_path = require('mason-registry').get_package('java-debug-adapter'):get_install_path()
+    local java_debug_path = home .. "/.local/share/nvim/mason/packages/java-debug-adapter/";
 
     local java_debug_bundle = vim.split(
         vim.fn.glob(java_debug_path .. '/extension/server/com.microsoft.java.debug.plugin-*.jar'), '\n')
@@ -68,7 +69,7 @@ local function get_jdtls_paths()
     ---
     -- Include vscode-java-decompiler bundle if present
     ---
-    local vscode_java_decompiler = require('mason-registry').get_package('vscode-java-decompiler'):get_install_path()
+    local vscode_java_decompiler = home .. "/.local/share/nvim/mason/packages/vscode-java-decompiler/";
 
     local vscode_java_decompiler_bundle = vim.split(
         vim.fn.glob(vscode_java_decompiler .. '/extension/server/com.microsoft.java.debug.plugin-*.jar'), '\n')
@@ -77,7 +78,6 @@ local function get_jdtls_paths()
         vim.list_extend(path.bundles, vscode_java_decompiler_bundle)
     end
 
-    local home = os.getenv 'HOME'
 
     ---
     -- Useful if you're starting jdtls with a Java version that's
@@ -151,8 +151,10 @@ end
 local function jdtls_setup(on_attach, capabilities)
     local jdtls = require 'jdtls'
 
+
     local path = get_jdtls_paths()
     local data_dir = path.data_dir .. '/' .. vim.fn.fnamemodify(vim.fn.getcwd(), ':p:h:t')
+
 
     if cache_vars.capabilities == nil then
         jdtls.extendedClientCapabilities.resolveAdditionalTextEditsSupport = true
@@ -161,6 +163,7 @@ local function jdtls_setup(on_attach, capabilities)
         cache_vars.capabilities = vim.tbl_deep_extend('force', vim.lsp.protocol.make_client_capabilities(),
             ok_cmp and cmp_lsp.default_capabilities() or {})
     end
+
     -- The command that starts the language server
     -- See: https://github.com/eclipse/eclipse.jdt.ls#running-from-the-command-line
     local cmd = {
@@ -196,6 +199,7 @@ local function jdtls_setup(on_attach, capabilities)
         '-data',
         data_dir,
     }
+
 
     local home = os.getenv 'HOME'
 
