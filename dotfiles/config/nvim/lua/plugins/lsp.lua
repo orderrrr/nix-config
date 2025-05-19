@@ -245,18 +245,30 @@ return {
         local icon = nerd_font[kind]
         return icon and icon .. string.rep(" ", padding or 0) or ""
       end
-      local signs = {
-        { name = "DiagnosticSignError",    text = get_icon "DiagnosticError",        texthl = "DiagnosticSignError" },
-        { name = "DiagnosticSignWarn",     text = get_icon "DiagnosticWarn",         texthl = "DiagnosticSignWarn" },
-        { name = "DiagnosticSignHint",     text = get_icon "DiagnosticHint",         texthl = "DiagnosticSignHint" },
-        { name = "DiagnosticSignInfo",     text = get_icon "DiagnosticInfo",         texthl = "DiagnosticSignInfo" },
-        { name = "DapStopped",             text = get_icon "DapStopped",             texthl = "DiagnosticWarn" },
-        { name = "DapBreakpoint",          text = get_icon "DapBreakpoint",          texthl = "DiagnosticInfo" },
-        { name = "DapBreakpointRejected",  text = get_icon "DapBreakpointRejected",  texthl = "DiagnosticError" },
-        { name = "DapBreakpointCondition", text = get_icon "DapBreakpointCondition", texthl = "DiagnosticInfo" },
-        { name = "DapLogPoint",            text = get_icon "DapLogPoint",            texthl = "DiagnosticInfo" },
-      }
-      for _, sign in ipairs(signs) do
+      vim.diagnostic.config({
+        signs = {
+          text = {
+            [vim.diagnostic.severity.ERROR] = get_icon("DiagnosticError"),
+            [vim.diagnostic.severity.WARN]  = get_icon("DiagnosticWarn"),
+            [vim.diagnostic.severity.INFO]  = get_icon("DiagnosticInfo"),
+            [vim.diagnostic.severity.HINT]  = get_icon("DiagnosticHint"),
+          },
+          texthl = {
+            [vim.diagnostic.severity.ERROR] = "DiagnosticSignError",
+            [vim.diagnostic.severity.WARN]  = "DiagnosticSignWarn",
+            [vim.diagnostic.severity.INFO]  = "DiagnosticSignInfo",
+            [vim.diagnostic.severity.HINT]  = "DiagnosticSignHint",
+          },
+        }
+      })
+
+      for _, sign in ipairs {
+        { name = "DapStopped",             text = get_icon("DapStopped"),             texthl = "DiagnosticWarn" },
+        { name = "DapBreakpoint",          text = get_icon("DapBreakpoint"),          texthl = "DiagnosticInfo" },
+        { name = "DapBreakpointRejected",  text = get_icon("DapBreakpointRejected"),  texthl = "DiagnosticError" },
+        { name = "DapBreakpointCondition", text = get_icon("DapBreakpointCondition"), texthl = "DiagnosticInfo" },
+        { name = "DapLogPoint",            text = get_icon("DapLogPoint"),            texthl = "DiagnosticInfo" },
+      } do
         vim.fn.sign_define(sign.name, sign)
       end
 
@@ -321,19 +333,19 @@ return {
         ensure_installed = vim.tbl_keys(servers),
       }
 
-      mason_lspconfig.setup_handlers {
-        function(server_name)
-          if (server_name ~= 'jdtls') then
-            require('lspconfig')[server_name].setup {
-              capabilities = capabilities,
-              on_attach = on_attach,
-              handlers = vim.lsp.handlers,
-              settings = servers[server_name],
-              filetypes = (servers[server_name] or {}).filetypes,
-            }
-          end
-        end
-      }
+      -- mason_lspconfig.setup_handlers {
+      --   function(server_name)
+      --     if (server_name ~= 'jdtls') then
+      --       require('lspconfig')[server_name].setup {
+      --         capabilities = capabilities,
+      --         on_attach = on_attach,
+      --         handlers = vim.lsp.handlers,
+      --         settings = servers[server_name],
+      --         filetypes = (servers[server_name] or {}).filetypes,
+      --       }
+      --     end
+      --   end
+      -- }
 
       require('lspconfig').fennel_ls.setup({
         capabilities = capabilities,

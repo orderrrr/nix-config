@@ -60,14 +60,12 @@ return {
     {
         'mrjones2014/smart-splits.nvim',
         config = function()
+            require('smart-splits').setup {}
+
             vim.keymap.set('n', '<C-h>', require('smart-splits').move_cursor_left, { desc = 'SmartSplit Left' })
             vim.keymap.set('n', '<C-j>', require('smart-splits').move_cursor_down, { desc = 'SmartSplit Down' })
             vim.keymap.set('n', '<C-k>', require('smart-splits').move_cursor_up, { desc = 'SmartSplit Up' })
             vim.keymap.set('n', '<C-l>', require('smart-splits').move_cursor_right, { desc = 'SmartSplit Right' })
-            vim.keymap.set('n', '<leader>ss', require('smart-splits').start_resize_mode,
-                { desc = 'SmartSplit Resize Mode' })
-
-            require('smart-splits').setup {}
         end,
     },
     {
@@ -138,7 +136,7 @@ return {
                     return {}
                 end,
                 theme = "dragon",    -- Load "dragon" theme
-                background = {     -- map the value of 'background' option to a theme
+                background = {       -- map the value of 'background' option to a theme
                     dark = "dragon", -- try "dragon" !
                     light = "dragon"
                 },
