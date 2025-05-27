@@ -9,3 +9,5 @@ export PATH="/Users/nmcintosh/bin/nvim/bin:$PATH"
 
 export PATH="/opt/homebrew/bin/sbcl:$PATH"
 export JAVA_HOME=/Library/Java/JavaVirtualMachines/zulu-21.jdk/Contents/Home
+
+source ~/.extra.env

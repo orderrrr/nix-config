@@ -10,6 +10,7 @@ return {
     'saghen/blink.cmp',
 
     dependencies = {
+        'Kaiser-Yang/blink-cmp-avante',
         {
             "MattiasMTS/cmp-dbee",
             dependencies = {
@@ -105,13 +106,20 @@ return {
         -- default list of enabled providers defined so that you can extend it
         -- elsewhere in your config, without redefining it, via `opts_extend`
         sources = {
-            default = { 'lsp', 'codeium', 'path', 'snippets', 'buffer' },
-            per_filetype = {
-                prompt = { 'lsp', 'path', 'snippets', 'buffer' },
-                oil = { 'lsp', 'path', 'snippets', 'buffer' },
-            },
+            default = { 'avante', 'lsp', 'path', 'snippets', 'buffer' },
+            -- per_filetype = {
+            --     prompt = { 'lsp', 'path', 'snippets', 'buffer' },
+            --     oil = { 'lsp', 'path', 'snippets', 'buffer' },
+            -- },
             providers = {
-                codeium = { name = 'Codeium', module = 'codeium.blink', async = true },
+                avante = {
+                    module = 'blink-cmp-avante',
+                    name = 'Avante',
+                    opts = {
+                        -- options for blink-cmp-avante
+                    }
+                },
+                -- codeium = { name = 'Codeium', module = 'codeium.blink', async = true },
             },
         },
 

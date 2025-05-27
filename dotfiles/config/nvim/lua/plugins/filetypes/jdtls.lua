@@ -286,6 +286,7 @@ local function jdtls_setup(on_attach, capabilities)
         end,
         -- on_attach = on_attach,
         capabilities = vim.tbl_deep_extend('force', cache_vars.capabilities, capabilities),
+        -- capabilities = vim.tbl_deep_extend('force', cache_vars.capabilities, capabilities),
         root_dir = jdtls.setup.find_root(root_files),
         flags = {
             allow_incremental_sync = true,
