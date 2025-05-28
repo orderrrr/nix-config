@@ -39,7 +39,7 @@ return {
       {
         "aznhe21/actions-preview.nvim",
         config = function()
-          vim.keymap.set({ "v", "n" }, "<leader>ca", require("actions-preview").code_actions, {desc="Code Actions"})
+          vim.keymap.set({ "v", "n" }, "<leader>ca", require("actions-preview").code_actions, { desc = "Code Actions" })
         end,
       },
       {
@@ -103,6 +103,9 @@ return {
 
         nmap('gd', vim.lsp.buf.definition, '[G]oto [D]efinition')
         nmap('gr', function() require('telescope.builtin').lsp_references(ivy) end, '[G]oto [R]eferences')
+
+        nmap("K", vim.lsp.buf.hover, 'Hover info') -- Hover info
+
         nmap('gI', vim.lsp.buf.implementation, '[G]oto [I]mplementation')
         nmap('<leader>D', vim.lsp.buf.type_definition, 'Type [D]efinition')
         nmap('<leader>ds', function() require('telescope.builtin').lsp_document_symbols(ivy) end, '[D]ocument [S]ymbols')
@@ -151,8 +154,6 @@ return {
         -- html = { filetypes = { 'html', 'twig', 'hbs'} },
 
         -- glslls = {},
-        zls = {},
-
         jsonls = {},
         sqlls = {},
         cssls = {},
@@ -332,11 +333,17 @@ return {
       mason_lspconfig.setup {
         ensure_installed = vim.tbl_keys(servers),
         automatic_enable = {
-          exclude = { "jdtls" }
+          exclude = { "jdtls", "zls" }
         }
       }
 
       require('lspconfig').fennel_ls.setup({
+        capabilities = capabilities,
+        on_attach = on_attach,
+        handlers = vim.lsp.handlers,
+      })
+
+      require('lspconfig').zls.setup({
         capabilities = capabilities,
         on_attach = on_attach,
         handlers = vim.lsp.handlers,
