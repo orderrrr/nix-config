@@ -21,15 +21,14 @@
     ".config/wezterm".source = dotfiles/config/wezterm;
     ".aerospace.toml".source = dotfiles/.aerospace.toml;
     ".config/zellij".source = dotfiles/config/zellij;
+    ".zshenv".source = dotfiles/zshenv;
   };
 
-  programs.zsh.enable = true;
-
   home.sessionVariables = {
-    HISTFILE="$HOME/.config/zsh/zsh_history";
-    ZDOTDIR="$HOME/.config/zsh/config";
-    ZSH_COMPDUMP="$HOME/.config/zsh/.zcompdump";
-    ZSH="$HOME/.config/zsh/ohmyzsh";
+    HISTFILE = "$HOME/.config/zsh/zsh_history";
+    ZDOTDIR = "$HOME/.config/zsh/config";
+    ZSH_COMPDUMP = "$HOME/.config/zsh/.zcompdump";
+    ZSH = "$HOME/.config/zsh/ohmyzsh";
   };
 
   programs.home-manager.enable = true;

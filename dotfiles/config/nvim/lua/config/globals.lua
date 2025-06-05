@@ -1,7 +1,7 @@
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
-vim.opt.guicursor = "n-v-c-sm:block,i-ci-ve:block,r-cr-o:block"
+vim.opt.guicursor = "n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20"
 
 vim.o.foldmethod = 'manual'
 vim.o.foldcolumn = '0'

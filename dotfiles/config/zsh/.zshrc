@@ -1,4 +1,29 @@
-export ZDOTDIR="$HOME/.config/zsh/config";
+# 1. P10k instant prompt FIRST
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
+# 2. Optimization flags
+DISABLE_AUTO_UPDATE="true"
+DISABLE_MAGIC_FUNCTIONS="true"
+DISABLE_COMPFIX="true"
+DISABLE_AUTO_TITLE="true"
+DISABLE_UNTRACKED_FILES_DIRTY="true"
+ZSH_DISABLE_COMPFIX="true"
+ZSH_AUTOSUGGEST_MANUAL_REBIND=1
+ZSH_AUTOSUGGEST_USE_ASYNC=1
+ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
+
+# 3. Optimized completion system
+autoload -Uz compinit
+if [[ -n ${ZDOTDIR:-$HOME}/.zcompdump(#qN.mh+24) ]]; then
+    compinit -d "${ZDOTDIR:-$HOME}/.zcompdump"
+else
+    compinit -C -d "${ZDOTDIR:-$HOME}/.zcompdump"
+fi
+autoload -Uz bashcompinit && bashcompinit
+
+export ZDOTDIR="$HOME/.config/zsh/config"
 export HISTFILE="$HOME/.config/zsh/zsh_history"
 export ZSH="$HOME/.config/zsh/ohmyzsh"
 
@@ -64,32 +89,30 @@ export PATH="/opt/homebrew/opt/gnu-getopt/bin:$PATH"
 
 export DYLD_LIBRARY_PATH=/opt/homebrew/lib
 
-[[ -x $ZSH ]] || sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-
-install_oh_my_zsh_resource_if_not_exists() {
-  local resource_type="$1"
-  local resource_name="$2"
-  local resource_url="$3"
-  local oh_my_zsh_resource_dir=$ZSH/custom/$resource_type/$resource_name
-  
-  # Check if the plugin already exists
-  if [ ! -d "$oh_my_zsh_resource_dir" ]; then
-    echo "Installing $resource_name of type $resource_type in path: $oh_my_zsh_resource_dir"
-    git clone --quiet --depth 1 "$resource_url" "$oh_my_zsh_resource_dir"
-  fi
-}
-
-install_oh_my_zsh_resource_if_not_exists "plugins" "fzf-tab" "https://github.com/Aloxaf/fzf-tab.git"
-install_oh_my_zsh_resource_if_not_exists "plugins" "zsh-autosuggestions" "https://github.com/zsh-users/zsh-autosuggestions.git"
-install_oh_my_zsh_resource_if_not_exists "plugins" "zsh-syntax-highlighting" "https://github.com/zsh-users/zsh-syntax-highlighting.git"
-install_oh_my_zsh_resource_if_not_exists "plugins" "fast-syntax-highlighting" "https://github.com/zdharma-continuum/fast-syntax-highlighting.git"
-install_oh_my_zsh_resource_if_not_exists "themes" "powerlevel10k" "https://github.com/romkatv/powerlevel10k.git"
+# [[ -x $ZSH ]] || sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+#
+# install_oh_my_zsh_resource_if_not_exists() {
+#   local resource_type="$1"
+#   local resource_name="$2"
+#   local resource_url="$3"
+#   local oh_my_zsh_resource_dir=$ZSH/custom/$resource_type/$resource_name
+#   
+#   # Check if the plugin already exists
+#   if [ ! -d "$oh_my_zsh_resource_dir" ]; then
+#     echo "Installing $resource_name of type $resource_type in path: $oh_my_zsh_resource_dir"
+#     git clone --quiet --depth 1 "$resource_url" "$oh_my_zsh_resource_dir"
+#   fi
+# }
+#
+# install_oh_my_zsh_resource_if_not_exists "plugins" "fzf-tab" "https://github.com/Aloxaf/fzf-tab.git"
+# install_oh_my_zsh_resource_if_not_exists "plugins" "zsh-autosuggestions" "https://github.com/zsh-users/zsh-autosuggestions.git"
+# install_oh_my_zsh_resource_if_not_exists "plugins" "fast-syntax-highlighting" "https://github.com/zdharma-continuum/fast-syntax-highlighting.git"
+# install_oh_my_zsh_resource_if_not_exists "themes" "powerlevel10k" "https://github.com/romkatv/powerlevel10k.git"
 
 plugins=(
   git
   fzf-tab
   zsh-autosuggestions
-  zsh-syntax-highlighting
   fast-syntax-highlighting
 )
 
@@ -97,15 +120,8 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 
 export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.config/zsh/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
-
 alias vim=nvim
-alias hms="nix run nix-darwin -- switch --flake ~/.config/nix"
+alias hms="sudo nix run nix-darwin -- switch --flake ~/.config/nix"
 alias m=ncmpcpp
 alias ls=lsd
 alias tt="zellij"
@@ -163,9 +179,10 @@ bindkey "^[OB" down-line-or-beginning-search
 bindkey "^P" up-line-or-beginning-search
 ####
 
-source $ZDOTDIR/os.sh
+source $ZSH/oh-my-zsh.sh
 
-eval "$(zoxide init zsh)"
+# To customize prompt, run `p10k configure` or edit ~/.config/zsh/.p10k.zsh.
+[[ ! -f ~/.config/zsh/config/.p10k.zsh ]] || source ~/.config/zsh/config/.p10k.zsh
 
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa -1 --color=always $realpath'
 # disable sort when completing `git checkout`
@@ -179,36 +196,34 @@ zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa -1 --color=always $realpath'
 # switch group using `,` and `.`
 zstyle ':fzf-tab:*' switch-group ',' '.'
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
-[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
-
-
-source $ZSH/oh-my-zsh.sh
-
-# To customize prompt, run `p10k configure` or edit ~/.config/zsh/.p10k.zsh.
-[[ ! -f ~/.config/zsh/.p10k.zsh ]] || source ~/.config/zsh/.p10k.zsh
-
 bindkey -e
 bindkey '[C' forward-word
 bindkey '[D' backward-word
 
 alias ls=lsd
 
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/opt/homebrew/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "/opt/homebrew/anaconda3/etc/profile.d/conda.sh" ]; then
-        . "/opt/homebrew/anaconda3/etc/profile.d/conda.sh"
+# Lazy load conda
+conda() {
+    unset -f conda
+    __conda_setup="$('/opt/homebrew/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+    if [ $? -eq 0 ]; then
+        eval "$__conda_setup"
     else
-        export PATH="/opt/homebrew/anaconda3/bin:$PATH"
+        if [ -f "/opt/homebrew/anaconda3/etc/profile.d/conda.sh" ]; then
+            . "/opt/homebrew/anaconda3/etc/profile.d/conda.sh"
+        else
+            export PATH="/opt/homebrew/anaconda3/bin:$PATH"
+        fi
     fi
-fi
-unset __conda_setup
-# <<< conda initialize <<<
+    unset __conda_setup
+    conda "$@"
+}
 
-# To customize prompt, run `p10k configure` or edit ~/dot/.config/zsh/.p10k.zsh.
-[[ ! -f ~/dot/.config/zsh/.p10k.zsh ]] || source ~/dot/.config/zsh/.p10k.zsh
+nvm() {
+    unset -f nvm
+    [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"
+    nvm "$@"
+}
+
+eval "$(zoxide init zsh)"
+source $ZDOTDIR/os.sh
