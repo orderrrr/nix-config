@@ -22,15 +22,6 @@ ZSH_AUTOSUGGEST_MANUAL_REBIND=1
 ZSH_AUTOSUGGEST_USE_ASYNC=1
 ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
 
-# # 3. Ultra-fast completion system (skip security checks)
-# autoload -Uz compinit
-# # Skip all security checks and use cached dump for 24 hours
-# if [[ -n ${ZDOTDIR:-$HOME}/.zcompdump(#qN.mh+24) ]]; then
-#     compinit -C -d "${ZDOTDIR:-$HOME}/.zcompdump"
-# else
-#     compinit -C -d "${ZDOTDIR:-$HOME}/.zcompdump"
-# fi
-
 # 5. ZSH Configuration
 export ZDOTDIR="$HOME/.config/zsh/config"
 export HISTFILE="$HOME/.config/zsh/zsh_history"
@@ -165,6 +156,7 @@ alias f="print -z $EDITOR \$(find $1 -not -path '*.git*' | fzf)"
 alias dnvi="nvim ~/.dots/usr/.config/nvim/"
 alias dzsh="nvim ~/.dots/usr/.config/zsh/"
 alias obs="VK_ICD_FILENAMES=/usr/share/vulkan/icd.d/amd_pro_icd64.json:/usr/share/vulkan/icd.d/amd_pro_icd32.json OBS_USE_EGL=1 obs"
+alias ze="z $1 && nvim"
 
 # 17. ZSH modules and options
 autoload zmv

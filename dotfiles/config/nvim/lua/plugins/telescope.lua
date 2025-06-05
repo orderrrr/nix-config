@@ -20,7 +20,6 @@ local config = function()
     }
   }
 
-
   local ivy = require('telescope.themes').get_ivy({})
 
   -- Enable telescope fzf native, if installed
@@ -52,6 +51,9 @@ local config = function()
     { desc = '[S]earch by [G]rep' })
   vim.keymap.set('n', '<leader>sd', function() require('telescope.builtin').diagnostics(ivy) end,
     { desc = '[S]earch [D]iagnostics' })
+  vim.keymap.set('n', '<leader>qf', function() require('telescope.builtin').quickfix(ivy) end, {
+    desc = "Open Telescope quickfix picker"
+  })
   vim.keymap.set('n', "<leader>lD", function() require("telescope.builtin").diagnostics(ivy) end,
     { desc = "List diagnostics" })
   vim.keymap.set('n', "<leader>lDD",

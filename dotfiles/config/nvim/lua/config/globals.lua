@@ -59,26 +59,6 @@ map! <D-v> <C-R>+
 tmap <D-v> <C-R>+
 vmap <D-c> "+y<CR>]]
 
-
 -- Set up the keymap (adjust the key combination as needed)
 vim.keymap.set('v', '<Leader>yt', require("config.yt"), { noremap = true, silent = true })
 vim.keymap.set('v', '<Leader>wf', require("config.link"), { noremap = true, silent = true })
-
-
-
-
-
-
-
-
-
-
-
-
--- vim.cmd [[
--- augroup remember_folds
---   autocmd!
---   au BufWinLeave ?* mkview! .fold
---   au BufWinEnter ?* silent! loadview .fold
--- augroup END
--- ]]
