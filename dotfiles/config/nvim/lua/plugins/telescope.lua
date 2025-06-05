@@ -59,6 +59,9 @@ local config = function()
   vim.keymap.set('n', "<leader>lDD",
     function() require("telescope.builtin").diagnostics(require('telescope.themes').get_ivy({ severity = "ERROR" })) end,
     { desc = "List errors" })
+  vim.keymap.set('n', '<leader>fp', function() require('telescope.builtin').projects(ivy) end, {
+    desc = "Open Telescope Projects"
+  })
 end
 
 return {
