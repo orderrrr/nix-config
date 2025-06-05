@@ -156,7 +156,8 @@ alias f="print -z $EDITOR \$(find $1 -not -path '*.git*' | fzf)"
 alias dnvi="nvim ~/.dots/usr/.config/nvim/"
 alias dzsh="nvim ~/.dots/usr/.config/zsh/"
 alias obs="VK_ICD_FILENAMES=/usr/share/vulkan/icd.d/amd_pro_icd64.json:/usr/share/vulkan/icd.d/amd_pro_icd32.json OBS_USE_EGL=1 obs"
-alias ze="z $1 && nvim"
+
+ze() { z "$1" && nvim; }
 
 # 17. ZSH modules and options
 autoload zmv
