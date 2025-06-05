@@ -143,7 +143,6 @@ return {
                     light = "dragon"
                 },
             })
-            vim.cmd("colorscheme kanagawa-dragon")
         end
     },
     {
