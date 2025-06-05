@@ -3,7 +3,15 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-# 2. Optimization flags
+# 2. Zinit Optimization flags
+if [[ ! -v ZINIT ]]; then
+    declare -A ZINIT
+fi
+ZINIT[OPTIMIZE_OUT_DISK_ACCESSES]=1
+ZINIT[MUTE_WARNINGS]=1
+ZINIT[NO_ALIASES]=1
+
+# 3. General optimization flags
 DISABLE_AUTO_UPDATE="true"
 DISABLE_MAGIC_FUNCTIONS="true"
 DISABLE_COMPFIX="true"
@@ -14,39 +22,38 @@ ZSH_AUTOSUGGEST_MANUAL_REBIND=1
 ZSH_AUTOSUGGEST_USE_ASYNC=1
 ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
 
-# 3. Optimized completion system
-autoload -Uz compinit
-if [[ -n ${ZDOTDIR:-$HOME}/.zcompdump(#qN.mh+24) ]]; then
-    compinit -d "${ZDOTDIR:-$HOME}/.zcompdump"
-else
-    compinit -C -d "${ZDOTDIR:-$HOME}/.zcompdump"
-fi
-autoload -Uz bashcompinit && bashcompinit
+# # 3. Ultra-fast completion system (skip security checks)
+# autoload -Uz compinit
+# # Skip all security checks and use cached dump for 24 hours
+# if [[ -n ${ZDOTDIR:-$HOME}/.zcompdump(#qN.mh+24) ]]; then
+#     compinit -C -d "${ZDOTDIR:-$HOME}/.zcompdump"
+# else
+#     compinit -C -d "${ZDOTDIR:-$HOME}/.zcompdump"
+# fi
 
-# 4. ZSH Configuration
+# 5. ZSH Configuration
 export ZDOTDIR="$HOME/.config/zsh/config"
 export HISTFILE="$HOME/.config/zsh/zsh_history"
-export ZSH="$HOME/.config/zsh/ohmyzsh"
 setopt PROMPT_SUBST
 unsetopt BEEP
 
-# 5. System Configuration
+# 6. System Configuration
 export ANTIGEN_AUTO_CONFIG=false
 export LC_ALL="en_US.UTF-8"
 export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 
-# 6. Default programs
+# 7. Default programs
 export EDITOR="nvim"
 export TERMINAL="kitty"
 export BROWSER="firefox"
 export NEOVIDE_MULTIGRID=true
 
-# 7. XDG Base Directory Specification
+# 8. XDG Base Directory Specification
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_DATA_HOME="$HOME/.local/share"
 export XDG_CACHE_HOME="$HOME/.cache"
 
-# 8. Application-specific directories
+# 9. Application-specific directories
 export XINITRC="${XDG_CONFIG_HOME:-$HOME/.config}/x11/xinitrc"
 export GTK2_RC_FILES="${XDG_CONFIG_HOME:-$HOME/.config}/gtk-2.0/gtkrc-2.0"
 export LESSHISTFILE="-"
@@ -66,7 +73,7 @@ export GRAPHVIZ_DOT=/opt/homebrew/bin/dot
 export ANDROID_HOME=/opt/homebrew/share/android-commandlinetools
 export DYLD_LIBRARY_PATH=/opt/homebrew/lib
 
-# 9. Consolidated PATH (readable format)
+# 10. Consolidated PATH
 export PATH="\
 $HOME/.local/bin:\
 $HOME/.bin:\
@@ -92,16 +99,49 @@ $ANDROID_HOME/build-tools:\
 /opt/homebrew/opt/postgresql@15/bin:\
 $PATH"
 
-# 10. Oh-My-Zsh Configuration
-plugins=(
-  git
-  fzf-tab
-  zsh-autosuggestions
-  fast-syntax-highlighting
-)
-ZSH_THEME="powerlevel10k/powerlevel10k"
+# 11. Initialize Zinit
+source "$HOME/.nix-profile/share/zinit/zinit.zsh"
+autoload -Uz _zinit
+(( ${+_comps} )) && _comps[zinit]=_zinit
 
-# 11. Aliases
+# # 12. Load Zinit annexes (without Turbo for stability)
+# zinit light-mode for \
+#     zdharma-continuum/zinit-annex-as-monitor \
+#     zdharma-continuum/zinit-annex-bin-gem-node \
+#     zdharma-continuum/zinit-annex-patch-dl \
+#     zdharma-continuum/zinit-annex-rust
+
+# 13. Load Powerlevel10k theme (non-turbo for instant prompt compatibility)
+zinit ice depth=1
+zinit light romkatv/powerlevel10k
+
+# Load required ZLE widgets before syntax highlighting
+autoload -U up-line-or-beginning-search
+autoload -U down-line-or-beginning-search
+zle -N up-line-or-beginning-search
+zle -N down-line-or-beginning-search
+
+
+# 14. Load plugins with Turbo mode for faster startup
+# Fast syntax highlighting (load immediately for better UX)
+zinit light zdharma-continuum/fast-syntax-highlighting
+
+# Turbo-loaded plugins (loaded after prompt)
+zinit wait lucid for \
+    atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay" \
+        zdharma-continuum/fast-syntax-highlighting \
+    atload"!_zsh_autosuggest_start" \
+        zsh-users/zsh-autosuggestions \
+    blockf \
+        zsh-users/zsh-completions \
+    Aloxaf/fzf-tab
+
+# 15. Git plugin functionality (Oh-My-Zsh git plugin replacement)
+zinit wait lucid for \
+    OMZL::git.zsh \
+    OMZP::git
+
+# 16. Aliases
 alias vim=nvim
 alias hms="sudo nix run nix-darwin -- switch --flake ~/.config/nix"
 alias m=ncmpcpp
@@ -126,10 +166,10 @@ alias dnvi="nvim ~/.dots/usr/.config/nvim/"
 alias dzsh="nvim ~/.dots/usr/.config/zsh/"
 alias obs="VK_ICD_FILENAMES=/usr/share/vulkan/icd.d/amd_pro_icd64.json:/usr/share/vulkan/icd.d/amd_pro_icd32.json OBS_USE_EGL=1 obs"
 
-# 12. ZSH modules and options
+# 17. ZSH modules and options
 autoload zmv
 
-# 13. Vim mode cursor configuration
+# 18. Vim mode cursor configuration
 MODE_CURSOR_VIINS="#00ff00 blinking bar"
 MODE_CURSOR_REPLACE="$MODE_CURSOR_VIINS #ff0000"
 MODE_CURSOR_VICMD="green block"
@@ -137,7 +177,7 @@ MODE_CURSOR_SEARCH="#ff00ff steady underline"
 MODE_CURSOR_VISUAL="$MODE_CURSOR_VICMD steady bar"
 MODE_CURSOR_VLINE="$MODE_CURSOR_VISUAL #00ffff"
 
-# 14. Key bindings
+# 19. Key bindings
 bindkey -M vicmd "k" up-line-or-beginning-search
 bindkey "^[OA" up-line-or-beginning-search
 bindkey -M vicmd "j" down-line-or-beginning-search
@@ -147,20 +187,21 @@ bindkey -e
 bindkey '[C' forward-word
 bindkey '[D' backward-word
 
-# 15. Load Oh-My-Zsh
-source $ZSH/oh-my-zsh.sh
-
-# 16. Load Powerlevel10k configuration
+# 20. Load Powerlevel10k configuration
 [[ ! -f ~/.config/zsh/config/.p10k.zsh ]] || source ~/.config/zsh/config/.p10k.zsh
 
-# 17. Completion styling (after Oh-My-Zsh)
-zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa -1 --color=always $realpath'
-zstyle ':completion:*:git-checkout:*' sort false
-zstyle ':completion:*:descriptions' format '[%d]'
-zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
-zstyle ':fzf-tab:*' switch-group ',' '.'
+# 21. Completion styling (after plugins are loaded)
+zinit wait lucid for \
+    atload"
+        zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa -1 --color=always \$realpath'
+        zstyle ':completion:*:git-checkout:*' sort false
+        zstyle ':completion:*:descriptions' format '[%d]'
+        zstyle ':completion:*' list-colors \${(s.:.)LS_COLORS}
+        zstyle ':fzf-tab:*' switch-group ',' '.'
+    " \
+    zdharma-continuum/null
 
-# 18. Lazy load functions
+# 22. Lazy load functions
 conda() {
     unset -f conda
     __conda_setup="$('/opt/homebrew/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
@@ -183,6 +224,12 @@ nvm() {
     nvm "$@"
 }
 
-# 19. Initialize external tools (at the end for performance)
-eval "$(zoxide init zsh)"
-source $ZDOTDIR/os.sh
+# 23. Initialize external tools (deferred with Turbo)
+zinit wait lucid for \
+    atload"eval \"\$(zoxide init zsh)\"" \
+    zdharma-continuum/null
+
+# 24. Load OS-specific configuration (deferred)
+zinit wait lucid for \
+    atload"[[ -f \$ZDOTDIR/os.sh ]] && source \$ZDOTDIR/os.sh" \
+    zdharma-continuum/null
