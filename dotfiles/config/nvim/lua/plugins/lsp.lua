@@ -349,6 +349,12 @@ return {
         handlers = vim.lsp.handlers,
       })
 
+      require('lspconfig').slangd.setup({
+        capabilities = capabilities,
+        on_attach = on_attach,
+        handlers = vim.lsp.handlers,
+      })
+
       require 'lspconfig'.futhark_lsp.setup {
         capabilities = capabilities,
         on_attach = on_attach,

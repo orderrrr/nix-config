@@ -66,6 +66,7 @@ export DYLD_LIBRARY_PATH=/opt/homebrew/lib
 
 # 10. Consolidated PATH
 export PATH="\
+/opt/homebrew/anaconda3/bin:\
 $HOME/.local/bin:\
 $HOME/.bin:\
 $HOME/.local/share/cargo/bin:\
