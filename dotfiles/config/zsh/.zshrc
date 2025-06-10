@@ -64,8 +64,9 @@ export GRAPHVIZ_DOT=/opt/homebrew/bin/dot
 export ANDROID_HOME=/opt/homebrew/share/android-commandlinetools
 export DYLD_LIBRARY_PATH=/opt/homebrew/lib
 
-"\e[1;5C": forward-word
-"\e[1;5D": backward-word
+# Word navigation with Ctrl+Arrow keys
+bindkey "^[[1;5C" forward-word    # Ctrl+Right Arrow
+bindkey "^[[1;5D" backward-word   # Ctrl+Left Arrow
 
 # 10. Consolidated PATH
 export PATH="\
