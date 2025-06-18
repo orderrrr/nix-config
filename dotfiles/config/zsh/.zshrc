@@ -167,7 +167,7 @@ alias ssh="TERM=xterm-256color ssh"
 alias brew=/opt/homebrew/bin/brew
 alias lsblk="lsblk -e7"
 alias virsh="virsh --connect qemu:///system"
-alias h="setopt HIST_IGNORE_ALL_DUPS && print -z $(fc -ln 1 | fzf)"
+alias h="setopt HIST_IGNORE_ALL_DUPS && print -z \$(fc -ln 1 | fzf)"
 alias f="print -z $EDITOR \$(find $1 -not -path '*.git*' | fzf)"
 alias dnvi="nvim ~/.dots/usr/.config/nvim/"
 alias dzsh="nvim ~/.dots/usr/.config/zsh/"
