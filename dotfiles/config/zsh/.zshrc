@@ -23,10 +23,10 @@ ZSH_AUTOSUGGEST_USE_ASYNC=1
 ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
 
 # 5. ZSH Configuration
-export ZDOTDIR="$HOME/.config/zsh/config"
+export HISTSIZE=10000
+export SAVEHIST=10000
 export HISTFILE="$HOME/.config/zsh/zsh_history"
-export HISTSIZE=10000 # Number of commands in memory
-export SAVEHIST=10000 # Number of commands saved to file
+export ZDOTDIR="$HOME/.config/zsh/config"
 setopt PROMPT_SUBST
 unsetopt BEEP
 
@@ -158,7 +158,7 @@ alias ssh="TERM=xterm-256color ssh"
 alias brew=/opt/homebrew/bin/brew
 alias lsblk="lsblk -e7"
 alias virsh="virsh --connect qemu:///system"
-alias h="setopt HIST_IGNORE_ALL_DUPS && print -z \$(history | sed 's/ _[0-9]_.//' | fzf)"
+alias h="setopt HIST_IGNORE_ALL_DUPS && print -z \$(history 1 | sed 's/ _[0-9]_.//' | fzf)"
 alias f="print -z $EDITOR \$(find $1 -not -path '*.git*' | fzf)"
 alias dnvi="nvim ~/.dots/usr/.config/nvim/"
 alias dzsh="nvim ~/.dots/usr/.config/zsh/"
