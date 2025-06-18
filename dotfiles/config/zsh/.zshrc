@@ -21,6 +21,7 @@ ZSH_DISABLE_COMPFIX="true"
 ZSH_AUTOSUGGEST_MANUAL_REBIND=1
 ZSH_AUTOSUGGEST_USE_ASYNC=1
 ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
+ZSH_AUTOSUGGEST_CLEAR_WIDGETS+=(history-substring-search-up history-substring-search-down)
 
 # 5. ZSH Configuration
 export HISTSIZE=10000
@@ -129,11 +130,17 @@ zinit light zdharma-continuum/fast-syntax-highlighting
 zinit wait lucid for \
     atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay" \
         zdharma-continuum/fast-syntax-highlighting \
-    atload"!_zsh_autosuggest_start" \
+    atload"
+        bindkey '^[[A' history-substring-search-up
+        bindkey '^[[B' history-substring-search-down
+        bindkey '^P' history-substring-search-up
+        bindkey '^N' history-substring-search-down
+    " \
+        zsh-users/zsh-history-substring-search \
+    atload"_zsh_autosuggest_start" \
         zsh-users/zsh-autosuggestions \
     blockf \
         zsh-users/zsh-completions \
-    zsh-users/zsh-history-substring-search \
     Aloxaf/fzf-tab
 
 # 15. Git plugin functionality (Oh-My-Zsh git plugin replacement)
@@ -160,7 +167,7 @@ alias ssh="TERM=xterm-256color ssh"
 alias brew=/opt/homebrew/bin/brew
 alias lsblk="lsblk -e7"
 alias virsh="virsh --connect qemu:///system"
-alias h="setopt HIST_IGNORE_ALL_DUPS && print -z \$(history 1 | sed 's/ _[0-9]_.//' | fzf)"
+alias h="setopt HIST_IGNORE_ALL_DUPS && print -z $(fc -ln 1 | fzf)"
 alias f="print -z $EDITOR \$(find $1 -not -path '*.git*' | fzf)"
 alias dnvi="nvim ~/.dots/usr/.config/nvim/"
 alias dzsh="nvim ~/.dots/usr/.config/zsh/"
@@ -188,12 +195,6 @@ bindkey "^P" up-line-or-beginning-search
 bindkey -e
 bindkey '[C' forward-word
 bindkey '[D' backward-word
-
-# History substring search bindings
-bindkey '^[[A' history-substring-search-up      # Up arrow
-bindkey '^[[B' history-substring-search-down    # Down arrow
-bindkey '^P' history-substring-search-up        # Ctrl+P
-bindkey '^N' history-substring-search-down      # Ctrl+N
 
 # Add this to your key bindings section (around line 94, after your existing bindkeys)
 bindkey "^[[3~" delete-char    # Delete key
