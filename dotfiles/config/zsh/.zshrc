@@ -25,6 +25,8 @@ ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
 # 5. ZSH Configuration
 export ZDOTDIR="$HOME/.config/zsh/config"
 export HISTFILE="$HOME/.config/zsh/zsh_history"
+export HISTSIZE=10000 # Number of commands in memory
+export SAVEHIST=10000 # Number of commands saved to file
 setopt PROMPT_SUBST
 unsetopt BEEP
 
