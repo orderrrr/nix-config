@@ -125,6 +125,7 @@ zle -N down-line-or-beginning-search
 zinit light zdharma-continuum/fast-syntax-highlighting
 
 # Turbo-loaded plugins (loaded after prompt)
+# Add this to your turbo-loaded plugins section (around line 58)
 zinit wait lucid for \
     atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay" \
         zdharma-continuum/fast-syntax-highlighting \
@@ -132,6 +133,7 @@ zinit wait lucid for \
         zsh-users/zsh-autosuggestions \
     blockf \
         zsh-users/zsh-completions \
+    zsh-users/zsh-history-substring-search \
     Aloxaf/fzf-tab
 
 # 15. Git plugin functionality (Oh-My-Zsh git plugin replacement)
@@ -186,6 +188,15 @@ bindkey "^P" up-line-or-beginning-search
 bindkey -e
 bindkey '[C' forward-word
 bindkey '[D' backward-word
+
+# History substring search bindings
+bindkey '^[[A' history-substring-search-up      # Up arrow
+bindkey '^[[B' history-substring-search-down    # Down arrow
+bindkey '^P' history-substring-search-up        # Ctrl+P
+bindkey '^N' history-substring-search-down      # Ctrl+N
+
+# Add this to your key bindings section (around line 94, after your existing bindkeys)
+bindkey "^[[3~" delete-char    # Delete key
 
 # 20. Load Powerlevel10k configuration
 [[ ! -f ~/.config/zsh/config/.p10k.zsh ]] || source ~/.config/zsh/config/.p10k.zsh
