@@ -158,7 +158,7 @@ return {
         sqlls = {},
         cssls = {},
         -- pyright = {},
-        pylsp = {},
+        -- pylsp = {},
         lemminx = {},
         html = {},
         svelte = {},
