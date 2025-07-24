@@ -236,10 +236,11 @@ nvm() {
     nvm "$@"
 }
 
-# 23. Initialize external tools (deferred with Turbo)
-zinit wait lucid for \
-    atload"eval \"\$(zoxide init zsh)\"" \
-    zdharma-continuum/null
+# # 23. Initialize external tools (deferred with Turbo)
+# zinit wait lucid for \
+#     atload"eval \"\$(zoxide init zsh)\"" \
+#     zdharma-continuum/null
+eval "$(zoxide init zsh)"
 
 # 24. Load OS-specific configuration (deferred)
 zinit wait lucid for \
