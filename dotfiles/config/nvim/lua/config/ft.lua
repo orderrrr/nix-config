@@ -13,6 +13,6 @@ vim.api.nvim_create_autocmd('FileType', {
 vim.keymap.set('n', '<leader>m', ':make<CR>', {
     desc = "Run make command for current filetype"
 })
-vim.keymap.set('n', '<leader>do', ':copen<CR>', {
+vim.keymap.set('n', '<leader>mo', ':copen<CR>', {
     desc = "Open quickfix list"
 })
