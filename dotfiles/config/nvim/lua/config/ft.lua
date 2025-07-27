@@ -43,4 +43,4 @@ end
 
 -- Set the keymap in Normal mode
 -- Using <leader>q is a common choice
-vim.keymap.set('n', '<leader>q', toggle_quickfix, { desc = 'Toggle Quickfix List' })
+vim.keymap.set('n', '<leader>mo', toggle_quickfix, { desc = 'Toggle Quickfix List' })
