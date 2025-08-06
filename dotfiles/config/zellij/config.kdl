@@ -5,7 +5,7 @@ keybinds clear-defaults=true {
         // bind "Alt c" { Copy; }
     }
     locked {
-        bind "Ctrl x" { SwitchToMode "Normal"; }
+        // bind "Ctrl x" { SwitchToMode "Normal"; }
     }
     resize {
         bind "Ctrl g" { SwitchToMode "Normal"; }
@@ -167,7 +167,7 @@ keybinds clear-defaults=true {
         bind "x" { CloseFocus; SwitchToMode "Normal"; }
     }
     shared_except "locked" {
-        bind "Ctrl x" { SwitchToMode "Locked"; }
+        // bind "Ctrl x" { SwitchToMode "Locked"; }
         bind "Ctrl Q" { Quit; }
         bind "Alt n" { NewPane; }
         bind "Alt f" { ToggleFocusFullscreen; SwitchToMode "Normal"; }
