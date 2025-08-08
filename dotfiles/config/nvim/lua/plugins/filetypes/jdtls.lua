@@ -251,6 +251,12 @@ local function jdtls_setup(on_attach, capabilities)
                     profile = 'Veritran',
                 },
             },
+            completion = {
+                importOrder = { "java", "javax", "org", "com" }, -- puts org.* before com.* (blank line between groups)
+            },
+            sources = {
+                organizeImports = { starThreshold = 999, staticStarThreshold = 999 },
+            },
         },
         signatureHelp = {
             enabled = true,
