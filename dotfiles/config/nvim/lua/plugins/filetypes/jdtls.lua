@@ -248,6 +248,7 @@ local function jdtls_setup(on_attach, capabilities)
                 enabled = true,
                 settings = {
                     url = home .. '/.m2/VeritranE.xml',
+                    profile = 'Veritran',
                 },
             },
         },
