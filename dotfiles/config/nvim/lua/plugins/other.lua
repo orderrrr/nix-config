@@ -12,7 +12,7 @@ require("snacks").setup({
     dashboard = { enabled = false },
     explorer = { enabled = true },
     indent = { enabled = true },
-    input = { enabled = true },
+    input = { enabled = false },
     picker = { enabled = true },
     notifier = { enabled = true },
     quickfile = { enabled = true },
