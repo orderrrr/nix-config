@@ -16,6 +16,7 @@ vim.pack.add({
     require('util').pf('mason-org/mason-lspconfig.nvim'),
     require('util').pf('ziglang/zig.vim'),
     require('util').pf('aznhe21/actions-preview.nvim'),
+    require('util').pf('mfussenegger/nvim-jdtls'),
 })
 
 require('nvim-treesitter.install').update({ with_sync = true })()
@@ -36,7 +37,7 @@ nvim_lsp.lua_ls.setup({ settings = { Lua = { workspace = { library = vim.api.nvi
 
 require('mason').setup()
 require('mason-lspconfig').setup {
-    automatic_enable = { 'lua_ls', 'zls', 'jdtls' }
+    automatic_enable = { 'lua_ls', 'zls' }
 }
 
 vim.keymap.set('n', '<leader>lf', vim.lsp.buf.format);
@@ -56,3 +57,11 @@ vim.keymap.set('n', '<leader>sS', function() require('snacks').picker.lsp_worksp
 vim.keymap.set('n', '<leader>ca', require("actions-preview").code_actions)
 
 vim.keymap.set('n', 'gd', vim.lsp.buf.definition)
+
+-- nvim-cmp supports additional completion capabilities, so broadcast that to servers
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+
+local on_attach = function(_, bufnr)
+end
+
+require('plugins.filetypes.jdtls')(on_attach, capabilities)
