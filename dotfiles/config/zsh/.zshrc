@@ -173,6 +173,9 @@ alias f="print -z $EDITOR \$(find $1 -not -path '*.git*' | fzf)"
 alias dnvi="nvim ~/.dots/usr/.config/nvim/"
 alias dzsh="nvim ~/.dots/usr/.config/zsh/"
 alias obs="VK_ICD_FILENAMES=/usr/share/vulkan/icd.d/amd_pro_icd64.json:/usr/share/vulkan/icd.d/amd_pro_icd32.json OBS_USE_EGL=1 obs"
+alias j8="JAVA_HOME=/Library/Java/JavaVirtualMachines/zulu-8.jdk/Contents/Home"
+alias j21="JAVA_HOME=/Library/Java/JavaVirtualMachines/zulu-21.jdk/Contents/Home"
+alias j24="JAVA_HOME=/Library/Java/JavaVirtualMachines/zulu-24.jdk/Contents/Home"
 
 ze() { z "$1" && nvim; }
 

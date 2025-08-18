@@ -31,17 +31,24 @@ require("nvim-treesitter.configs").setup({
 });
 
 local nvim_lsp = require('lspconfig')
-
 nvim_lsp.lua_ls.setup({ settings = { Lua = { workspace = { library = vim.api.nvim_get_runtime_file("", true) } } } });
 
 require("mason").setup()
 require("mason-lspconfig").setup {
-    automatic_enable = { "lua_ls", "zls" }
+    automatic_enable = { "lua_ls", "zls", "jdtls" }
 }
 
 vim.keymap.set('n', '<leader>lf', vim.lsp.buf.format);
 vim.keymap.set('n', 'K', vim.lsp.buf.hover)
 vim.keymap.set('n', '<leader>k', vim.lsp.buf.hover)
 vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename)
+
+vim.keymap.set('n', "gd", function() require('snacks').picker.lsp_definitions() end)
+vim.keymap.set('n', "gD", function() require('snacks').picker.lsp_declarations() end)
+vim.keymap.set('n', "gr", function() require('snacks').picker.lsp_references() end)
+vim.keymap.set('n', "gI", function() require('snacks').picker.lsp_implementations() end)
+vim.keymap.set('n', "gy", function() require('snacks').picker.lsp_type_definitions() end)
+vim.keymap.set('n', "<leader>ss", function() require('snacks').picker.lsp_symbols() end)
+vim.keymap.set('n', "<leader>sS", function() require('snacks').picker.lsp_workspace_symbols() end)
 
 vim.keymap.set('n', 'gd', vim.lsp.buf.definition)

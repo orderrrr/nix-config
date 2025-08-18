@@ -1,22 +1,33 @@
 vim.pack.add({
-    require("util").pf("vague2k/vague.nvim"),
-    require("util").pf("unblevable/quick-scope"),
-    require("util").pf("akinsho/toggleterm.nvim"),
-    require("util").pf("RRethy/vim-illuminate"),
-    require("util").pf("norcalli/nvim-colorizer.lua"),
+    require('util').pf('vague2k/vague.nvim'),
+    require('util').pf('unblevable/quick-scope'),
+    require('util').pf('RRethy/vim-illuminate'),
+    require('util').pf('norcalli/nvim-colorizer.lua'),
+    require('util').pf('kdheepak/lazygit.nvim'),
+    require('util').pf('folke/snacks.nvim'),
 })
 
-vim.cmd("colorscheme vague")
-vim.cmd("hi statusline guibg=NONE")
+require("snacks").setup({
+    bigfile = { enabled = true },
+    dashboard = { enabled = false },
+    explorer = { enabled = true },
+    indent = { enabled = true },
+    input = { enabled = true },
+    picker = { enabled = true },
+    notifier = { enabled = true },
+    quickfile = { enabled = true },
+    scope = { enabled = true },
+    scroll = { enabled = true },
+    statuscolumn = { enabled = true },
+    words = { enabled = true },
+});
 
-require('toggleterm').setup {
-    shade_terminals = false,
-    float_opts = { winblend = 0 },
-}
 
-local tt = function() vim.cmd(":ToggleTerm<CR>") end
-vim.keymap.set({ 'n', 't' }, '<leader>tt', tt)
+vim.keymap.set({ 'n', 't' }, "<leader>tt", function() require("snacks").terminal() end)
 vim.keymap.set({ 't' }, '<C-\\>', '<C-\\><C-n>')
+
+vim.cmd('colorscheme vague')
+vim.cmd('hi statusline guibg=NONE')
 
 require('illuminate').configure {
     providers = {
@@ -33,3 +44,5 @@ require('illuminate').configure {
 }
 
 require('colorizer').setup({ '*', css = { rgb_fn = true, }, html = { names = false, } })
+
+vim.keymap.set('n', '<leader>lg', ':LazyGit<CR>')
