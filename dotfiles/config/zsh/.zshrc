@@ -73,6 +73,7 @@ bindkey "^[[1;5D" backward-word   # Ctrl+Left Arrow
 
 # 10. Consolidated PATH
 export PATH="\
+$HOME/.bin/nvim/bin:$PATH:\
 /opt/homebrew/anaconda3/bin:\
 $HOME/.local/bin:\
 $HOME/.bin:\

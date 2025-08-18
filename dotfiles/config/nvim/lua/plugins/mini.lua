@@ -1,9 +1,21 @@
-return {
-    'echasnovski/mini.nvim',
-    version = false,
-    lazy = false,
-    config = function()
-        require('mini.ai').setup()
-        require('mini.statusline').setup()
-    end,
-}
+-- vim.pack.add({
+--     require("util").pf("echasnovski/mini.pick"),
+-- })
+--
+-- local win_config = function()
+--     local height = math.floor(0.618 * vim.o.lines)
+--     local width = math.floor(0.618 * vim.o.columns)
+--     return {
+--         anchor = 'NW',
+--         height = height,
+--         width = width,
+--         row = math.floor(0.5 * (vim.o.lines - height)),
+--         col = math.floor(0.5 * (vim.o.columns - width)),
+--     }
+-- end
+--
+-- require("mini.pick").setup({ window = { config = win_config } })
+--
+-- vim.keymap.set('n', '<leader>ff', ':Pick files<CR>');
+-- vim.keymap.set('n', '<leader>sf', ':Pick grep_live<CR>');
+-- vim.keymap.set('n', '<leader>fh', ':Pick help<CR>');
