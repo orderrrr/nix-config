@@ -1,6 +1,30 @@
 vim.pack.add({
     require("util").pf("nvim-lua/plenary.nvim"),
+    require("util").pf("nvim-telescope/telescope-ui-select.nvim"),
+    require("util").pf("gbrlsnchs/telescope-lsp-handlers.nvim"),
     require("util").pf("nvim-telescope/telescope.nvim"),
+})
+
+require('telescope').load_extension('lsp_handlers')
+require('telescope').load_extension('ui-select')
+
+require('telescope').setup({
+    defaults = {
+        layout_config = {
+            vertical = { width = 0.5 }
+        },
+        mappings = {
+            i = {
+                ['<C-u>'] = false,
+                ['<C-d>'] = false,
+            },
+        },
+    },
+    pickers = {},
+    extensions = {
+        fzf = {},
+        ["ui-select"] = {},
+    }
 })
 
 local builtin = require('telescope.builtin')
@@ -11,10 +35,6 @@ local with_ivy = function(cmd)
         cmd(ivy)
     end
 end
-
-require('telescope').load_extension('fzf')
-require('telescope').load_extension('lsp_handlers')
-require('telescope').load_extension('ui-select')
 
 vim.keymap.set('n', '<leader>ff', with_ivy(builtin.find_files))
 vim.keymap.set('n', '<leader>fg', with_ivy(builtin.live_grep))
