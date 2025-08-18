@@ -12,6 +12,10 @@ local with_ivy = function(cmd)
     end
 end
 
+require('telescope').load_extension('fzf')
+require('telescope').load_extension('lsp_handlers')
+require('telescope').load_extension('ui-select')
+
 vim.keymap.set('n', '<leader>ff', with_ivy(builtin.find_files))
 vim.keymap.set('n', '<leader>fg', with_ivy(builtin.live_grep))
 vim.keymap.set('n', '<leader><leader>', with_ivy(builtin.buffers))
