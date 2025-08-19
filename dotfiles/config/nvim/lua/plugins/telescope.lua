@@ -28,9 +28,9 @@ require('telescope').setup({
 })
 
 local builtin = require('telescope.builtin')
-local ivy = require('telescope.themes').get_ivy({})
 
-local with_ivy = function(cmd)
+local with_ivy = function(cmd, opts)
+    local ivy = require('telescope.themes').get_ivy(opts)
     return function()
         cmd(ivy)
     end
@@ -42,6 +42,8 @@ vim.keymap.set('n', '<leader><leader>', with_ivy(builtin.buffers))
 vim.keymap.set('n', '<leader>fh', with_ivy(builtin.help_tags))
 vim.keymap.set('n', '<leader>qf', with_ivy(builtin.quickfix))
 vim.keymap.set('n', 'gr', with_ivy(builtin.lsp_references))
-vim.keymap.set('n', '<leader>jf', function()
-    with_ivy(builtin.lsp_document_symbols)
-end)
+vim.keymap.set('n', '<leader>jf', with_ivy(builtin.lsp_document_symbols, { symbols = 'function' }))
+vim.keymap.set('n', '<leader>jm', with_ivy(builtin.lsp_document_symbols, { symbols = 'method' }))
+vim.keymap.set('n', '<leader>jj', with_ivy(builtin.lsp_document_symbols))
+vim.keymap.set('n', "<leader>lD", with_ivy(builtin.diagnostics))
+vim.keymap.set('n', "<leader>lDD", with_ivy(builtin.diagnostics, { severity = "ERROR" }))

@@ -8,7 +8,7 @@ vim.pack.add({
 })
 
 require("snacks").setup({
-    bigfile = { enabled = false },
+    bigfile = { enabled = true },
     dashboard = { enabled = false },
     explorer = { enabled = false },
     indent = { enabled = false },

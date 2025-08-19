@@ -25,7 +25,7 @@ require('nvim-treesitter.configs').setup({
     modules = {},
     ignore_install = {},
     parser_install_dir = nil,
-    ensure_installed = { 'lua', 'java', 'zig' },
+    ensure_installed = { 'lua', 'java', 'zig', 'slang' },
     sync_install = false,
     auto_install = true,
     highlight = { enable = true, },
