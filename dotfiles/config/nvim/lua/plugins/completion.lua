@@ -1,8 +1,17 @@
 vim.pack.add({
-    { src = "https://github.com/Saghen/blink.cmp", version = vim.version.range('1.*'), },
+    { src = "https://github.com/Saghen/blink.cmp",             version = vim.version.range('1.*'), },
+    { src = "https://github.com/L3MON4D3/LuaSnip",             version = vim.version.range('2.*'), },
+    { src = "https://github.com/rafamadriz/friendly-snippets", },
 })
 
+require("luasnip.loaders.from_vscode").lazy_load()
+
 require('blink.cmp').setup({
+    snippet = {
+        expand = function(args)
+            require('luasnip').lsp_expand(args.body)
+        end,
+    },
     keymap = { preset = 'default' },
     completion = {
         menu = {
@@ -12,13 +21,8 @@ require('blink.cmp').setup({
         },
     },
     appearance = {
-        -- Sets the fallback highlight groups to nvim-cmp's highlight groups
-        -- Useful for when your theme doesn't support blink.cmp
-        -- will be removed in a future release
         use_nvim_cmp_as_default = true,
-        -- Set to 'mono' for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
-        -- Adjusts spacing to ensure icons are aligned
-        nerd_font_variant = 'mono'
+        nerd_font_variant = 'normal'
     },
     sources = {
         default = { 'lsp', 'path', 'snippets', 'buffer' },
