@@ -2,7 +2,7 @@ vim.pack.add({
     require('util').pf('vague2k/vague.nvim'),
     require('util').pf('unblevable/quick-scope'),
     require('util').pf('RRethy/vim-illuminate'),
-    require('util').pf('catgoose/nvim-colorizer.lua'),
+    require('util').pf('uga-rosa/ccc.nvim'),
     require('util').pf('folke/snacks.nvim'),
 })
 
@@ -42,4 +42,4 @@ require('illuminate').configure {
     under_cursor = true,
 }
 
-require('colorizer').setup({ '*', css = { rgb_fn = true, }, html = { names = false, } })
+require('ccc').setup({})
