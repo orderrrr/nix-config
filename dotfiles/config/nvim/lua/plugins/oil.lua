@@ -4,7 +4,7 @@ vim.pack.add({
 
 require("oil").setup()
 
-vim.keymap.set('n', '<leader>nt', ':Oil<CR>');
+vim.keymap.set('n', '<leader>e', ':Oil<CR>');
 
 vim.api.nvim_create_autocmd('VimEnter', {
     desc = "Open Oil if launched on a directory",
