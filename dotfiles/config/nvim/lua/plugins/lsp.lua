@@ -25,7 +25,7 @@ require('nvim-treesitter.configs').setup({
     modules = {},
     ignore_install = {},
     parser_install_dir = nil,
-    ensure_installed = { 'lua', 'java', 'zig', 'slang' },
+    ensure_installed = {},
     sync_install = false,
     auto_install = true,
     highlight = { enable = true, },
@@ -37,7 +37,7 @@ nvim_lsp.lua_ls.setup({ settings = { Lua = { workspace = { library = vim.api.nvi
 
 require('mason').setup()
 require('mason-lspconfig').setup {
-    automatic_enable = { 'lua_ls', 'zls' }
+    automatic_enable = { 'lua_ls', 'zls', 'slangd', 'cpplint', 'clangd', 'lemminx', 'ansiblels', 'yamlls', 'rust_analyzer' }
 }
 
 vim.keymap.set('n', '<leader>lf', vim.lsp.buf.format);

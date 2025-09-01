@@ -177,7 +177,7 @@ alias j8="JAVA_HOME=/Library/Java/JavaVirtualMachines/zulu-8.jdk/Contents/Home"
 alias j21="JAVA_HOME=/Library/Java/JavaVirtualMachines/zulu-21.jdk/Contents/Home"
 alias j24="JAVA_HOME=/Library/Java/JavaVirtualMachines/zulu-24.jdk/Contents/Home"
 
-ze() { z "$1" && nvim; }
+ze() { zi "$@" && nvim; }
 
 # 17. ZSH modules and options
 autoload zmv

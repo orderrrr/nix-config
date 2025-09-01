@@ -123,7 +123,7 @@ local function enable_debugger(bufnr)
     local opts = { buffer = bufnr }
     vim.keymap.set('n', '<leader>df', function() require('jdtls').test_class({ config = { console = 'console' } }) end,
         opts)
-    vim.keymap.set('n', '<leader>dn',
+    vim.keymap.set('n', '<leader>dfn',
         function() require('jdtls').test_nearest_method({ config = { console = 'console' } }) end, opts)
 end
 

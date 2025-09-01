@@ -2,11 +2,13 @@ vim.pack.add({
     require("util").pf("nvim-lua/plenary.nvim"),
     require("util").pf("nvim-telescope/telescope-ui-select.nvim"),
     require("util").pf("gbrlsnchs/telescope-lsp-handlers.nvim"),
+    require('util').pf('aaronhallaert/advanced-git-search.nvim'),
     require("util").pf("nvim-telescope/telescope.nvim"),
 })
 
 require('telescope').load_extension('lsp_handlers')
 require('telescope').load_extension('ui-select')
+require("telescope").load_extension("advanced_git_search")
 
 require('telescope').setup({
     defaults = {
@@ -22,6 +24,7 @@ require('telescope').setup({
     },
     pickers = {},
     extensions = {
+        advanced_git_search = {},
         fzf = {},
         ["ui-select"] = {},
     }

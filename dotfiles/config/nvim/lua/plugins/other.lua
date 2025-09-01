@@ -3,7 +3,6 @@ vim.pack.add({
     require('util').pf('unblevable/quick-scope'),
     require('util').pf('RRethy/vim-illuminate'),
     require('util').pf('norcalli/nvim-colorizer.lua'),
-    require('util').pf('kdheepak/lazygit.nvim'),
     require('util').pf('folke/snacks.nvim'),
 })
 
@@ -44,5 +43,3 @@ require('illuminate').configure {
 }
 
 require('colorizer').setup({ '*', css = { rgb_fn = true, }, html = { names = false, } })
-
-vim.keymap.set('n', '<leader>lg', ':LazyGit<CR>')

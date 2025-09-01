@@ -8,3 +8,4 @@ require("dapui").setup()
 
 vim.keymap.set('n', '<leader>do', require('dapui').toggle)
 vim.keymap.set('n', '<leader>dt', require('dap').toggle_breakpoint)
+vim.keymap.set('n', '<leader>dn', require('dap').continue)
