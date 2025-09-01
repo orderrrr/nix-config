@@ -2,11 +2,11 @@ vim.pack.add({
     require('util').pf('vague2k/vague.nvim'),
     require('util').pf('unblevable/quick-scope'),
     require('util').pf('RRethy/vim-illuminate'),
-    require('util').pf('norcalli/nvim-colorizer.lua'),
+    require('util').pf('catgoose/nvim-colorizer.lua'),
     require('util').pf('folke/snacks.nvim'),
 })
 
-require("snacks").setup({
+require('snacks').setup({
     bigfile = { enabled = true },
     dashboard = { enabled = false },
     explorer = { enabled = false },
@@ -22,7 +22,7 @@ require("snacks").setup({
 });
 
 
-vim.keymap.set({ 'n', 't' }, "<leader>tt", function() require("snacks").terminal() end)
+vim.keymap.set({ 'n', 't' }, '<leader>tt', function() require('snacks').terminal() end)
 vim.keymap.set({ 't' }, '<C-\\>', '<C-\\><C-n>')
 
 vim.cmd('colorscheme vague')
