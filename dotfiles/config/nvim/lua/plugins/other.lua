@@ -22,6 +22,10 @@ require('snacks').setup({
 });
 
 
+require("vague").setup({
+    transparent = true
+});
+
 vim.keymap.set({ 'n', 't' }, '<leader>tt', function() require('snacks').terminal() end)
 vim.keymap.set({ 't' }, '<C-\\>', '<C-\\><C-n>')
 
