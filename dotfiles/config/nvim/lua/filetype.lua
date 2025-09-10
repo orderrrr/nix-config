@@ -10,9 +10,12 @@ vim.api.nvim_create_autocmd('FileType', {
     end
 })
 
-vim.keymap.set('n', '<leader>m', ':make<CR>', {
-    desc = "Run make command for current filetype"
-})
+vim.keymap.set('n', '<leader>m', function()
+    -- Run make silently and don't jump to the first error
+    vim.cmd('silent! make!')
+    -- Open quickfix if there are entries, close it if there aren't
+    vim.cmd('cwindow')
+end, { desc = "Run :make and toggle quickfix on results" })
 
 -- Simple Quickfix Toggle Function
 local function toggle_quickfix()
