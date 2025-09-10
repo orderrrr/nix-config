@@ -13,3 +13,5 @@ vim.keymap.set('n', 'S', ":%s//g<Left><Left>")
 vim.keymap.set('v', 'S', ":s//g<Left><Left>")
 vim.keymap.set('n', '<A-S>', ":%g//d<Left><Left>")
 vim.keymap.set('v', '<A-S>', ":g//d<Left><Left>")
+
+vim.keymap.set('n', '<leader>nb', ':enew<CR>')
