@@ -23,7 +23,7 @@
     };
   };
 
-  outputs = inputs@{ self, nixpkgs, home-manager, nix-darwin, nix-homebrew, ... }:
+  outputs = { self, home-manager, nix-darwin, nix-homebrew, ... }:
   {
     darwinConfigurations."nathaniels-MacBook-Pro" = nix-darwin.lib.darwinSystem {
       modules = [ 
