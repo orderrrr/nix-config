@@ -310,17 +310,7 @@ install_neovim_nightly() {
         if [[ ":$PATH:" != *":${nvim_bin_dir}:"* ]]; then
             print_warning "Neovim is not in your PATH"
             
-            if ask_confirmation "Would you like to add Neovim to your PATH automatically?"; then
-                if add_to_path $nvim_bin_dir; then
-                    print_success "Neovim added to PATH!"
-                    print_status "You can now run 'nvim' from anywhere after restarting your terminal"
-                else
-                    print_error "Failed to add Neovim to PATH"
-                    show_manual_path_instructions $nvim_bin_dir
-                fi
-            else
-                show_manual_path_instructions $nvim_bin_dir
-            fi
+            show_manual_path_instructions $nvim_bin_dir
         else
             print_success "Neovim is already in your PATH"
         fi
