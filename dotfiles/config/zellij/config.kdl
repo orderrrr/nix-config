@@ -248,7 +248,7 @@ ui {
     }
 }
 
-theme "flexoki-dark"
+theme "kanagawa-paper-ink"
 
 // The name of the default layout to load on startup
 // Default: "default"

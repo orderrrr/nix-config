@@ -1,5 +1,6 @@
 vim.pack.add({
-    require('util').pf('kepano/flexoki-neovim'),
+    -- require('util').pf('kepano/flexoki-neovim'),
+    require('util').pf("thesimonho/kanagawa-paper.nvim"),
     require('util').pf('unblevable/quick-scope'),
     require('util').pf('RRethy/vim-illuminate'),
     require('util').pf('uga-rosa/ccc.nvim'),
@@ -24,7 +25,8 @@ require('snacks').setup({
 vim.keymap.set({ 'n', 't' }, '<leader>tt', function() require('snacks').terminal() end)
 vim.keymap.set({ 't' }, '<C-\\>', '<C-\\><C-n>')
 
-vim.cmd('colorscheme flexoki-dark')
+require("kanagawa-paper").setup({ transparent = true })
+vim.cmd.colorscheme("kanagawa-paper")
 vim.cmd('hi statusline guibg=NONE')
 
 require('illuminate').configure {

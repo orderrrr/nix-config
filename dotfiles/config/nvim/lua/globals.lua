@@ -8,6 +8,7 @@ vim.g.maplocalleader = ' '
 vim.g.mapleader = ' '
 vim.o.signcolumn = 'yes'
 vim.o.winborder = 'rounded'
+vim.opt.expandtab = true -- tabs suck
 -- Enable break indent
 vim.o.breakindent = true
 -- Save undo history
@@ -33,4 +34,4 @@ vim.o.termguicolors = true
 
 vim.o.wrap = false
 
-vim.cmd[[autocmd BufNewFile,BufRead *.json set filetype=json]]
+vim.cmd [[autocmd BufNewFile,BufRead *.json set filetype=json]]

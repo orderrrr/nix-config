@@ -19,7 +19,7 @@ vim.keymap.set('v', '<A-D>', ":v//d<Left><Left>")
 
 vim.keymap.set('n', '<leader>nb', ':enew<CR>')
 
-vim.keymap.set('n', '<Tab>', '>>', { noremap = true, silent = true, desc = 'Indent line' })
+vim.keymap.set('n', '<C-Tab>', '>>', { noremap = true, silent = true, desc = 'Indent line' })
 vim.keymap.set('n', '<S-Tab>', '<<', { noremap = true, silent = true, desc = 'Unindent line' })
-vim.keymap.set('v', '<Tab>', '>gv', { noremap = true, silent = true, desc = 'Indent selection (keep selection)' })
+vim.keymap.set('v', '<C-Tab>', '>gv', { noremap = true, silent = true, desc = 'Indent selection (keep selection)' })
 vim.keymap.set('v', '<S-Tab>', '<gv', { noremap = true, silent = true, desc = 'Unindent selection (keep selection)' })

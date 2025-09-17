@@ -12,9 +12,6 @@
 
     nix-homebrew.url = "github:zhaofengli/nix-homebrew";
 
-    # sops-nix.url = "github:Mic92/sops-nix";
-    # sops-nix.inputs.nixpkgs.follows = "nixpkgs";
-
     homebrew-core = {
       url = "github:homebrew/homebrew-core";
       flake = false;
@@ -28,8 +25,6 @@
 
   outputs = inputs@{ self, nixpkgs, home-manager, nix-darwin, nix-homebrew, ... }:
   {
-    # Build darwin flake using:
-    # $ darwin-rebuild build --flake .#nathaniels-MacBook-Pro
     darwinConfigurations."nathaniels-MacBook-Pro" = nix-darwin.lib.darwinSystem {
       modules = [ 
         ./configuration.nix
@@ -53,7 +48,6 @@
       ];
     };
 
-    # Expose the package set, including overlays, for convenience.
     darwinPackages = self.darwinConfigurations."nathaniels-MacBook-Pro".pkgs;
   };
 }
