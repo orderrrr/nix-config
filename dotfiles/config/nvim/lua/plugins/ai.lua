@@ -2,7 +2,7 @@ vim.pack.add({
     { src = "https://github.com/NickvanDyke/opencode.nvim.git" },
 })
 
-require("opencode").setup({});
+ -- require("opencode").setup();
 
 vim.keymap.set('n', '<leader>ot', function() require('opencode').toggle() end)
 vim.keymap.set('n', '<leader>oa', function() require('opencode').ask('@cursor: ') end)

@@ -1,5 +1,5 @@
 vim.pack.add({
-    require('util').pf('vague2k/vague.nvim'),
+    require('util').pf('kepano/flexoki-neovim'),
     require('util').pf('unblevable/quick-scope'),
     require('util').pf('RRethy/vim-illuminate'),
     require('util').pf('uga-rosa/ccc.nvim'),
@@ -21,15 +21,10 @@ require('snacks').setup({
     words = { enabled = false },
 });
 
-
-require("vague").setup({
-    transparent = true
-});
-
 vim.keymap.set({ 'n', 't' }, '<leader>tt', function() require('snacks').terminal() end)
 vim.keymap.set({ 't' }, '<C-\\>', '<C-\\><C-n>')
 
-vim.cmd('colorscheme vague')
+vim.cmd('colorscheme flexoki-dark')
 vim.cmd('hi statusline guibg=NONE')
 
 require('illuminate').configure {

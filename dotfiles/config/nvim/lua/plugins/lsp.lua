@@ -29,7 +29,7 @@ nvim_lsp.lua_ls.setup({ settings = { Lua = { workspace = { library = vim.api.nvi
 
 require('mason').setup()
 require('mason-lspconfig').setup {
-    automatic_enable = { 'lua_ls', 'zls', 'slangd', 'cpplint', 'clangd', 'lemminx', 'ansiblels', 'yamlls', 'rust_analyzer' }
+    automatic_enable = { 'lua_ls', 'zls', 'slangd', 'cpplint', 'clangd', 'lemminx', 'jsonls', 'ansiblels', 'yamlls', 'rust_analyzer', 'fish_lsp' }
 }
 
 vim.keymap.set('n', '<leader>lf', vim.lsp.buf.format);

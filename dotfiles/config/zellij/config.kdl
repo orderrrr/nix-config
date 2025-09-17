@@ -242,42 +242,13 @@ simplified_ui true
 
 pane_frames false
 
-themes {
-    base16 {
-        fg "#454545"
-        bg "#d0d0d0"
-        red "#816b6e"
-        green "#6c756a"
-        yellow "#878377"
-        blue "#667379"
-        magenta "#837d87"
-        orange "#827b72"
-        cyan "#718084"
-        black "#d0d0d0"
-        white "#454545"
-    }
-    kanagawa {
-      bg "#DCD7BA"
-      fg "#1F1F28"
-      white "#090618"
-      black "#dcd6ba"
-      red "#e82424"
-      green "#98bb6c"
-      yellow "#e6c384"
-      blue "#7fb4ca"
-      magenta "#938aa9"
-      cyan "#7aa89f"
-      orange "#FFA066"
-    }
-}
-
 ui {
     pane_frames {
         rounded_corners true
     }
 }
 
-theme "kanagawa"
+theme "flexoki-dark"
 
 // The name of the default layout to load on startup
 // Default: "default"
@@ -349,4 +320,4 @@ scrollback_editor "nvim"
 
 // The folder in which Zellij will look for themes
 //
-// theme_dir "/path/to/my/theme_dir"
+theme_dir "/Users/nmcintosh/.config/zellij/themes/"

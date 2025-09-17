@@ -32,3 +32,5 @@ vim.o.completeopt = 'menu,menuone,noselect'
 vim.o.termguicolors = true
 
 vim.o.wrap = false
+
+vim.cmd[[autocmd BufNewFile,BufRead *.json set filetype=json]]
