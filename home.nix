@@ -24,6 +24,7 @@
     ".config/zellij".source = dotfiles/config/zellij;
     ".zshenv".source = dotfiles/zshenv;
     ".config/fish/config.fish".source = dotfiles/config/config.fish;
+    ".config/ghostty".source = dotfiles/config/ghostty;
   };
 
   home.sessionVariables = {
