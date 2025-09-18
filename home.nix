@@ -18,20 +18,13 @@
 
   home.file = {
     ".config/nvim".source = dotfiles/config/nvim;
-    ".config/zsh/config".source = dotfiles/config/zsh;
-    ".config/wezterm".source = dotfiles/config/wezterm;
     ".aerospace.toml".source = dotfiles/.aerospace.toml;
     ".config/zellij".source = dotfiles/config/zellij;
-    ".zshenv".source = dotfiles/zshenv;
     ".config/fish/config.fish".source = dotfiles/config/config.fish;
     ".config/ghostty".source = dotfiles/config/ghostty;
   };
 
   home.sessionVariables = {
-    HISTFILE = "$HOME/.config/zsh/zsh_history";
-    ZDOTDIR = "$HOME/.config/zsh/config";
-    ZSH_COMPDUMP = "$HOME/.config/zsh/.zcompdump";
-    ZSH = "$HOME/.config/zsh/ohmyzsh";
   };
 
   programs.home-manager.enable = true;
