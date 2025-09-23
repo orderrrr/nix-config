@@ -207,6 +207,8 @@ keybinds clear-defaults=true {
     }
 }
 
+show_startup_tips false
+
 plugins {
     tab-bar { path "tab-bar"; }
     status-bar { path "status-bar"; }

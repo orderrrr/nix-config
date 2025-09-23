@@ -4,7 +4,6 @@ set paths \
 /usr/local/bin \
 /opt/homebrew/bin \
 /opt/homebrew/anaconda3/bin \
-/opt/homebrew/anaconda3/envs/bin \
 /run/current-system/sw/bin \
 ~/.local/nvim/bin \
 ~/.bin \
@@ -12,6 +11,7 @@ set paths \
 ~/.cargo/bin \
 ~/.rustup/toolchains/stable-aarch64-apple-darwin/bin \
 ~/.local/share/cargo/bin \
+/opt/homebrew/anaconda3/envs/myenv/bin/ \
 ~/.sdk/flutter/bin \
 ~/.bin/nvim/bin \
 
@@ -242,6 +242,7 @@ function ssh
 end
 
 alias j8="JAVA_HOME=/Library/Java/JavaVirtualMachines/zulu-8.jdk/Contents/Home"
+alias j17="JAVA_HOME=/Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Home"
 alias j21="JAVA_HOME=/Library/Java/JavaVirtualMachines/zulu-21.jdk/Contents/Home"
 alias j24="JAVA_HOME=/Library/Java/JavaVirtualMachines/zulu-24.jdk/Contents/Home"
 
