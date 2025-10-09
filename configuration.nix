@@ -31,7 +31,7 @@
       "eza" "ffmpeg" "fzf" "fish" "gh" "git" "graphviz" "imagemagick" "ipatool" "lazygit" "maven"
       "molten-vk" "neofetch" "neovim" "nvm" "ollama" "python@3.10" "rustup" "spirv-cross"
       "sshpass" "sst/tap/opencode" "starship" "tailscale" "telnet" "tinyxml2" "typescript"
-      "vulkan-loader" "wget" "yt-dlp" "zellij" "zig" "zoxide" "jj" "pixi" "conda"
+      "vulkan-loader" "wget" "yt-dlp" "zellij" "zig" "zoxide" "jj" "pixi" "colmap"
       # "tracy"
     ];
 
@@ -39,8 +39,8 @@
       "anaconda" "bruno" "dropbox" "ghostty" "handbrake-app" "jetbrains-toolbox" "keka"
       "keycastr" "leader-key" "legcord" "microsoft-remote-desktop" "microsoft-teams" "middleclick"
       "obsidian" "ollamac" "orbstack" "raycast" "spotify" "stats" "tunnelblick" "whatsapp"
-      "wireshark-app" "zen" "zulu" "zulu@21" "zulu@8" "zed" "postman"
-      # "flutter" "google-chrome" "soapui" "splice"
+      "wireshark-app" "zen" "zulu" "zulu@21" "zulu@8" "zed" "postman" "google-chrome"
+      # "flutter" "soapui" "splice"
     ];
 
     masApps = {

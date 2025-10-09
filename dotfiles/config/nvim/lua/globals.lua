@@ -8,7 +8,7 @@ vim.g.maplocalleader = ' '
 vim.g.mapleader = ' '
 vim.o.signcolumn = 'yes'
 vim.o.winborder = 'rounded'
-vim.opt.expandtab = true -- tabs suck
+vim.opt.expandtab = false -- tabs suck
 -- Enable break indent
 vim.o.breakindent = true
 -- Save undo history
