@@ -831,7 +831,7 @@ mouse-scroll-multiplier = 1
 # widgets to show through which isn't generally desirable.
 # 
 # On macOS, changing this configuration requires restarting Ghostty completely.
-background-opacity = 0.9
+background-opacity = 1.0
 
 # Whether to blur the background when `background-opacity` is less than 1.
 # 
