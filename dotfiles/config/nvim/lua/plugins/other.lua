@@ -1,10 +1,12 @@
+local pf = require('util').pf
+
 vim.pack.add({
     -- require('util').pf('kepano/flexoki-neovim'),
-    require('util').pf("thesimonho/kanagawa-paper.nvim"),
-    require('util').pf('unblevable/quick-scope'),
-    require('util').pf('RRethy/vim-illuminate'),
-    require('util').pf('uga-rosa/ccc.nvim'),
-    require('util').pf('folke/snacks.nvim'),
+    pf("thesimonho/kanagawa-paper.nvim"),
+    pf('unblevable/quick-scope'),
+    pf('RRethy/vim-illuminate'),
+    pf('uga-rosa/ccc.nvim'),
+    pf('folke/snacks.nvim'),
 })
 
 require('snacks').setup({

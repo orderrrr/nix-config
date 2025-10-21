@@ -70,6 +70,11 @@ function cat --description 'cat via bat'
     bat --paging=never -- $argv
 end
 
+function f
+    set -l file (find (test -n "$argv[1]"; and echo $argv[1]; or echo .) -type f ! -path "*/.git/*" 2>/dev/null | fzf)
+    and commandline -r "$EDITOR $file"
+end
+
 function extract --description "Extract archives: extract <file>"
     set -l file $argv[1]
     if test -z "$file"

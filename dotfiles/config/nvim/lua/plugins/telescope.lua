@@ -1,9 +1,11 @@
+local pf = require('util').pf
+
 vim.pack.add({
-    require("util").pf("nvim-lua/plenary.nvim"),
-    require("util").pf("nvim-telescope/telescope-ui-select.nvim"),
-    require("util").pf("gbrlsnchs/telescope-lsp-handlers.nvim"),
-    require('util').pf('aaronhallaert/advanced-git-search.nvim'),
-    require("util").pf("nvim-telescope/telescope.nvim"),
+    pf("nvim-lua/plenary.nvim"),
+    pf("nvim-telescope/telescope-ui-select.nvim"),
+    pf("gbrlsnchs/telescope-lsp-handlers.nvim"),
+    pf('aaronhallaert/advanced-git-search.nvim'),
+    pf("nvim-telescope/telescope.nvim"),
 })
 
 require('telescope').load_extension('lsp_handlers')

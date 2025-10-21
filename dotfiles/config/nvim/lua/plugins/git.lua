@@ -1,6 +1,8 @@
+local pf = require('util').pf
+
 vim.pack.add({
-    require('util').pf('kdheepak/lazygit.nvim'),
-    require('util').pf('lewis6991/gitsigns.nvim'),
+    pf('kdheepak/lazygit.nvim'),
+    pf('lewis6991/gitsigns.nvim'),
 })
 
 require('gitsigns').setup({

@@ -1,7 +1,9 @@
+local pf = require('util').pf
+
 vim.pack.add({
-    require('util').pf('nvim-neotest/nvim-nio'),
-    require('util').pf('mfussenegger/nvim-dap'),
-    require('util').pf('rcarriga/nvim-dap-ui'),
+    pf('nvim-neotest/nvim-nio'),
+    pf('mfussenegger/nvim-dap'),
+    pf('rcarriga/nvim-dap-ui'),
 })
 
 require("dapui").setup()

@@ -1,5 +1,7 @@
+local pf = require('util').pf
+
 vim.pack.add({
-    require("util").pf("stevearc/oil.nvim"),
+    pf("stevearc/oil.nvim"),
 })
 
 require("oil").setup()
