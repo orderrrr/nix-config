@@ -11,8 +11,8 @@ vim.api.nvim_create_autocmd('FileType', {
 })
 
 vim.keymap.set('n', '<leader>m', function()
-	vim.cmd('make!')
-	vim.cmd('cwindow')
+	vim.cmd('silent! make!')
+	vim.cmd('silent! cwindow')
 end, { silent = true, desc = "Run :make and toggle quickfix on results" })
 
 -- Simple Quickfix Toggle Function
