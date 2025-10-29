@@ -6,8 +6,6 @@ vim.pack.add({
 	pf("NickvanDyke/opencode.nvim"),
 })
 
-require("supermaven-nvim").setup({});
-
 vim.g.opencode_opts = {
 
 }

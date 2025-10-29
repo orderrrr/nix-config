@@ -39,7 +39,7 @@
       "anaconda" "bruno" "dropbox" "ghostty" "handbrake-app" "jetbrains-toolbox" "keka"
       "keycastr" "leader-key" "legcord" "microsoft-remote-desktop" "microsoft-teams" "middleclick"
       "obsidian" "ollamac" "orbstack" "raycast" "spotify" "stats" "tunnelblick" "whatsapp"
-      "wireshark-app" "zen" "zulu" "zulu@21" "zulu@8" "zed" "postman" "google-chrome"
+      "wireshark-app" "zen" "zulu" "zulu@21" "zulu@8" "zed" "postman" "google-chrome" "plugdata"
       # "flutter" "soapui" "splice"
     ];
 

@@ -28,18 +28,22 @@ ls.add_snippets("all", {
 
 require('luasnip.loaders.from_vscode').lazy_load()
 
+require("supermaven-nvim").setup({
+	keymaps = {
+		accept_suggestion = nil,
+	},
+	disable_inline_completion = true,
+});
+
 require('blink.cmp').setup({
 	snippets = { preset = 'luasnip' },
 	keymap = { preset = 'default' },
+	window = {
+		autocomplete = {
+			selection = "auto_insert",
+		},
+	},
 	completion = {
-		-- enabled_providers = { "supermaven" },
-		-- providers = {
-		-- 	supermaven = {
-		-- 		name = "supermaven",
-		-- 		module = "blink.compat.source",
-		-- 		score_offset = 3,
-		-- 	},
-		-- },
 		menu = {
 			draw = {
 				columns = { { 'label', 'label_description', gap = 1 }, { 'kind_icon', 'kind' } },
@@ -56,7 +60,6 @@ require('blink.cmp').setup({
 			supermaven = {
 				name = 'supermaven',
 				module = 'blink.compat.source',
-				score_offset = -3,
 			},
 		},
 	},
