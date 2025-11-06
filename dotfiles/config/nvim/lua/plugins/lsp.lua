@@ -84,18 +84,20 @@ vim.keymap.set('n', 'K', vim.lsp.buf.hover)
 vim.keymap.set('n', '<leader>k', vim.lsp.buf.hover)
 vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename)
 
+
 -- SNACKS
 vim.keymap.set('n', 'gd', function() require('snacks').picker.lsp_definitions() end)
 vim.keymap.set('n', 'gD', function() require('snacks').picker.lsp_declarations() end)
 vim.keymap.set('n', 'gr', function() require('snacks').picker.lsp_references() end)
 vim.keymap.set('n', 'gI', function() require('snacks').picker.lsp_implementations() end)
-vim.keymap.set('n', 'gy', function() require('snacks').picker.lsp_type_definitions() end)
+vim.keymap.set('n', 'gy', vim.lsp.buf.type_definition)
 vim.keymap.set('n', '<leader>ss', function() require('snacks').picker.lsp_symbols() end)
 vim.keymap.set('n', '<leader>sS', function() require('snacks').picker.lsp_workspace_symbols() end)
 
 vim.keymap.set('n', '<leader>ca', require('actions-preview').code_actions)
 
 vim.keymap.set('n', 'gd', vim.lsp.buf.definition)
+
 
 -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
 local capabilities = vim.lsp.protocol.make_client_capabilities()

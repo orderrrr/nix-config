@@ -13,6 +13,7 @@ set paths \
 ~/.local/share/cargo/bin \
 /opt/homebrew/anaconda3/envs/myenv/bin/ \
 ~/.sdk/flutter/bin \
+~/.cargo/bin \
 ~/.bin/nvim/bin \
 ~/.bin/slang/bin
 
