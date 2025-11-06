@@ -13,10 +13,11 @@ vim.pack.add({
 	pf('mfussenegger/nvim-jdtls'),
 	pf('nvim-treesitter/nvim-treesitter-context'),
 	pf('nvim-treesitter/nvim-treesitter'),
+	pf('madskjeldgaard/sclang-format.nvim'),
 })
 
 require('nvim-treesitter.install').update({ with_sync = true })()
-
+require("sclang-format").setup()
 require('nvim-treesitter.configs').setup({
 	modules = {},
 	ignore_install = {},

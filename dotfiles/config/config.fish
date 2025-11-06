@@ -14,6 +14,7 @@ set paths \
 /opt/homebrew/anaconda3/envs/myenv/bin/ \
 ~/.sdk/flutter/bin \
 ~/.bin/nvim/bin \
+~/.bin/slang/bin
 
 for p in $paths
     fish_add_path --move $p
