@@ -241,3 +241,7 @@ run = 'layout floating'
 [[on-window-detected]]
 if.app-name-regex-substring = 'reaction_diffusion'
 run = 'layout floating'
+
+[[on-window-detected]]
+if.window-title-regex-substring = 'Picture-in-Picture'
+run = 'layout floating'

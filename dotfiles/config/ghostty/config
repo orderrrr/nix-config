@@ -50,7 +50,7 @@
 # Changing this configuration at runtime will only affect new terminals, i.e.
 # new windows, tabs, etc.
 # font-family = "MonoLisa"
-#font-family = "Galix Mono"
+# font-family = "Galix Mono"
 # font-family = "Botanika Mono"
 font-family = "Iki Mono VF Regular"
 
