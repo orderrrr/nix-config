@@ -6,7 +6,11 @@
   ];
 
   home.file = {
-    ".config/nvim".source = dotfiles/config/nvim;
+    ".config/nvim/lua".source = dotfiles/config/nvim/lua;
+    ".config/nvim/init.lua".source = dotfiles/config/nvim/init.lua;
+    ".config/nvim/nvim-nightly.sh".source = dotfiles/config/nvim/nvim-nightly.sh;
+    ".config/nvim/.env".source = dotfiles/config/nvim/.env;
+
     ".aerospace.toml".source = dotfiles/.aerospace.toml;
     ".config/zellij".source = dotfiles/config/zellij;
     ".config/fish/config.fish".source = dotfiles/config/config.fish;
