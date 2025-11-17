@@ -24,7 +24,7 @@
   homebrew = {
     enable = true;
 
-    taps = [];
+    taps = ["nikitabobko/tap"];
 
     brews = [
       "ansible" "ansible-lint" "btop" "cmake" "coreutils" "curl" "docker" "docker-compose" "direnv"
@@ -32,7 +32,7 @@
        "neofetch" "neovim" "ollama" "python@3.10" "rustup" "spirv-cross" "fisher"
       "sshpass" "sst/tap/opencode" "starship" "tailscale" "telnet" "tinyxml2" "typescript"
       "vulkan-loader" "wget" "yt-dlp" "zellij" "zig" "zoxide" "jj" "pixi" "colmap" "just"
-      "llvm@20" "mtr" "molten-vk"
+      "llvm@20" "mtr" "molten-vk" "nx"
       # "krunvm" "podman"
       # "tracy"
     ];
@@ -42,7 +42,7 @@
       "keycastr" "leader-key" "legcord" "microsoft-remote-desktop" "microsoft-teams" "middleclick"
       "obsidian" "ollamac" "orbstack" "raycast" "spotify" "stats" "tunnelblick" "whatsapp"
       "wireshark-app" "zen" "zulu" "zulu@21" "zulu@8" "zed" "postman" "google-chrome" "plugdata"
-      "jordanbaird-ice"
+      "jordanbaird-ice" "aerospace"
       # "flutter" "soapui" "splice"
     ];
 
