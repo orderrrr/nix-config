@@ -1,13 +1,5 @@
 local M = {}
 
-function M.pf(name)
-	-- Check if the first 4 characters are "http"
-	if string.sub(name, 1, 4) ~= "http" then
-		name = "https://github.com/" .. name
-	end
-	return { src = name }
-end
-
 function M.copy_with_numbers()
 	-- Get the start and end lines of the current visual selection
 	local start_line = vim.fn.line("'<")

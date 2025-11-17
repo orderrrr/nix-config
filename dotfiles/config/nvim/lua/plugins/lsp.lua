@@ -1,21 +1,5 @@
 vim.cmd('set completeopt+=noselect')
 
-local pf = require('util').pf
-
-vim.pack.add({
-	pf('nvim-treesitter/nvim-treesitter'),
-	pf('nvim-treesitter/playground'),
-	pf('neovim/nvim-lspconfig'),
-	pf('mason-org/mason.nvim'),
-	pf('mason-org/mason-lspconfig.nvim'),
-	pf('ziglang/zig.vim'),
-	pf('aznhe21/actions-preview.nvim'),
-	pf('mfussenegger/nvim-jdtls'),
-	pf('nvim-treesitter/nvim-treesitter-context'),
-	pf('nvim-treesitter/nvim-treesitter'),
-	pf('madskjeldgaard/sclang-format.nvim'),
-})
-
 require('nvim-treesitter.install').update({ with_sync = true })()
 require("sclang-format").setup()
 require('nvim-treesitter.configs').setup({
@@ -27,15 +11,15 @@ require('nvim-treesitter.configs').setup({
 	auto_install = true,
 	highlight = { enable = true, },
 	indent = { enable = true, },
-  incremental_selection = {
-    enable = true,
-    keymaps = {
-      init_selection = "gnn", -- set to `false` to disable one of the mappings
-      node_incremental = "grn",
-      scope_incremental = "grc",
-      node_decremental = "grm",
-    },
-  },
+	incremental_selection = {
+		enable = true,
+		keymaps = {
+			init_selection = "gnn", -- set to `false` to disable one of the mappings
+			node_incremental = "grn",
+			scope_incremental = "grc",
+			node_decremental = "grm",
+		},
+	},
 	playground = {
 		enable = true,
 		disable = {},
@@ -56,8 +40,7 @@ require('nvim-treesitter.configs').setup({
 	}
 });
 
-local nvim_lsp = require('lspconfig')
-nvim_lsp.lua_ls.setup({ settings = { Lua = { workspace = { library = vim.api.nvim_get_runtime_file('', true) } } } });
+vim.lsp.config('lua_ls', { settings = { Lua = { workspace = { library = vim.api.nvim_get_runtime_file("lua", true), }, }, }, });
 
 require('mason').setup()
 require('mason-lspconfig').setup {
@@ -108,17 +91,17 @@ end
 require('plugins.filetypes.jdtls')(on_attach, capabilities)
 
 require 'treesitter-context'.setup {
-	enable = true,            -- Enable this plugin (Can be enabled/disabled later via commands)
-	multiwindow = false,      -- Enable multiwindow support.
-	max_lines = 0,            -- How many lines the window should span. Values <= 0 mean no limit.
-	min_window_height = 0,    -- Minimum editor window height to enable context. Values <= 0 mean no limit.
+	enable = true,           -- Enable this plugin (Can be enabled/disabled later via commands)
+	multiwindow = false,     -- Enable multiwindow support.
+	max_lines = 0,           -- How many lines the window should span. Values <= 0 mean no limit.
+	min_window_height = 0,   -- Minimum editor window height to enable context. Values <= 0 mean no limit.
 	line_numbers = true,
 	multiline_threshold = 20, -- Maximum number of lines to show for a single context
-	trim_scope = 'outer',     -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
-	mode = 'cursor',          -- Line used to calculate context. Choices: 'cursor', 'topline'
+	trim_scope = 'outer',    -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
+	mode = 'cursor',         -- Line used to calculate context. Choices: 'cursor', 'topline'
 	-- Separator between context and content. Should be a single character string, like '-'.
 	-- When separator is set, the context will only show up when there are at least 2 lines above cursorline.
 	separator = nil,
-	zindex = 20,     -- The Z-index of the context window
+	zindex = 20,    -- The Z-index of the context window
 	on_attach = nil, -- (fun(buf: integer): boolean) return false to disable attaching
 }

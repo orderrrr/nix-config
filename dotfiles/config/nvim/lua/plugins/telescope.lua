@@ -1,13 +1,3 @@
-local pf = require('util').pf
-
-vim.pack.add({
-	pf("nvim-lua/plenary.nvim"),
-	pf("nvim-telescope/telescope-ui-select.nvim"),
-	pf("gbrlsnchs/telescope-lsp-handlers.nvim"),
-	pf('aaronhallaert/advanced-git-search.nvim'),
-	pf("nvim-telescope/telescope.nvim"),
-})
-
 require('telescope').load_extension('lsp_handlers')
 require('telescope').load_extension('ui-select')
 require("telescope").load_extension("advanced_git_search")

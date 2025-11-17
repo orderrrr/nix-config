@@ -1,9 +1,5 @@
 local pf = require('util').pf
 
-vim.pack.add({
-    pf("stevearc/oil.nvim"),
-})
-
 require("oil").setup()
 
 vim.keymap.set('n', '<leader>e', ':Oil<CR>');

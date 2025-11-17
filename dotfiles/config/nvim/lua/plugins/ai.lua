@@ -1,11 +1,5 @@
 local pf = require('util').pf
 
-vim.pack.add({
-	pf("supermaven-inc/supermaven-nvim"),
-	pf("folke/snacks.nvim"),
-	pf("NickvanDyke/opencode.nvim"),
-})
-
 vim.g.opencode_opts = {
 
 }

@@ -1,14 +1,3 @@
-local pf = require('util').pf
-
-vim.pack.add({
-	-- require('util').pf('kepano/flexoki-neovim'),
-	pf("thesimonho/kanagawa-paper.nvim"),
-	pf('unblevable/quick-scope'),
-	pf('RRethy/vim-illuminate'),
-	pf('uga-rosa/ccc.nvim'),
-	pf('folke/snacks.nvim'),
-})
-
 require('snacks').setup({
 	bigfile = { enabled = true },
 	dashboard = { enabled = false },

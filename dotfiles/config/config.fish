@@ -28,7 +28,6 @@ set -gx VK_INSTANCE_LAYERS VK_LAYER_KHRONOS_validation
 set -g fish_greeting
 set -g fish_key_bindings fish_vi_key_bindings
 
-
 # Core environment
 set -gx EDITOR nvim
 set -gx VISUAL $EDITOR
