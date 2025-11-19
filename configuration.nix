@@ -32,7 +32,7 @@
        "neofetch" "neovim" "ollama" "python@3.10" "rustup" "spirv-cross" "fisher"
       "sshpass" "sst/tap/opencode" "starship" "tailscale" "telnet" "tinyxml2" "typescript"
       "vulkan-loader" "wget" "yt-dlp" "zellij" "zig" "zoxide" "jj" "pixi" "colmap" "just"
-      "llvm@20" "mtr" "molten-vk" "nx"
+      "llvm@20" "mtr" "molten-vk" "nx" "macmon"
       # "krunvm" "podman"
       # "tracy"
     ];
