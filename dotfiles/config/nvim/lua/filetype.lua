@@ -10,7 +10,7 @@ vim.api.nvim_create_autocmd('FileType', {
 	end
 })
 
-vim.keymap.set('n', '<leader>m', function()
+vim.keymap.set('n', '<leader>mm', function()
 	vim.cmd('silent! make!')
 	vim.cmd('silent! cwindow')
 end, { silent = true, desc = "Run :make and toggle quickfix on results" })
@@ -43,3 +43,15 @@ local function toggle_quickfix()
 end
 
 vim.keymap.set('n', '<leader>mo', toggle_quickfix)
+
+-- Run ./run.sh in CWD
+vim.keymap.set('n', '<leader>mr', function()
+	local cwd = vim.fn.getcwd()
+	local runfile = cwd .. '/run.sh'
+	if vim.fn.filereadable(runfile) == 1 then
+		-- Open a terminal and run the script
+		vim.cmd('terminal bash ./run.sh')
+	else
+		vim.notify("No run.sh in " .. cwd, vim.log.levels.WARN)
+	end
+end, { silent = true, desc = "Run ./run.sh in current dir" })
