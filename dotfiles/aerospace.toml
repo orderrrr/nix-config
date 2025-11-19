@@ -61,10 +61,10 @@ on-focus-changed = [
 [gaps]
 inner.horizontal = 15
 inner.vertical = 15
-outer.left = 15
-outer.bottom = 15
-outer.top = 10
-outer.right = 15
+outer.left = [{monitor."DELL S3422DWG"=64}, 15]
+outer.bottom = [{monitor."DELL S3422DWG"=64}, 15]
+outer.top = [{monitor."DELL S3422DWG"=59}, 10]
+outer.right = [{monitor."DELL S3422DWG"=64}, 15]
 
 # 'main' binding mode declaration
 # See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
