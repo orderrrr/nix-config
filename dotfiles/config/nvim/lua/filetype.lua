@@ -10,10 +10,57 @@ vim.api.nvim_create_autocmd('FileType', {
 	end
 })
 
-vim.keymap.set('n', '<leader>mm', function()
-	vim.cmd('silent! make!')
-	vim.cmd('silent! cwindow')
-end, { silent = true, desc = "Run :make and toggle quickfix on results" })
+-- Async make: run &makeprg and load quickfix without blocking
+local function async_make()
+	local cmd = vim.bo.makeprg
+	if cmd == nil or cmd == '' then
+		cmd = 'make'
+	end
+	local expanded = vim.fn.expandcmd(cmd)
+	local tmp = vim.fn.tempname()
+
+	local function finish(lines, code)
+		vim.schedule(function()
+			vim.fn.writefile(lines, tmp)
+			vim.cmd('silent! cgetfile ' .. vim.fn.fnameescape(tmp))
+			vim.cmd('silent! cwindow')
+			if code == 0 then
+				vim.notify('Build finished (exit 0)', vim.log.levels.INFO)
+			else
+				vim.notify('Build finished (exit ' .. tostring(code) .. ')', vim.log.levels.WARN)
+			end
+		end)
+	end
+
+	if vim.system then
+		vim.system({'sh','-c', expanded}, { text = true }, function(res)
+			local out = (res.stdout or '') .. (res.stderr or '')
+			local lines = vim.split(out, '\n', { plain = true })
+			finish(lines, res.code or -1)
+		end)
+	else
+		local lines = {}
+		local function add_chunk(_, data)
+			if type(data) == 'table' then
+				for _, l in ipairs(data) do
+					if l and #l > 0 then table.insert(lines, l) end
+				end
+			end
+		end
+		local jid = vim.fn.jobstart({'sh','-c', expanded}, {
+			stdout_buffered = true,
+			stderr_buffered = true,
+			on_stdout = add_chunk,
+			on_stderr = add_chunk,
+			on_exit = function(_, code) finish(lines, code) end,
+		})
+		if jid <= 0 then
+			vim.notify('Failed to start build job', vim.log.levels.ERROR)
+		end
+	end
+end
+
+vim.keymap.set('n', '<leader>mm', async_make, { silent = true, desc = 'Async make -> quickfix' })
 
 -- Simple Quickfix Toggle Function
 local function toggle_quickfix()

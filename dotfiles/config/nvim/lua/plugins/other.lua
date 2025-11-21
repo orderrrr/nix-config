@@ -3,14 +3,15 @@ require('snacks').setup({
 	dashboard = { enabled = false },
 	explorer = { enabled = false },
 	indent = { enabled = false },
-	input = { enabled = false },
-	picker = { enabled = false },
+	input = { enabled = true },
+	picker = { enabled = true },
 	notifier = { enabled = false },
 	quickfile = { enabled = false },
 	scope = { enabled = false },
 	scroll = { enabled = false },
 	statuscolumn = { enabled = false },
 	words = { enabled = false },
+	terminal = { enabled = true },
 });
 
 vim.keymap.set({ 'n', 't' }, '<leader>tt', function() require('snacks').terminal() end)

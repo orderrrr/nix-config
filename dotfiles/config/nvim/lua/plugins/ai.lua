@@ -1,8 +1,6 @@
 local pf = require('util').pf
 
-vim.g.opencode_opts = {
-
-}
+vim.g.opencode_opts = {}
 
 -- Required for `vim.g.opencode_opts.auto_reload`.
 vim.o.autoread = true
