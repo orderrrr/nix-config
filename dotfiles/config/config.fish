@@ -1,15 +1,16 @@
 status is-interactive; or return
 
 set paths \
+/opt/homebrew/sbin \
+/run/current-system/sw/bin \
 /usr/local/bin \
 /opt/homebrew/bin \
 /opt/homebrew/anaconda3/bin \
-/run/current-system/sw/bin \
 ~/.local/nvim/bin \
 ~/.bin \
 ~/.local/bin \
 ~/.cargo/bin \
-~/.rustup/toolchains/stable-aarch64-apple-darwin/bin \
+~/.rustup/toolchains/nightly-aarch64-apple-darwin/bin \
 ~/.local/share/cargo/bin \
 /opt/homebrew/anaconda3/envs/myenv/bin/ \
 ~/.sdk/flutter/bin \
@@ -24,6 +25,8 @@ end
 set -gx DYLD_LIBRARY_PATH "/opt/homebrew/lib:$DYLD_LIBRARY_PATH"
 set -gx VK_LAYER_PATH (brew --prefix)/share/vulkan/explicit_layer.d
 set -gx VK_INSTANCE_LAYERS VK_LAYER_KHRONOS_validation
+set -gx ANDROID_SDK_ROOT "$HOME/Library/Android/sdk"
+set -gx ANDROID_HOME "$ANDROID_SDK_ROOT"
 
 set -g fish_greeting
 set -g fish_key_bindings fish_vi_key_bindings
@@ -248,6 +251,8 @@ function ssh
 end
 
 alias j8="JAVA_HOME=/Library/Java/JavaVirtualMachines/zulu-8.jdk/Contents/Home"
-alias j17="JAVA_HOME=/Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Home"
+alias j17="JAVA_HOME=/Library/Java/JavaVirtualMachines/openjdk-17.jdk/Contents/Home"
 alias j21="JAVA_HOME=/Library/Java/JavaVirtualMachines/zulu-21.jdk/Contents/Home"
 alias j24="JAVA_HOME=/Library/Java/JavaVirtualMachines/zulu-24.jdk/Contents/Home"
+
+alias e="$EDITOR"

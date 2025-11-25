@@ -86,10 +86,11 @@ vim.keymap.set('n', 'gd', vim.lsp.buf.definition)
 -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 
-local on_attach = function(_, bufnr)
+local on_attach = function(_, _)
 end
 
 require('plugins.filetypes.jdtls')(on_attach, capabilities)
+require("flutter-tools").setup {}
 
 require 'treesitter-context'.setup {
 	enable = true,           -- Enable this plugin (Can be enabled/disabled later via commands)
@@ -114,3 +115,4 @@ require 'treesitter-context'.setup {
 --   local hl = 'LspDiagnosticsSign' .. type
 --   vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
 -- end
+

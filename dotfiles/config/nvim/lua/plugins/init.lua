@@ -11,7 +11,6 @@ vim.pack.add({
 	'https://github.com/unblevable/quick-scope',
 	'https://github.com/RRethy/vim-illuminate',
 	'https://github.com/uga-rosa/ccc.nvim',
-  "https://github.com/stevearc/oil.nvim",
 
 	'https://github.com/nvim-treesitter/nvim-treesitter',
 	'https://github.com/nvim-treesitter/playground',
@@ -32,6 +31,9 @@ vim.pack.add({
 	'https://github.com/mfussenegger/nvim-jdtls',
 
 	"https://github.com/nvim-lua/plenary.nvim",
+	'https://github.com/stevearc/dressing.nvim',
+  "https://github.com/stevearc/oil.nvim",
+
 	'https://github.com/aaronhallaert/advanced-git-search.nvim',
 	'https://github.com/folke/snacks.nvim',
 
@@ -40,6 +42,7 @@ vim.pack.add({
 	'https://github.com/L3MON4D3/LuaSnip',
 	'https://github.com/rafamadriz/friendly-snippets',
 
+	'https://github.com/nvim-flutter/flutter-tools.nvim',
 })
 
 local plugins_dir = vim.fn.stdpath("config") .. "/lua/plugins"
