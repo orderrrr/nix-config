@@ -90,17 +90,33 @@ local on_attach = function(_, _)
 end
 
 require('plugins.filetypes.jdtls')(on_attach, capabilities)
-require("flutter-tools").setup {}
+require("flutter-tools").setup {
+	debugger = {
+		enabled = true,
+		run_via_dap = true,
+		register_configurations = function(_)
+			require('dap').configurations.dart = {
+				{
+					type = 'dart',
+					request = 'launch',
+					name = 'Launch Flutter App',
+					program = '${workspaceFolder}/lib/main.dart', -- Adjust if your entry point is different
+					cwd = '${workspaceFolder}',
+				},
+			}
+		end,
+	},
+}
 
 require 'treesitter-context'.setup {
-	enable = true,           -- Enable this plugin (Can be enabled/disabled later via commands)
+	enable = true,          -- Enable this plugin (Can be enabled/disabled later via commands)
 	multiwindow = true,     -- Enable multiwindow support.
-	max_lines = 6,           -- How many lines the window should span. Values <= 0 mean no limit.
-	min_window_height = 0,   -- Minimum editor window height to enable context. Values <= 0 mean no limit.
+	max_lines = 6,          -- How many lines the window should span. Values <= 0 mean no limit.
+	min_window_height = 0,  -- Minimum editor window height to enable context. Values <= 0 mean no limit.
 	line_numbers = true,
 	multiline_threshold = 1, -- Maximum number of lines to show for a single context
-	trim_scope = 'outer',    -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
-	mode = 'cursor',         -- Line used to calculate context. Choices: 'cursor', 'topline'
+	trim_scope = 'outer',   -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
+	mode = 'cursor',        -- Line used to calculate context. Choices: 'cursor', 'topline'
 	-- Separator between context and content. Should be a single character string, like '-'.
 	-- When separator is set, the context will only show up when there are at least 2 lines above cursorline.
 	separator = nil,
@@ -115,4 +131,3 @@ require 'treesitter-context'.setup {
 --   local hl = 'LspDiagnosticsSign' .. type
 --   vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
 -- end
-

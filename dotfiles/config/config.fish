@@ -28,6 +28,8 @@ set -gx VK_INSTANCE_LAYERS VK_LAYER_KHRONOS_validation
 set -gx ANDROID_SDK_ROOT "$HOME/Library/Android/sdk"
 set -gx ANDROID_HOME "$ANDROID_SDK_ROOT"
 
+set -gx CONTAINERS_MACHINE_PROVIDER "libkrun"
+
 set -g fish_greeting
 set -g fish_key_bindings fish_vi_key_bindings
 
@@ -242,14 +244,15 @@ function t
     zellij
 end
 
-function hms
-    sudo nix run nix-darwin -- switch --flake ~/.config/nix
-end
+# function hms
+#     sudo nix run nix-darwin -- switch --flake ~/.config/nix
+# end
 
 function ssh
     TERM=xterm-256color command ssh $argv
 end
 
+alias hms="sudo nix run nix-darwin -- switch --flake ~/.config/nix"
 alias j8="JAVA_HOME=/Library/Java/JavaVirtualMachines/zulu-8.jdk/Contents/Home"
 alias j17="JAVA_HOME=/Library/Java/JavaVirtualMachines/openjdk-17.jdk/Contents/Home"
 alias j21="JAVA_HOME=/Library/Java/JavaVirtualMachines/zulu-21.jdk/Contents/Home"

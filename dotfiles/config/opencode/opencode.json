@@ -8,11 +8,11 @@
 				"baseURL": "http://localhost:11434/v1"
 			},
 			"models": {
-				"qwen3-coder": {
+				"SimonPu/Qwen3-Coder:30B-Instruct_Q4_K_XL": {
 					"name": "Qwen3 Coder Local"
 				},
 			}
 		}
 	},
-	"model": "ollama/qwen3-coder"
+	"model": "SimonPu/Qwen3-Coder:30B-Instruct_Q4_K_XL"
 }

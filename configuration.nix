@@ -24,7 +24,7 @@
   homebrew = {
     enable = true;
 
-    taps = ["nikitabobko/tap" "sst/tap"];
+    taps = ["nikitabobko/tap" "sst/tap" "dart-lang/dart" "slp/krunkit"];
 
     brews = [
       "ansible" "ansible-lint" "btop" "cmake" "coreutils" "curl" "docker" "docker-compose" "direnv"
@@ -32,7 +32,7 @@
        "neofetch" "neovim" "ollama" "python@3.10" "rustup" "spirv-cross" "fisher"
       "sshpass" "opencode" "starship" "tailscale" "telnet" "tinyxml2" "typescript"
       "vulkan-loader" "wget" "yt-dlp" "zellij" "zig" "zoxide" "jj" "pixi" "colmap" "just"
-      "llvm@20" "mtr" "molten-vk" "nx" "macmon" "openjdk@17"
+      "llvm@20" "mtr" "molten-vk" "nx" "macmon" "openjdk@17" "dart" "krunkit" "podman"
       # "krunvm" "podman"
       # "tracy"
     ];
