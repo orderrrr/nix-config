@@ -57,6 +57,7 @@ require('mason-lspconfig').setup {
 		'yamlls',
 		'rust_analyzer',
 		'glsl_analyzer',
+		'xml_formatter',
 		'fish_lsp',
 		'nil_ls',
 		'pyright',

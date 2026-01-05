@@ -11,16 +11,37 @@ require("supermaven-nvim").setup({
 require('blink.cmp').setup({
 	snippets = { preset = 'luasnip' },
 	keymap = { preset = 'default' },
-	window = {
-		autocomplete = {
-			selection = "auto_insert",
-		},
-	},
+	-- window = {
+	-- 	completion = {
+	-- 		selection = "auto_insert",
+	-- 	},
+	-- },
 	completion = {
-		menu = {
-			draw = {
-				columns = { { 'label', 'label_description', gap = 1 }, { 'kind_icon', 'kind' } },
+		list = {
+			selection = {
+				preselect = true,
+				auto_insert = true,
 			},
+		},
+		accept = { auto_brackets = { enabled = true } },
+		menu = {
+			border = "rounded",
+			auto_show = true,
+			draw = {
+				columns = {
+					{ "label",     "label_description", gap = 1 },
+					{ "kind_icon", "kind" },
+				},
+			},
+		},
+		documentation = {
+			auto_show = true,
+			window = {
+				border = "single",
+			},
+		},
+		ghost_text = {
+			enabled = false,
 		},
 	},
 	fuzzy = {
@@ -36,8 +57,22 @@ require('blink.cmp').setup({
 			supermaven = {
 				name = 'supermaven',
 				module = 'blink.compat.source',
+				score_offset = 1000,
 			},
 		},
 	},
-	signature = { enabled = true },
+
+	cmdline = {
+		sources = function()
+			local type = vim.fn.getcmdtype()
+			if type == "/" or type == "?" then
+				return { "buffer" }
+			elseif type == ":" then
+				return { "cmdline" }
+			end
+			return {}
+		end,
+	},
+
+	signature = { enabled = true, window = { border = "rounded" } },
 })

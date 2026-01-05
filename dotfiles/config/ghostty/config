@@ -51,8 +51,8 @@
 # new windows, tabs, etc.
 # font-family = "MonoLisa"
 # font-family = "Galix Mono"
-# font-family = "Botanika Mono"
-font-family = "Iki Mono VF Regular"
+# font-family = "Iki Mono VF Regular"
+font-family = "Overpass Mono Regular"
 
 font-family-bold = 
 font-family-italic = 
@@ -401,6 +401,7 @@ freetype-load-flags = hinting,force-autohint,monochrome,autohint
 #   - macOS: titlebar tabs style is not updated when switching themes.
 # 
 theme = "dark:kanagawa-paper-ink,light:kanagawa-paper-canvas"
+# theme = "dark:compline,light:lauds"
 
 # Background color for the window.
 # Specified as either hex (`#RRGGBB` or `RRGGBB`) or a named X11 color.

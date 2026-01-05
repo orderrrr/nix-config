@@ -22,13 +22,11 @@ for p in $paths
     fish_add_path --move $p
 end
 
-set -gx DYLD_LIBRARY_PATH "/opt/homebrew/lib:$DYLD_LIBRARY_PATH"
-set -gx VK_LAYER_PATH (brew --prefix)/share/vulkan/explicit_layer.d
-set -gx VK_INSTANCE_LAYERS VK_LAYER_KHRONOS_validation
+set -gx DYLD_LIBRARY_PATH "/opt/homebrew/lib"
+# set -gx VK_LAYER_PATH (brew --prefix)/share/vulkan/explicit_layer.d
+# set -gx VK_INSTANCE_LAYERS VK_LAYER_KHRONOS_validation
 set -gx ANDROID_SDK_ROOT "$HOME/Library/Android/sdk"
 set -gx ANDROID_HOME "$ANDROID_SDK_ROOT"
-
-set -gx CONTAINERS_MACHINE_PROVIDER "libkrun"
 
 set -g fish_greeting
 set -g fish_key_bindings fish_vi_key_bindings

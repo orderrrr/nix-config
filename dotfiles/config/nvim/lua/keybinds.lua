@@ -9,15 +9,13 @@ vim.keymap.set({ 'v', 'n' }, '<leader>P', '"+P');
 
 vim.keymap.set('n', '<leader>so', ':update<CR> :so<CR>');
 vim.keymap.set('n', '<leader>w', ':write<CR>');
-vim.keymap.set('n', '<leader>q', ':quit<CR>');
 
-vim.keymap.set('n', 'S', ":%s//g<Left><Left>")
-vim.keymap.set('v', 'S', ":s//g<Left><Left>")
-vim.keymap.set('n', '<A-S>', ":%g//d<Left><Left>")
-vim.keymap.set('v', '<A-S>', ":g//d<Left><Left>")
-
-vim.keymap.set('n', '<A-D>', ":%v//d<Left><Left>")
-vim.keymap.set('v', '<A-D>', ":v//d<Left><Left>")
+vim.keymap.set('n', 'S', ":%s//g<Left><Left>", { desc = "Find and replace in file" })
+vim.keymap.set('v', 'S', ":s//g<Left><Left>", { desc = "Find and replace in selection" })
+vim.keymap.set('n', '<A-S>', ":%g//d<Left><Left>", { desc = "Find and delete line in file" })
+vim.keymap.set('v', '<A-S>', ":g//d<Left><Left>", { desc = "Find and delete line in selection" })
+vim.keymap.set('n', '<A-D>', ":%v//d<Left><Left>", { desc = "Find and delete lines not matching" })
+vim.keymap.set('v', '<A-D>', ":v//d<Left><Left>", { desc = "Find and delete lines not matching in selection" })
 
 vim.keymap.set('n', '<leader>nb', ':enew<CR>')
 

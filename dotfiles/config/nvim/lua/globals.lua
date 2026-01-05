@@ -35,3 +35,5 @@ vim.o.termguicolors = true
 vim.o.wrap = false
 
 vim.cmd [[autocmd BufNewFile,BufRead *.json set filetype=json]]
+
+-- require("colors.compline")
