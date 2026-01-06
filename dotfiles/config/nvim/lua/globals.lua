@@ -3,12 +3,13 @@ vim.o.relativenumber = true
 vim.o.wrap = false
 vim.o.tabstop = 2
 vim.o.shiftwidth = 2
+vim.o.softtabstop = 2
 vim.o.swapfile = false
 vim.g.maplocalleader = ' '
 vim.g.mapleader = ' '
 vim.o.signcolumn = 'yes'
 vim.o.winborder = 'rounded'
-vim.opt.expandtab = false -- tabs suck
+vim.opt.expandtab = true -- tabs suck
 -- Enable break indent
 vim.o.breakindent = true
 -- Save undo history

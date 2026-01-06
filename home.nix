@@ -16,7 +16,7 @@
     ".config/fish/config.fish".source = dotfiles/config/config.fish;
     ".config/ghostty".source = dotfiles/config/ghostty;
 
-    ".config/opencode".source = dotfiles/config/opencode;
+    ".config/opencode/opencode.json".source = dotfiles/config/opencode/opencode.json;
   };
 
   home.sessionVariables = {

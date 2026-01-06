@@ -7,6 +7,8 @@ set paths \
 /opt/homebrew/bin \
 /opt/homebrew/anaconda3/bin \
 ~/.local/nvim/bin \
+~/Library/Android/Sdk/emulator \
+~/Library/Android/Sdk/platform-tools \
 ~/.bin \
 ~/.local/bin \
 ~/.cargo/bin \
@@ -26,7 +28,7 @@ set -gx DYLD_LIBRARY_PATH "/opt/homebrew/lib"
 # set -gx VK_LAYER_PATH (brew --prefix)/share/vulkan/explicit_layer.d
 # set -gx VK_INSTANCE_LAYERS VK_LAYER_KHRONOS_validation
 set -gx ANDROID_SDK_ROOT "$HOME/Library/Android/sdk"
-set -gx ANDROID_HOME "$ANDROID_SDK_ROOT"
+set -gx ANDROID_HOME "/opt/homebrew/share/android-commandlinetools"
 
 set -g fish_greeting
 set -g fish_key_bindings fish_vi_key_bindings
