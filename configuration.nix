@@ -24,7 +24,7 @@
   homebrew = {
     enable = true;
 
-    taps = ["nikitabobko/tap" "sst/tap" "dart-lang/dart" "slp/krunkit"];
+    taps = ["nikitabobko/tap" "sst/tap" "dart-lang/dart" "slp/krunkit" "steipete/tap"];
 
     brews = [
       "ansible" "ansible-lint" "btop" "cmake" "coreutils" "curl" "docker" "docker-compose" "direnv"
@@ -33,6 +33,7 @@
       "sshpass" "opencode" "starship" "tailscale" "telnet" "tinyxml2" "typescript"
       "vulkan-loader" "wget" "yt-dlp" "zellij" "zig" "zoxide" "jj" "pixi" "colmap" "just"
       "llvm@20" "mtr" "molten-vk" "nx" "macmon" "openjdk@17" "dart" "krunkit" "podman"
+      "steipete/tap/peekaboo" "ripgrep" "steipete/tap/remindctl" "steipete/tap/summarize" "steipete/tap/wacli" "yakitrak/yakitrak/obsidian-cli"
       # "krunvm" "podman"
       # "tracy"
     ];
@@ -42,7 +43,7 @@
       "keycastr" "leader-key" "legcord" "microsoft-remote-desktop" "microsoft-teams" "middleclick"
       "obsidian" "ollamac" "orbstack" "raycast" "spotify" "stats" "tunnelblick" "whatsapp"
       "wireshark-app" "zen" "zulu" "zulu@21" "zulu@8" "zed" "postman" "google-chrome" "plugdata"
-      "jordanbaird-ice" "aerospace" "flutter" "android-commandlinetools"
+      "jordanbaird-ice" "aerospace" "flutter" "android-commandlinetools" "claude" "claude-code" 
 			# "soapui" "splice"
     ];
 

@@ -1,5 +1,8 @@
 status is-interactive; or return
 
+set --universal nvm_default_version v22.21.1
+# set --universal nvm_default_version v20.19.6
+
 set paths \
 /opt/homebrew/sbin \
 /run/current-system/sw/bin \
@@ -29,6 +32,7 @@ set -gx DYLD_LIBRARY_PATH "/opt/homebrew/lib"
 # set -gx VK_INSTANCE_LAYERS VK_LAYER_KHRONOS_validation
 set -gx ANDROID_SDK_ROOT "$HOME/Library/Android/sdk"
 set -gx ANDROID_HOME "/opt/homebrew/share/android-commandlinetools"
+set -gx VK_ICD_FILENAMES "/usr/local/share/vulkan/icd.d/MoltenVK_icd.json"
 
 set -g fish_greeting
 set -g fish_key_bindings fish_vi_key_bindings
@@ -257,5 +261,20 @@ alias j8="JAVA_HOME=/Library/Java/JavaVirtualMachines/zulu-8.jdk/Contents/Home"
 alias j17="JAVA_HOME=/Library/Java/JavaVirtualMachines/openjdk-17.jdk/Contents/Home"
 alias j21="JAVA_HOME=/Library/Java/JavaVirtualMachines/zulu-21.jdk/Contents/Home"
 alias j24="JAVA_HOME=/Library/Java/JavaVirtualMachines/zulu-24.jdk/Contents/Home"
+alias cb="nvm_default_version=v22.21.1 clawdbot"
 
 alias e="$EDITOR"
+
+function vk
+    # Use homebrew's MoltenVK ICD file (relative path resolves from its location)
+    set -lx VK_ICD_FILENAMES /opt/homebrew/opt/molten-vk/etc/vulkan/icd.d/MoltenVK_icd.json
+
+    # Add Homebrew Vulkan loader to library path so SDL can find it
+    set -lx DYLD_FALLBACK_LIBRARY_PATH "/opt/homebrew/opt/vulkan-loader/lib:/opt/homebrew/opt/molten-vk/lib:$DYLD_FALLBACK_LIBRARY_PATH"
+
+    # Metal HUD
+    set -lx MTL_HUD_ENABLED 1
+
+    # Run the provided command with all arguments
+    $argv
+end
