@@ -51,3 +51,7 @@ end)
 vim.keymap.set("n", "<C-l>", function()
 	vim.cmd('silent! 4argument')
 end)
+
+vim.keymap.set("n", "<leader>uu", function()
+  vim.pack.update()
+end)

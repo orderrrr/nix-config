@@ -43,6 +43,8 @@ vim.pack.add({
 	'https://github.com/rafamadriz/friendly-snippets',
 
 	'https://github.com/nvim-flutter/flutter-tools.nvim',
+
+  'https://github.com/orderrrr/99',
 })
 
 local plugins_dir = vim.fn.stdpath("config") .. "/lua/plugins"

@@ -12,11 +12,14 @@
     ".config/nvim/.env".source = dotfiles/config/nvim/.env;
 
     ".aerospace.toml".source = dotfiles/aerospace.toml;
-    ".config/zellij".source = dotfiles/config/zellij;
-    ".config/fish/config.fish".source = dotfiles/config/config.fish;
     ".config/ghostty".source = dotfiles/config/ghostty;
 
     ".config/opencode/opencode.json".source = dotfiles/config/opencode/opencode.json;
+
+
+    ".config/fish/config.fish".source = dotfiles/config/fish/config.fish;
+    ".config/fish/functions/archives.fish".source = dotfiles/config/fish/functions/archives.fish;
+    ".config/fish/functions/diff.fish".source = dotfiles/config/fish/functions/diff.fish;
   };
 
   home.sessionVariables = {

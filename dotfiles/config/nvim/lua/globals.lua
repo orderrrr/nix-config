@@ -8,6 +8,7 @@ vim.o.swapfile = false
 vim.g.maplocalleader = ' '
 vim.g.mapleader = ' '
 vim.o.signcolumn = 'yes'
+vim.o.laststatus = 3
 vim.o.winborder = 'rounded'
 vim.opt.expandtab = true -- tabs suck
 -- Enable break indent

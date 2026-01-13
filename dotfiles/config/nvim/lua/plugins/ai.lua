@@ -9,15 +9,15 @@ vim.o.autoread = true
 local opencode = require("opencode")
 
 local function ask()
-	opencode.ask("@this: ", { submit = true })
+  opencode.ask("@this: ", { submit = true })
 end
 
 local function ask_diagnostics()
-	opencode.ask("@this, @diagnostics: ", { submit = true })
+  opencode.ask("@this, @diagnostics: ", { submit = true })
 end
 
 local function add()
-	opencode.prompt("@this")
+  opencode.prompt("@this")
 end
 
 local function new() opencode.command("session_new") end
@@ -35,3 +35,22 @@ vim.keymap.set("n", "<leader>oi", interrupt, { desc = "Interrupt session" })
 vim.keymap.set("n", "<leader>oA", command("agent_cycle"), { desc = "Cycle selected agent" })
 vim.keymap.set("n", "<S-C-u>", command("messages_half_page_up"), { desc = "Messages half page up" })
 vim.keymap.set("n", "<S-C-d>", command("messages_half_page_down"), { desc = "Messages half page down" })
+
+local _99 = require("99")
+
+-- local cwd = vim.uv.cwd()
+-- local basename = vim.fs.basename(cwd)
+_99.setup({
+  logger = {
+    level = _99.DEBUG,
+    path = "./out.debug",
+    print_on_error = true,
+  },
+  md_files = {
+    "AGENT.md",
+  },
+})
+
+vim.keymap.set("n", "<leader>9f", function() _99.fill_in_function() end)
+vim.keymap.set("v", "<leader>9v", function() _99.visual() end)
+vim.keymap.set("v", "<leader>9s", function() _99.stop_all_requests() end)
