@@ -15,64 +15,46 @@ local function get_tab_buffers_info(tabnr)
 
   local lines = {}
   local term_count = 0
+  local seen = {}
+
+  -- Helper to add buffer to results
+  local function add_buffer(bufnr)
+    if seen[bufnr] or not vim.api.nvim_buf_is_valid(bufnr) then
+      return
+    end
+    seen[bufnr] = true
+
+    local buftype = vim.bo[bufnr].buftype
+    local bufname = vim.fn.bufname(bufnr)
+
+    if buftype == 'terminal' then
+      term_count = term_count + 1
+      local term_title = vim.b[bufnr].term_title or 'terminal'
+      table.insert(lines, '  ' .. term_title)
+    elseif buftype == '' and bufname ~= '' then
+      table.insert(lines, '  ' .. bufname)
+    end
+  end
 
   -- If in focused mode, use saved buffers
   local saved_buffers = focus.get_saved_buffers(tabpage)
   if saved_buffers then
     for _, buf_info in ipairs(saved_buffers) do
-      local bufnr = buf_info.buf
-      if vim.api.nvim_buf_is_valid(bufnr) then
-        local buftype = vim.bo[bufnr].buftype
-        local bufname = vim.fn.bufname(bufnr)
-
-        if buftype == 'terminal' then
-          term_count = term_count + 1
-          local term_title = vim.b[bufnr].term_title or 'terminal'
-          table.insert(lines, '  ' .. term_title)
-        elseif buftype == '' and bufname ~= '' then
-          table.insert(lines, '  ' .. bufname)
-        end
-      end
+      add_buffer(buf_info.buf)
     end
-  else
-    -- Use state manager for session buffers
-    local session_buffers = state.get_session_buffers(tabpage)
-    local seen = {}
+  end
 
-    for _, buf_info in ipairs(session_buffers) do
-      local bufnr = buf_info.bufnr
-      if not seen[bufnr] and vim.api.nvim_buf_is_valid(bufnr) then
-        seen[bufnr] = true
+  -- Use state manager for session buffers
+  local session_buffers = state.get_session_buffers(tabpage)
+  for _, buf_info in ipairs(session_buffers) do
+    add_buffer(buf_info.bufnr)
+  end
 
-        if buf_info.type == 'terminal' then
-          term_count = term_count + 1
-          local term_title = vim.b[bufnr].term_title or 'terminal'
-          table.insert(lines, '  ' .. term_title)
-        elseif buf_info.type == 'file' then
-          local bufname = vim.fn.bufname(bufnr)
-          table.insert(lines, '  ' .. bufname)
-        end
-      end
-    end
-
-    -- Fallback: if state doesn't have buffers yet, use visible buffers
-    if #lines == 0 then
-      local buflist = vim.fn.tabpagebuflist(tabnr)
-      for _, bufnr in ipairs(buflist) do
-        if not seen[bufnr] then
-          seen[bufnr] = true
-          local buftype = vim.bo[bufnr].buftype
-          local bufname = vim.fn.bufname(bufnr)
-
-          if buftype == 'terminal' then
-            term_count = term_count + 1
-            local term_title = vim.b[bufnr].term_title or 'terminal'
-            table.insert(lines, '  ' .. term_title)
-          elseif buftype == '' and bufname ~= '' then
-            table.insert(lines, '  ' .. bufname)
-          end
-        end
-      end
+  -- Always also check visible buffers in the tab (most reliable)
+  local ok, buflist = pcall(vim.fn.tabpagebuflist, tabnr)
+  if ok and buflist then
+    for _, bufnr in ipairs(buflist) do
+      add_buffer(bufnr)
     end
   end
 

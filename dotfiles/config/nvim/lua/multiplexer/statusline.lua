@@ -2,6 +2,7 @@
 local config = require('multiplexer.config')
 local session = require('multiplexer.session')
 local terminal = require('multiplexer.terminal')
+local focus = require('multiplexer.focus')
 
 local M = {}
 
@@ -32,6 +33,10 @@ function M.setup_highlights()
     set(0, 'MuxSession' .. i, { fg = color.dim, bg = 'NONE' })
     set(0, 'MuxSessionActive' .. i, { fg = color.active, bg = 'NONE', bold = true })
   end
+
+  -- Focus mode highlights
+  set(0, 'MuxFocus', { fg = colors.session_colors[1].dim, bg = 'NONE' })
+  set(0, 'MuxFocusActive', { fg = colors.session_colors[1].active, bg = 'NONE', bold = true })
 end
 
 -- Get highlight group for session
@@ -55,15 +60,26 @@ function M.render()
   -- Left: mode indicator
   local left = '%#' .. cfg.hl .. '# ' .. cfg.text .. ' '
 
-  -- Middle: sessions
+  -- Focus indicator (always present, before sessions)
+  local focus_active = focus.is_active()
+  local focus_hl = focus_active and 'MuxFocusActive' or 'MuxFocus'
+  local focus_str = focus_active 
+    and '%#' .. focus_hl .. '# [f] ' 
+    or '%#' .. focus_hl .. '#  f  '
+
+  -- Middle: sessions (skip the focus tab if active, it's shown as 'f')
   local sessions_str = ''
   for i = 1, tab_count do
-    local name = session.get_name(i)
-    local hl = get_session_hl(i, i == current_tab)
-    if i == current_tab then
-      sessions_str = sessions_str .. '%#' .. hl .. '# [' .. name .. '] '
-    else
-      sessions_str = sessions_str .. '%#' .. hl .. '#  ' .. name .. '  '
+    -- When focus is active, first tab is the focus tab - skip it
+    if not (focus_active and i == 1) then
+      local name = session.get_name(i)
+      local is_current = (i == current_tab) and not focus_active
+      local hl = get_session_hl(i, is_current)
+      if is_current then
+        sessions_str = sessions_str .. '%#' .. hl .. '# [' .. name .. '] '
+      else
+        sessions_str = sessions_str .. '%#' .. hl .. '#  ' .. name .. '  '
+      end
     end
   end
 
@@ -78,7 +94,7 @@ function M.render()
     end
   end
 
-  return left .. sessions_str .. right
+  return left .. focus_str .. sessions_str .. right
 end
 
 -- Initialize statusline

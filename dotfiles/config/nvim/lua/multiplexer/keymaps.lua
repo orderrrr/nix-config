@@ -29,7 +29,14 @@ local function enter_terminal_if_needed()
 end
 
 -- Navigate with wrapping to adjacent sessions
+-- Does not wrap when in focus mode
 local function nav_wrap(dir)
+  -- Don't wrap sessions in focus mode
+  if focus.is_active() then
+    cmd('wincmd ' .. dir)
+    return
+  end
+
   local win_before = api.nvim_get_current_win()
   cmd('wincmd ' .. dir)
   local win_after = api.nvim_get_current_win()

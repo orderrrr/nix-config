@@ -37,6 +37,11 @@ M.defaults = {
     vertical = 3,
   },
 
+  -- Focus mode settings
+  focus = {
+    debug = false, -- Enable debug logging for focus mode operations
+  },
+
   -- Statusline colors
   statusline = {
     mode = {

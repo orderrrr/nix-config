@@ -1,153 +1,210 @@
--- Focused mode module (save/restore window layouts)
+-- Focused mode module
+-- Focus mode is a special view that shows a single buffer fullscreen
+-- It appears as 'f' in the statusline, always present but either active or inactive
 local state = require('multiplexer.state')
+local config = require('multiplexer.config')
 
 local M = {}
 
--- Convert window tree to buffer-based structure
-local function tree_to_struct(tree, win_to_buf, current_win)
-  if tree[1] == 'leaf' then
-    local winid = tree[2]
-    return {
-      type = 'leaf',
-      buffer = win_to_buf[winid],
-      is_current = (winid == current_win),
-    }
-  else
-    local children = {}
-    for _, child in ipairs(tree[2]) do
-      table.insert(children, tree_to_struct(child, win_to_buf, current_win))
-    end
-    return {
-      type = tree[1], -- 'row' or 'col'
-      children = children,
-    }
+-- Focus mode state
+local focus_state = {
+  active = false,          -- Whether we're currently in focus mode
+  buffer = nil,            -- The buffer being shown in focus mode
+  original_tab = nil,      -- Tab we came from
+  original_win = nil,      -- Window we came from
+  cursor = nil,            -- Cursor position when entering focus
+  view = nil,              -- Window view when entering focus
+}
+
+--------------------------------------------------------------------------------
+-- Debug Logging
+--------------------------------------------------------------------------------
+
+local function debug_log(...)
+  if config.options.focus and config.options.focus.debug then
+    local args = { ... }
+    local msg = table.concat(
+      vim.tbl_map(function(v)
+        return type(v) == 'table' and vim.inspect(v) or tostring(v)
+      end, args),
+      ' '
+    )
+    vim.notify('[Focus Debug] ' .. msg, vim.log.levels.DEBUG)
   end
 end
 
--- Extract all buffers from a layout structure
-local function extract_buffers_from_struct(struct, result)
-  result = result or {}
-  if struct.type == 'leaf' then
-    if struct.buffer then
-      table.insert(result, { buf = struct.buffer, is_current = struct.is_current })
-    end
-  else
-    for _, child in ipairs(struct.children) do
-      extract_buffers_from_struct(child, result)
-    end
-  end
-  return result
-end
+--------------------------------------------------------------------------------
+-- Focus Mode Implementation
+--------------------------------------------------------------------------------
 
--- Save current window layout
-local function save_layout(tabpage)
+-- Enter focus mode with current buffer
+local function enter_focus()
+  if focus_state.active then
+    debug_log('Already in focus mode')
+    return
+  end
+
+  local current_tab = vim.api.nvim_get_current_tabpage()
   local current_win = vim.api.nvim_get_current_win()
-  local layout_tree = vim.fn.winlayout(vim.api.nvim_tabpage_get_number(tabpage))
+  local current_buf = vim.api.nvim_get_current_buf()
 
-  local win_to_buf = {}
-  for _, win in ipairs(vim.api.nvim_tabpage_list_wins(tabpage)) do
-    win_to_buf[win] = vim.api.nvim_win_get_buf(win)
-  end
+  debug_log('Entering focus mode, buffer:', current_buf)
 
-  local structure = tree_to_struct(layout_tree, win_to_buf, current_win)
-  local buffers = extract_buffers_from_struct(structure)
+  -- Save where we came from
+  focus_state.original_tab = current_tab
+  focus_state.original_win = current_win
+  focus_state.buffer = current_buf
+  focus_state.cursor = vim.api.nvim_win_get_cursor(current_win)
+  focus_state.view = vim.fn.winsaveview()
 
-  return {
-    structure = structure,
-    buffers = buffers, -- Now properly populated!
-  }
+  -- Mark original tab as having focus active
+  state.save_focused_layout(current_tab, { buffer = current_buf })
+
+  -- Create a new tab at the front for focus mode
+  vim.cmd('0tabnew')
+  
+  -- Set the buffer
+  local focus_win = vim.api.nvim_get_current_win()
+  vim.api.nvim_win_set_buf(focus_win, current_buf)
+
+  -- Restore cursor and view
+  pcall(vim.api.nvim_win_set_cursor, focus_win, focus_state.cursor)
+  pcall(vim.fn.winrestview, focus_state.view)
+
+  focus_state.active = true
+
+  vim.cmd('redrawstatus')
+  debug_log('Entered focus mode')
 end
 
--- Restore window tree from structure
-local function restore_tree(struct, first_win)
-  if struct.type == 'leaf' then
-    vim.api.nvim_set_current_win(first_win)
-    if struct.buffer and vim.api.nvim_buf_is_valid(struct.buffer) then
-      vim.api.nvim_win_set_buf(first_win, struct.buffer)
+-- Exit focus mode and return to original location
+local function exit_focus()
+  if not focus_state.active then
+    debug_log('Not in focus mode')
+    return
+  end
+
+  debug_log('Exiting focus mode')
+
+  -- Get current state before leaving
+  local current_win = vim.api.nvim_get_current_win()
+  local current_buf = vim.api.nvim_win_get_buf(current_win)
+  local cursor_pos = vim.api.nvim_win_get_cursor(current_win)
+
+  -- Check if original tab still exists
+  if not vim.api.nvim_tabpage_is_valid(focus_state.original_tab) then
+    vim.notify('Original tab no longer exists', vim.log.levels.WARN)
+    focus_state.active = false
+    focus_state.original_tab = nil
+    focus_state.original_win = nil
+    focus_state.buffer = nil
+    vim.cmd('redrawstatus')
+    return
+  end
+
+  -- Clear focused state
+  state.clear_focused_layout(focus_state.original_tab)
+
+  -- Close the focus tab (current tab)
+  local focus_tab = vim.api.nvim_get_current_tabpage()
+  
+  -- Switch to original tab first
+  vim.api.nvim_set_current_tabpage(focus_state.original_tab)
+
+  -- Close the focus tab
+  pcall(function()
+    local tabnr = vim.api.nvim_tabpage_get_number(focus_tab)
+    vim.cmd('tabclose ' .. tabnr)
+  end)
+
+  -- Sync cursor back to original window if it has the same buffer
+  if focus_state.original_win and vim.api.nvim_win_is_valid(focus_state.original_win) then
+    local win_buf = vim.api.nvim_win_get_buf(focus_state.original_win)
+    vim.api.nvim_set_current_win(focus_state.original_win)
+    if win_buf == current_buf then
+      pcall(vim.api.nvim_win_set_cursor, focus_state.original_win, cursor_pos)
     end
-    return struct.is_current and first_win or nil
   else
-    local target = nil
-
-    -- Restore first child
-    local child_target = restore_tree(struct.children[1], first_win)
-    if child_target then target = child_target end
-
-    -- Split for remaining children
-    for i = 2, #struct.children do
-      vim.api.nvim_set_current_win(first_win)
-
-      if struct.type == 'col' then
-        vim.cmd('vsplit')
-      else
-        vim.cmd('split')
+    -- Try to find any window with the buffer
+    for _, win in ipairs(vim.api.nvim_tabpage_list_wins(focus_state.original_tab)) do
+      if vim.api.nvim_win_get_buf(win) == current_buf then
+        vim.api.nvim_set_current_win(win)
+        pcall(vim.api.nvim_win_set_cursor, win, cursor_pos)
+        break
       end
-
-      local new_win = vim.api.nvim_get_current_win()
-      child_target = restore_tree(struct.children[i], new_win)
-      if child_target then target = child_target end
     end
-
-    return target
   end
+
+  -- Reset state
+  focus_state.active = false
+  focus_state.original_tab = nil
+  focus_state.original_win = nil
+  focus_state.buffer = nil
+  focus_state.cursor = nil
+  focus_state.view = nil
+
+  vim.cmd('redrawstatus')
+  debug_log('Exited focus mode')
 end
 
--- Restore layout from saved structure
-local function restore_layout(saved)
-  if not saved or not saved.structure then return end
+--------------------------------------------------------------------------------
+-- Public API
+--------------------------------------------------------------------------------
 
-  vim.cmd('only')
-
-  local target = restore_tree(saved.structure, vim.api.nvim_get_current_win())
-
-  vim.cmd('wincmd =')
-
-  if target and vim.api.nvim_win_is_valid(target) then
-    vim.api.nvim_set_current_win(target)
-  end
-end
-
--- Toggle focused mode for current tab
+-- Toggle focus mode
 function M.toggle()
-  local tabpage = vim.api.nvim_get_current_tabpage()
-
-  if not state.is_focused(tabpage) then
-    -- Enter focused mode
-    local wins = vim.api.nvim_tabpage_list_wins(tabpage)
-    if #wins == 1 then
-      vim.notify('Already in single pane view', vim.log.levels.INFO)
-      return
-    end
-
-    local layout = save_layout(tabpage)
-    state.save_focused_layout(tabpage, layout)
-    vim.cmd('only')
-    vim.o.laststatus = 3
-    vim.cmd('redrawstatus')
-    vim.notify('Focused mode enabled', vim.log.levels.INFO)
+  if focus_state.active then
+    exit_focus()
   else
-    -- Exit focused mode
-    local saved_layout = state.clear_focused_layout(tabpage)
-
-    restore_layout(saved_layout)
-
-    vim.o.laststatus = 3
-    vim.cmd('redrawstatus')
-    vim.notify('Focused mode disabled', vim.log.levels.INFO)
+    enter_focus()
   end
 end
 
--- Check if tab is in focused mode
-function M.is_focused(tabpage)
-  tabpage = tabpage or vim.api.nvim_get_current_tabpage()
-  return state.is_focused(tabpage)
+-- Check if focus mode is active
+function M.is_active()
+  return focus_state.active
 end
 
--- Get saved buffers for focused tab (for UI display)
+-- Alias for compatibility
+function M.is_focused(tabpage)
+  -- If tabpage provided, check if it's the one that has focus mode active
+  if tabpage then
+    return focus_state.active and focus_state.original_tab == tabpage
+  end
+  return focus_state.active
+end
+
+-- Get the buffer currently in focus mode
+function M.get_buffer()
+  if focus_state.active then
+    return focus_state.buffer
+  end
+  return nil
+end
+
+-- Get info about the original location (for UI)
+function M.get_original_info()
+  if focus_state.active then
+    return {
+      tab = focus_state.original_tab,
+      win = focus_state.original_win,
+      buffer = focus_state.buffer,
+    }
+  end
+  return nil
+end
+
+-- Get saved buffers (for UI display compatibility)
 function M.get_saved_buffers(tabpage)
-  local layout = state.get_focused_layout(tabpage)
-  if layout and layout.buffers then
-    return layout.buffers
+  if focus_state.active and focus_state.original_tab then
+    if vim.api.nvim_tabpage_is_valid(focus_state.original_tab) then
+      local buffers = {}
+      for _, win in ipairs(vim.api.nvim_tabpage_list_wins(focus_state.original_tab)) do
+        local buf = vim.api.nvim_win_get_buf(win)
+        table.insert(buffers, { buf = buf, is_current = (buf == focus_state.buffer) })
+      end
+      return buffers
+    end
   end
   return nil
 end
