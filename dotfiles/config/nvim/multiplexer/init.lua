@@ -198,12 +198,51 @@ vim.api.nvim_create_user_command('SessionName', function(opts)
   set_session_name(opts.args)
 end, { nargs = 1 })
 
+-- Get current terminal's working directory
+local function get_current_term_cwd()
+  local bufnr = vim.api.nvim_get_current_buf()
+  if vim.bo[bufnr].buftype ~= 'terminal' then
+    return nil
+  end
+
+  local job_id = vim.b[bufnr].terminal_job_id
+  if not job_id then return nil end
+
+  local pid = vim.fn.jobpid(job_id)
+  if not pid or pid == 0 then return nil end
+
+  -- Get child process (the actual running command)
+  local child_pid = vim.fn.system('pgrep -P ' .. pid .. ' | tail -1'):gsub('%s+', '')
+  local target_pid = child_pid ~= '' and child_pid or pid
+
+  -- Get cwd
+  local cwd = vim.fn.system('lsof -a -d cwd -p ' .. target_pid .. " | tail -1 | awk '{print $NF}'"):gsub('%s+', '')
+  
+  if cwd ~= '' and vim.fn.isdirectory(cwd) == 1 then
+    return cwd
+  end
+  
+  return nil
+end
+
+-- Open a new terminal, optionally inheriting cwd from current terminal
+local function open_terminal()
+  local cwd = get_current_term_cwd()
+  
+  if cwd then
+    -- Change local directory for this window, then open terminal
+    vim.cmd('lcd ' .. vim.fn.fnameescape(cwd))
+  end
+  
+  vim.cmd('terminal')
+end
+
 -- Open terminal on startup
 vim.api.nvim_create_autocmd('VimEnter', {
   callback = function()
     math.randomseed(os.time())
     get_session_name(1)
-    vim.cmd('terminal')
+    open_terminal()
     vim.cmd('startinsert')
   end,
 })
@@ -216,7 +255,7 @@ local function smart_split(direction)
   local cmd = direction == 'v' and 'vsplit' or 'split'
   if vim.bo.buftype == 'terminal' then
     vim.cmd(cmd)
-    vim.cmd('terminal')
+    open_terminal()
     vim.cmd('startinsert')
   else
     vim.cmd(cmd)
@@ -314,12 +353,14 @@ for _, mode in ipairs({ 'n', 't' }) do
   -- Alt+n for new vertical pane, Alt+Shift+n for horizontal
   vim.keymap.set(mode, '<A-n>', function()
     if mode == 't' then vim.cmd('stopinsert') end
-    vim.cmd('vsplit | terminal')
+    vim.cmd('vsplit')
+    open_terminal()
     vim.schedule(function() vim.cmd('startinsert') end)
   end, { desc = 'New vertical pane' })
   vim.keymap.set(mode, '<A-N>', function()
     if mode == 't' then vim.cmd('stopinsert') end
-    vim.cmd('split | terminal')
+    vim.cmd('split')
+    open_terminal()
     vim.schedule(function() vim.cmd('startinsert') end)
   end, { desc = 'New horizontal pane' })
 
@@ -376,7 +417,7 @@ for _, mode in ipairs({ 'n', 't' }) do
     if mode == 't' then vim.cmd('stopinsert') end
     vim.cmd('tabnew')
     get_session_name()
-    vim.cmd('terminal')
+    open_terminal()
     vim.schedule(function() vim.cmd('startinsert') end)
   end, { desc = 'New session' })
 
@@ -503,79 +544,54 @@ end
 
 -- Focused mode toggle
 local function save_layout(tabpage)
-  -- Get the exact window tree structure
-  local layout_tree = vim.fn.winlayout(tabpage)
-  
-  -- Save buffer for each window and which one is current
-  local win_buffers = {}
+  local wins = vim.api.nvim_tabpage_list_wins(tabpage)
   local current_win = vim.api.nvim_get_current_win()
+  local current_buf = vim.api.nvim_win_get_buf(current_win)
   
-  for _, win in ipairs(vim.api.nvim_tabpage_list_wins(tabpage)) do
-    win_buffers[win] = vim.api.nvim_win_get_buf(win)
+  -- Save all buffers in order
+  local buffers = {}
+  for _, win in ipairs(wins) do
+    table.insert(buffers, {
+      buf = vim.api.nvim_win_get_buf(win),
+      is_current = (win == current_win),
+    })
   end
   
-  -- Save window sizes for restoration
-  local restore_cmd = vim.fn.winrestcmd()
+  -- Save the view/session state
+  local view_file = vim.fn.tempname()
+  vim.cmd('mksession! ' .. vim.fn.fnameescape(view_file))
   
   return {
-    tree = layout_tree,
-    buffers = win_buffers,
-    current_win = current_win,
-    restore_cmd = restore_cmd,
+    buffers = buffers,
+    view_file = view_file,
+    current_buf = current_buf,
   }
 end
 
-local function restore_layout_tree(tree, win_buffers)
-  local type = tree[1]
-  local data = tree[2]
-  
-  if type == 'leaf' then
-    -- This is a window - restore its buffer if we have the mapping
-    local winid = data
-    if win_buffers[winid] and vim.api.nvim_buf_is_valid(win_buffers[winid]) then
-      pcall(vim.api.nvim_win_set_buf, winid, win_buffers[winid])
-    end
-    return winid
-  else
-    -- This is a split container (row or col)
-    local children = data
-    if #children == 0 then return nil end
-    
-    -- Process first child
-    local first_win = restore_layout_tree(children[1], win_buffers)
-    if not first_win then return nil end
-    
-    -- Create splits for remaining children
-    for i = 2, #children do
-      vim.api.nvim_set_current_win(first_win)
-      
-      -- 'col' = vertical split (side by side), 'row' = horizontal split (top/bottom)
-      if type == 'col' then
-        vim.cmd('vsplit')
-      else
-        vim.cmd('split')
-      end
-      
-      local new_win = vim.api.nvim_get_current_win()
-      restore_layout_tree(children[i], win_buffers)
-    end
-    
-    return first_win
-  end
-end
-
 local function restore_layout(tabpage, saved)
-  if not saved or not saved.tree then return end
+  if not saved or not saved.view_file then return end
   
-  -- Close all windows except one
-  vim.cmd('only')
+  -- Check if session file exists
+  if vim.fn.filereadable(saved.view_file) == 0 then
+    vim.notify('Could not restore layout', vim.log.levels.WARN)
+    return
+  end
   
-  -- Recreate the exact window tree structure
-  restore_layout_tree(saved.tree, saved.buffers)
+  -- Source the saved session
+  vim.cmd('silent! source ' .. vim.fn.fnameescape(saved.view_file))
   
-  -- Restore the previously current window if it still exists
-  if saved.current_win and vim.api.nvim_win_is_valid(saved.current_win) then
-    vim.api.nvim_set_current_win(saved.current_win)
+  -- Clean up temp file
+  vim.fn.delete(saved.view_file)
+  
+  -- Try to restore to the current buffer
+  if saved.current_buf and vim.api.nvim_buf_is_valid(saved.current_buf) then
+    -- Find window with this buffer and focus it
+    for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
+      if vim.api.nvim_win_get_buf(win) == saved.current_buf then
+        vim.api.nvim_set_current_win(win)
+        break
+      end
+    end
   end
 end
 
@@ -602,15 +618,8 @@ local function toggle_focused_mode()
     
     restore_layout(tabpage, saved_layout)
     
-    -- Use winrestcmd to restore exact sizes
-    vim.schedule(function()
-      if saved_layout.restore_cmd then
-        vim.cmd(saved_layout.restore_cmd)
-      end
-      enter_terminal_if_needed()
-    end)
-    
     vim.notify('Focused mode disabled', vim.log.levels.INFO)
+    enter_terminal_if_needed()
   end
 end
 

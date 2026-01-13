@@ -131,6 +131,6 @@ end
 function vk --description 'Run command with Vulkan/MoltenVK environment'
     set -lx VK_ICD_FILENAMES /opt/homebrew/opt/molten-vk/etc/vulkan/icd.d/MoltenVK_icd.json
     set -lx DYLD_FALLBACK_LIBRARY_PATH /opt/homebrew/opt/vulkan-loader/lib /opt/homebrew/opt/molten-vk/lib
-    set -lx MTL_HUD_ENABLED 0
+    set -lx MTL_HUD_ENABLED 1
     $argv
 end
