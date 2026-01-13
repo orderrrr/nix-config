@@ -1,6 +1,9 @@
 -- Centralized state manager for buffers, sessions, and their relationships
 local config = require('multiplexer.config')
 
+-- Use vim.uv (newer API) with fallback to vim.loop
+local uv = vim.uv or vim.loop
+
 local M = {}
 
 ---@class BufferInfo
@@ -126,15 +129,25 @@ function M.register_buffer(bufnr, session)
     bufnr = bufnr,
     session = session,
     type = get_buffer_type(bufnr),
-    created_at = vim.loop.now(),
+    created_at = uv.now(),
   }
 
   state.buffers[bufnr] = info
 
-  -- Add to session's buffer list
+  -- Add to session's buffer list (check with hash for O(1) instead of O(n))
   local sess = state.sessions[session]
-  if sess and not vim.tbl_contains(sess.buffers, bufnr) then
-    table.insert(sess.buffers, bufnr)
+  if sess then
+    -- Check if already in list
+    local found = false
+    for _, b in ipairs(sess.buffers) do
+      if b == bufnr then
+        found = true
+        break
+      end
+    end
+    if not found then
+      table.insert(sess.buffers, bufnr)
+    end
   end
 
   emit(M.events.BUFFER_CREATED, { bufnr = bufnr, info = info })
@@ -220,8 +233,17 @@ function M.move_buffer_to_session(bufnr, new_session)
   -- Add to new session
   info.session = new_session
   local new_sess = state.sessions[new_session]
-  if new_sess and not vim.tbl_contains(new_sess.buffers, bufnr) then
-    table.insert(new_sess.buffers, bufnr)
+  if new_sess then
+    local found = false
+    for _, b in ipairs(new_sess.buffers) do
+      if b == bufnr then
+        found = true
+        break
+      end
+    end
+    if not found then
+      table.insert(new_sess.buffers, bufnr)
+    end
   end
 
   emit(M.events.BUFFER_SESSION_CHANGED, {
@@ -241,7 +263,7 @@ function M.update_terminal_info(bufnr, info)
       proc = info.proc,
       cwd = info.cwd,
       pid = info.pid or 0,
-      time = vim.loop.now(),
+      time = uv.now(),
     }
   end
 end
@@ -260,7 +282,7 @@ function M.get_terminal_info(bufnr, max_age)
   if not term_info then return nil end
 
   max_age = max_age or config.options.terminal.cache_ttl
-  local age = vim.loop.now() - term_info.time
+  local age = uv.now() - term_info.time
   if age > max_age then
     return nil -- Cache expired
   end
@@ -320,7 +342,7 @@ function M.register_session(tabpage, name)
     tabpage = tabpage,
     name = name,
     buffers = {},
-    created_at = vim.loop.now(),
+    created_at = uv.now(),
   }
 
   state.sessions[tabpage] = info

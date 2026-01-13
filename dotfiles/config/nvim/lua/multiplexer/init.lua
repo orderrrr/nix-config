@@ -37,6 +37,7 @@ function M.setup(opts)
   session.init()
   statusline.setup()
   keymaps.setup()
+  terminal.setup_cache_autocmds() -- Setup terminal cwd cache for faster pane creation
 
   -- Create user commands
   vim.api.nvim_create_user_command('SessionName', function(cmd_opts)

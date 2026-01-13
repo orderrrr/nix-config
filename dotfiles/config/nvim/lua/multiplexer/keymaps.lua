@@ -4,39 +4,46 @@ local session = require('multiplexer.session')
 local terminal = require('multiplexer.terminal')
 local focus = require('multiplexer.focus')
 local ui = require('multiplexer.ui')
+local state = require('multiplexer.state')
 
 local M = {}
 
+-- Pre-computed shell lookup (same as terminal.lua)
+local SHELLS = {
+  zsh = true, bash = true, fish = true, sh = true, dash = true,
+  ksh = true, tcsh = true, csh = true,
+}
+
+-- Cached API functions for faster access in hot paths
+local api = vim.api
+local cmd = vim.cmd
+local fn = vim.fn
+local bo = vim.bo
+
 -- Enter terminal mode if in a terminal buffer
+-- Optimized: check buftype before scheduling
 local function enter_terminal_if_needed()
-  vim.schedule(function()
-    if vim.bo.buftype == 'terminal' then
-      vim.cmd('startinsert')
-    end
-  end)
+  if bo.buftype == 'terminal' then
+    cmd('startinsert')
+  end
 end
 
 -- Navigate with wrapping to adjacent sessions
 local function nav_wrap(dir)
-  local win_before = vim.api.nvim_get_current_win()
-  vim.cmd('wincmd ' .. dir)
-  local win_after = vim.api.nvim_get_current_win()
+  local win_before = api.nvim_get_current_win()
+  cmd('wincmd ' .. dir)
+  local win_after = api.nvim_get_current_win()
 
   -- If we didn't move, we're at the edge
   if win_before == win_after then
-    if dir == 'h' then
-      -- Go to prev session, focus last window
-      local tab_count = vim.fn.tabpagenr('$')
-      if tab_count > 1 then
-        vim.cmd('tabprev')
-        vim.cmd('wincmd $')
-      end
-    elseif dir == 'l' then
-      -- Go to next session, focus first window
-      local tab_count = vim.fn.tabpagenr('$')
-      if tab_count > 1 then
-        vim.cmd('tabnext')
-        vim.cmd('wincmd t')
+    local tab_count = fn.tabpagenr('$')
+    if tab_count > 1 then
+      if dir == 'h' then
+        cmd('tabprev')
+        cmd('wincmd $')
+      elseif dir == 'l' then
+        cmd('tabnext')
+        cmd('wincmd t')
       end
     end
   end
@@ -44,35 +51,61 @@ end
 
 -- Smart split: open new terminal when splitting from a terminal
 local function smart_split(direction)
-  local cmd = direction == 'v' and 'vsplit' or 'split'
-  if vim.bo.buftype == 'terminal' then
-    local cwd = terminal.get_cwd()
-    vim.cmd(cmd)
+  local split_cmd = direction == 'v' and 'vsplit' or 'split'
+  if bo.buftype == 'terminal' then
+    local cwd = terminal.get_cwd_fast()
+    cmd(split_cmd)
     terminal.open(cwd)
-    vim.cmd('startinsert')
+    cmd('startinsert')
   else
-    vim.cmd(cmd)
+    cmd(split_cmd)
   end
 end
 
 -- Close pane with confirmation if running process
+-- Optimized: only check for running processes in terminals, uses pre-loaded state module
 local function close_pane()
-  local bufnr = vim.api.nvim_get_current_buf()
-  
-  -- Check if terminal has a running process
-  if terminal.has_running_process(bufnr) then
-    local info = terminal.get_info(bufnr)
-    local proc = info and info.proc or 'process'
-    local confirm = vim.fn.confirm('Kill "' .. proc .. '"?', '&Yes\n&No', 2)
-    if confirm ~= 1 then return end
+  local bufnr = api.nvim_get_current_buf()
+  local buftype = bo[bufnr].buftype
+
+  -- Only check for running processes in terminal buffers
+  if buftype == 'terminal' then
+    local has_process = false
+    local proc_name = 'process'
+
+    -- Fast check: use cached info first (try terminal module's local cache via get_proc_name)
+    local cached_proc = terminal.get_proc_name(bufnr)
+    if cached_proc then
+      has_process = not SHELLS[cached_proc] and cached_proc ~= ''
+      proc_name = cached_proc
+    else
+      -- Try state manager cache
+      local cached_info = state.get_terminal_info(bufnr, 2000)
+      if cached_info and cached_info.proc then
+        has_process = not SHELLS[cached_info.proc] and cached_info.proc ~= ''
+        proc_name = cached_info.proc
+      else
+        -- Fall back to full check only if no cache
+        has_process = terminal.has_running_process(bufnr)
+        if has_process then
+          local info = terminal.get_info(bufnr)
+          proc_name = info and info.proc or 'process'
+        end
+      end
+    end
+
+    if has_process then
+      local confirm = fn.confirm('Kill "' .. proc_name .. '"?', '&Yes\n&No', 2)
+      if confirm ~= 1 then return end
+    end
   end
 
-  local win_count = vim.fn.winnr('$')
-  local tab_count = vim.fn.tabpagenr('$')
+  local win_count = fn.winnr('$')
+  local tab_count = fn.tabpagenr('$')
   if win_count == 1 and tab_count == 1 then
-    vim.cmd('qa')
+    cmd('qa')
   else
-    vim.cmd('close')
+    cmd('close')
     enter_terminal_if_needed()
   end
 end
@@ -103,25 +136,25 @@ function M.setup()
   for _, mode in ipairs({ 'n', 't' }) do
     -- Navigation with session wrapping
     vim.keymap.set(mode, '<A-h>', function()
-      if mode == 't' then vim.cmd('stopinsert') end
+      if mode == 't' then cmd('stopinsert') end
       nav_wrap('h')
       enter_terminal_if_needed()
     end, { desc = 'Move left (wrap session)' })
     
     vim.keymap.set(mode, '<A-j>', function()
-      if mode == 't' then vim.cmd('stopinsert') end
-      vim.cmd('wincmd j')
+      if mode == 't' then cmd('stopinsert') end
+      cmd('wincmd j')
       enter_terminal_if_needed()
     end, { desc = 'Move down' })
     
     vim.keymap.set(mode, '<A-k>', function()
-      if mode == 't' then vim.cmd('stopinsert') end
-      vim.cmd('wincmd k')
+      if mode == 't' then cmd('stopinsert') end
+      cmd('wincmd k')
       enter_terminal_if_needed()
     end, { desc = 'Move up' })
     
     vim.keymap.set(mode, '<A-l>', function()
-      if mode == 't' then vim.cmd('stopinsert') end
+      if mode == 't' then cmd('stopinsert') end
       nav_wrap('l')
       enter_terminal_if_needed()
     end, { desc = 'Move right (wrap session)' })
@@ -129,111 +162,131 @@ function M.setup()
     -- Resize
     local resize = config.options.resize
     vim.keymap.set(mode, '<A-H>', function()
-      if mode == 't' then vim.cmd('stopinsert') end
-      vim.cmd('vertical resize -' .. resize.vertical)
+      if mode == 't' then cmd('stopinsert') end
+      -- Only resize if there are multiple vertical splits
+      if fn.winnr('$') > 1 then
+        cmd('vertical resize -' .. resize.vertical)
+      end
       enter_terminal_if_needed()
     end, { desc = 'Resize left' })
     
     vim.keymap.set(mode, '<A-J>', function()
-      if mode == 't' then vim.cmd('stopinsert') end
-      vim.cmd('resize -' .. resize.horizontal)
+      if mode == 't' then cmd('stopinsert') end
+      -- Only resize if there's a window below
+      local current_win = api.nvim_get_current_win()
+      cmd('wincmd j')
+      if api.nvim_get_current_win() ~= current_win then
+        -- We moved, so there's a window below, move back and resize
+        cmd('wincmd k')
+        cmd('resize -' .. resize.horizontal)
+      end
       enter_terminal_if_needed()
     end, { desc = 'Resize down' })
     
     vim.keymap.set(mode, '<A-K>', function()
-      if mode == 't' then vim.cmd('stopinsert') end
-      vim.cmd('resize +' .. resize.horizontal)
+      if mode == 't' then cmd('stopinsert') end
+      -- Only resize if there's a window above
+      local current_win = api.nvim_get_current_win()
+      cmd('wincmd k')
+      if api.nvim_get_current_win() ~= current_win then
+        -- We moved, so there's a window above, move back and resize
+        cmd('wincmd j')
+        cmd('resize +' .. resize.horizontal)
+      end
       enter_terminal_if_needed()
     end, { desc = 'Resize up' })
     
     vim.keymap.set(mode, '<A-L>', function()
-      if mode == 't' then vim.cmd('stopinsert') end
-      vim.cmd('vertical resize +' .. resize.vertical)
+      if mode == 't' then cmd('stopinsert') end
+      -- Only resize if there are multiple vertical splits
+      if fn.winnr('$') > 1 then
+        cmd('vertical resize +' .. resize.vertical)
+      end
       enter_terminal_if_needed()
     end, { desc = 'Resize right' })
 
-    -- New panes
+    -- New panes (optimized: use fast cwd that prefers cache)
     vim.keymap.set(mode, '<A-n>', function()
-      if mode == 't' then vim.cmd('stopinsert') end
-      local cwd = terminal.get_cwd()
-      vim.cmd('vsplit')
+      if mode == 't' then cmd('stopinsert') end
+      local cwd = terminal.get_cwd_fast()
+      cmd('vsplit')
       terminal.open(cwd)
-      vim.schedule(function() vim.cmd('startinsert') end)
+      cmd('startinsert')
     end, { desc = 'New vertical pane' })
     
     vim.keymap.set(mode, '<A-N>', function()
-      if mode == 't' then vim.cmd('stopinsert') end
-      local cwd = terminal.get_cwd()
-      vim.cmd('split')
+      if mode == 't' then cmd('stopinsert') end
+      local cwd = terminal.get_cwd_fast()
+      cmd('split')
       terminal.open(cwd)
-      vim.schedule(function() vim.cmd('startinsert') end)
+      cmd('startinsert')
     end, { desc = 'New horizontal pane' })
 
     -- Close pane
     vim.keymap.set(mode, '<A-x>', function()
-      if mode == 't' then vim.cmd('stopinsert') end
+      if mode == 't' then cmd('stopinsert') end
       close_pane()
     end, { desc = 'Close pane' })
 
-    -- Session management
+    -- Session management (optimized: use fast cwd)
     vim.keymap.set(mode, '<A-c>', function()
-      if mode == 't' then vim.cmd('stopinsert') end
-      local cwd = terminal.get_cwd()
-      vim.cmd('tabnew')
+      if mode == 't' then cmd('stopinsert') end
+      local cwd = terminal.get_cwd_fast()
+      cmd('tabnew')
       session.get_name()
       terminal.open(cwd)
-      vim.schedule(function() vim.cmd('startinsert') end)
+      cmd('startinsert')
     end, { desc = 'New session' })
 
     vim.keymap.set(mode, '<A-]>', function()
-      if mode == 't' then vim.cmd('stopinsert') end
-      vim.cmd('tabnext')
+      if mode == 't' then cmd('stopinsert') end
+      cmd('tabnext')
       enter_terminal_if_needed()
     end, { desc = 'Next session' })
 
     vim.keymap.set(mode, '<A-[>', function()
-      if mode == 't' then vim.cmd('stopinsert') end
-      vim.cmd('tabprev')
+      if mode == 't' then cmd('stopinsert') end
+      cmd('tabprev')
       enter_terminal_if_needed()
     end, { desc = 'Previous session' })
 
     vim.keymap.set(mode, '<A-r>', function()
-      if mode == 't' then vim.cmd('stopinsert') end
+      if mode == 't' then cmd('stopinsert') end
       vim.ui.input({ prompt = 'Session name: ' }, function(name)
         if name then session.set_name(name) end
       end)
     end, { desc = 'Rename session' })
 
     vim.keymap.set(mode, '<A-X>', function()
-      if mode == 't' then vim.cmd('stopinsert') end
-      local tab_count = vim.fn.tabpagenr('$')
+      if mode == 't' then cmd('stopinsert') end
+      local tab_count = fn.tabpagenr('$')
       if tab_count == 1 then
         vim.notify('Cannot close the last session', vim.log.levels.WARN)
         return
       end
-      vim.cmd('tabclose')
+      cmd('tabclose')
       enter_terminal_if_needed()
     end, { desc = 'Close session' })
 
     -- Session picker
     vim.keymap.set(mode, '<A-s>', function()
-      if mode == 't' then vim.cmd('stopinsert') end
+      if mode == 't' then cmd('stopinsert') end
       ui.show_session_picker(function(tabnr)
-        vim.cmd('tabnext ' .. tabnr)
+        cmd('tabnext ' .. tabnr)
         enter_terminal_if_needed()
       end)
     end, { desc = 'Pick session' })
 
     -- Focused mode
     vim.keymap.set(mode, '<A-f>', function()
-      if mode == 't' then vim.cmd('stopinsert') end
+      if mode == 't' then cmd('stopinsert') end
       focus.toggle()
       enter_terminal_if_needed()
     end, { desc = 'Toggle focused mode' })
 
     -- Help
     vim.keymap.set(mode, '<A-/>', function()
-      if mode == 't' then vim.cmd('stopinsert') end
+      if mode == 't' then cmd('stopinsert') end
       ui.show_help()
     end, { desc = 'Show help' })
   end
