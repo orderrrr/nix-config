@@ -6,11 +6,13 @@
   ];
 
   home.file = {
-    ".config/nvim/lua".source = dotfiles/config/nvim/lua;
-    ".config/nvim/init.lua".source = dotfiles/config/nvim/init.lua;
     ".config/nvim/nvim-nightly.sh".source = dotfiles/config/nvim/nvim-nightly.sh;
+
+    ".config/nvim/init.lua".source = dotfiles/config/nvim/init.lua;
+    ".config/nvim/init_multiplexer.lua".source = dotfiles/config/nvim/init_multiplexer.lua;
+
+    ".config/nvim/lua".source = dotfiles/config/nvim/lua;
     ".config/nvim/.env".source = dotfiles/config/nvim/.env;
-    ".config/nvim/multiplexer".source = dotfiles/config/nvim/multiplexer;
 
     ".aerospace.toml".source = dotfiles/aerospace.toml;
     ".config/ghostty".source = dotfiles/config/ghostty;

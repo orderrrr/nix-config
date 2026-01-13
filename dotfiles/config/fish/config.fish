@@ -120,8 +120,8 @@ if type -q rg
     end
 end
 
-function t --description 'Launch zellij terminal multiplexer'
-    zellij $argv
+function t --description 'Launch multiplexer'
+  nvim -u $HOME/.config/nvim/init_multiplexer.lua
 end
 
 function ssh --description 'SSH with xterm-256color support'
