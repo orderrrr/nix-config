@@ -23,6 +23,7 @@
     ".config/fish/config.fish".source = dotfiles/config/fish/config.fish;
     ".config/fish/functions/archives.fish".source = dotfiles/config/fish/functions/archives.fish;
     ".config/fish/functions/diff.fish".source = dotfiles/config/fish/functions/diff.fish;
+    ".config/fish/functions/ai-commit.fish".source = dotfiles/config/fish/functions/ai-commit.fish;
   };
 
   home.sessionVariables = {
