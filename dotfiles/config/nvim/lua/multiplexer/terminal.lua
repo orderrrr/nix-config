@@ -236,8 +236,8 @@ function M.get_cwd(bufnr)
   return nil
 end
 
--- Get cwd with fallback to current directory (for fast pane creation)
--- Returns immediately, preferring cache or vim.fn.getcwd()
+-- Get cwd with fallback to sync call for terminal buffers
+-- Returns immediately if cached, otherwise does sync call for terminals
 function M.get_cwd_fast(bufnr)
   bufnr = bufnr or vim.api.nvim_get_current_buf()
 
@@ -256,7 +256,16 @@ function M.get_cwd_fast(bufnr)
     end
   end
 
-  -- Fallback to vim's cwd (instant, no shell calls)
+  -- For terminal buffers, do the sync call to get the actual cwd
+  -- This is important for correctness when creating new panes
+  if vim.bo[bufnr].buftype == 'terminal' then
+    local cwd = M.get_cwd(bufnr)
+    if cwd then
+      return cwd
+    end
+  end
+
+  -- Fallback to vim's cwd only for non-terminal buffers
   return vim.fn.getcwd()
 end
 

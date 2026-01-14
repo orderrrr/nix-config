@@ -21,11 +21,13 @@ local fn = vim.fn
 local bo = vim.bo
 
 -- Enter terminal mode if in a terminal buffer
--- Optimized: check buftype before scheduling
+-- Deferred to ensure buffer state is updated after navigation
 local function enter_terminal_if_needed()
-  if bo.buftype == 'terminal' then
-    cmd('startinsert')
-  end
+  vim.schedule(function()
+    if bo.buftype == 'terminal' then
+      cmd('startinsert')
+    end
+  end)
 end
 
 -- Navigate with wrapping to adjacent sessions
