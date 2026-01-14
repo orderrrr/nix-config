@@ -53,7 +53,7 @@ $diff_output"
         echo "Description set with jj"
     else
         # For git, stage all changes if nothing staged
-        if test -z (git diff --cached)
+        if test -z "$(git diff --cached)"
             read -l -P "No staged changes. Stage all changes? [y/N] " confirm
             if test "$confirm" = "y" -o "$confirm" = "Y"
                 git add -A
