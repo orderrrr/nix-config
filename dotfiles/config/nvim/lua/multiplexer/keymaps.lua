@@ -234,24 +234,23 @@ function M.setup()
       close_pane()
     end, { desc = 'Close pane' })
 
-    -- Session management (optimized: use fast cwd)
+    -- Session management (uses session API which handles focus mode)
     vim.keymap.set(mode, '<A-c>', function()
       if mode == 't' then cmd('stopinsert') end
       local cwd = terminal.get_cwd_fast()
-      cmd('tabnew')
-      session.get_name()
+      session.new()
       terminal.open(cwd) -- terminal.open handles startinsert
     end, { desc = 'New session' })
 
     vim.keymap.set(mode, '<A-]>', function()
       if mode == 't' then cmd('stopinsert') end
-      cmd('tabnext')
+      session.next()
       enter_terminal_if_needed()
     end, { desc = 'Next session' })
 
     vim.keymap.set(mode, '<A-[>', function()
       if mode == 't' then cmd('stopinsert') end
-      cmd('tabprev')
+      session.prev()
       enter_terminal_if_needed()
     end, { desc = 'Previous session' })
 
@@ -264,20 +263,19 @@ function M.setup()
 
     vim.keymap.set(mode, '<A-X>', function()
       if mode == 't' then cmd('stopinsert') end
-      local tab_count = fn.tabpagenr('$')
-      if tab_count == 1 then
+      if not session.close() then
         vim.notify('Cannot close the last session', vim.log.levels.WARN)
         return
       end
-      cmd('tabclose')
       enter_terminal_if_needed()
     end, { desc = 'Close session' })
 
     -- Session picker
     vim.keymap.set(mode, '<A-s>', function()
       if mode == 't' then cmd('stopinsert') end
+      focus.exit_if_active()
       ui.show_session_picker(function(tabnr)
-        cmd('tabnext ' .. tabnr)
+        session.goto(tabnr)
         enter_terminal_if_needed()
       end)
     end, { desc = 'Pick session' })

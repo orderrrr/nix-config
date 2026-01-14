@@ -10,6 +10,7 @@ local M = {}
 local focus_state = {
   active = false,          -- Whether we're currently in focus mode
   buffer = nil,            -- The buffer being shown in focus mode
+  focus_tab = nil,         -- The focus tab we created
   original_tab = nil,      -- Tab we came from
   original_win = nil,      -- Window we came from
   cursor = nil,            -- Cursor position when entering focus
@@ -62,7 +63,8 @@ local function enter_focus()
 
   -- Create a new tab at the front for focus mode
   vim.cmd('0tabnew')
-  
+  focus_state.focus_tab = vim.api.nvim_get_current_tabpage()
+
   -- Set the buffer
   local focus_win = vim.api.nvim_get_current_win()
   vim.api.nvim_win_set_buf(focus_win, current_buf)
@@ -84,6 +86,9 @@ local function exit_focus()
     return
   end
 
+  -- Mark inactive FIRST to prevent re-entrancy from TabLeave autocmd
+  focus_state.active = false
+
   debug_log('Exiting focus mode')
 
   -- Get current state before leaving
@@ -94,7 +99,7 @@ local function exit_focus()
   -- Check if original tab still exists
   if not vim.api.nvim_tabpage_is_valid(focus_state.original_tab) then
     vim.notify('Original tab no longer exists', vim.log.levels.WARN)
-    focus_state.active = false
+    focus_state.focus_tab = nil
     focus_state.original_tab = nil
     focus_state.original_win = nil
     focus_state.buffer = nil
@@ -135,8 +140,8 @@ local function exit_focus()
     end
   end
 
-  -- Reset state
-  focus_state.active = false
+  -- Reset remaining state (active already set to false at function start)
+  focus_state.focus_tab = nil
   focus_state.original_tab = nil
   focus_state.original_win = nil
   focus_state.buffer = nil
@@ -207,6 +212,39 @@ function M.get_saved_buffers(tabpage)
     end
   end
   return nil
+end
+
+-- Get the focus tab (for session module to skip it)
+function M.get_focus_tab()
+  return focus_state.focus_tab
+end
+
+-- Exit focus mode if active (for external callers like session module)
+function M.exit_if_active()
+  if focus_state.active then
+    exit_focus()
+    return true
+  end
+  return false
+end
+
+-- Setup autocmds for focus mode
+function M.setup()
+  local augroup = vim.api.nvim_create_augroup('MultiplexerFocus', { clear = true })
+
+  -- Auto-exit focus mode when leaving the focus tab (safety net)
+  vim.api.nvim_create_autocmd('TabLeave', {
+    group = augroup,
+    callback = function()
+      if focus_state.active and focus_state.focus_tab then
+        local current_tab = vim.api.nvim_get_current_tabpage()
+        if current_tab == focus_state.focus_tab then
+          debug_log('TabLeave from focus tab, exiting focus mode')
+          exit_focus()
+        end
+      end
+    end,
+  })
 end
 
 return M

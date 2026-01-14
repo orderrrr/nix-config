@@ -33,8 +33,10 @@ function M.setup(opts)
   local terminal = require('multiplexer.terminal')
   local statusline = require('multiplexer.statusline')
   local keymaps = require('multiplexer.keymaps')
+  local focus = require('multiplexer.focus')
 
   session.init()
+  focus.setup() -- Setup focus mode autocmds (TabLeave safety net)
   statusline.setup()
   keymaps.setup()
   terminal.setup_cache_autocmds() -- Setup terminal cwd cache for faster pane creation
