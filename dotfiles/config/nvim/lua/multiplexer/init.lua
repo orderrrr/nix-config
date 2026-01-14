@@ -55,8 +55,7 @@ function M.setup(opts)
   vim.api.nvim_create_autocmd('VimEnter', {
     callback = function()
       session.get_name(1)
-      terminal.open()
-      vim.cmd('startinsert')
+      terminal.open() -- terminal.open handles startinsert
     end,
   })
 end

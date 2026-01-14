@@ -60,12 +60,11 @@ end
 
 -- Smart split: open new terminal when splitting from a terminal
 local function smart_split(direction)
-  local split_cmd = direction == 'v' and 'vsplit' or 'split'
+  local split_cmd = direction == 'v' and 'rightbelow vsplit' or 'rightbelow split'
   if bo.buftype == 'terminal' then
     local cwd = terminal.get_cwd_fast()
     cmd(split_cmd)
-    terminal.open(cwd)
-    cmd('startinsert')
+    terminal.open(cwd) -- terminal.open handles startinsert
   else
     cmd(split_cmd)
   end
@@ -218,17 +217,15 @@ function M.setup()
     vim.keymap.set(mode, '<A-n>', function()
       if mode == 't' then cmd('stopinsert') end
       local cwd = terminal.get_cwd_fast()
-      cmd('vsplit')
-      terminal.open(cwd)
-      cmd('startinsert')
+      cmd('rightbelow vsplit')
+      terminal.open(cwd) -- terminal.open handles startinsert
     end, { desc = 'New vertical pane' })
     
     vim.keymap.set(mode, '<A-N>', function()
       if mode == 't' then cmd('stopinsert') end
       local cwd = terminal.get_cwd_fast()
-      cmd('split')
-      terminal.open(cwd)
-      cmd('startinsert')
+      cmd('rightbelow split')
+      terminal.open(cwd) -- terminal.open handles startinsert
     end, { desc = 'New horizontal pane' })
 
     -- Close pane
@@ -243,8 +240,7 @@ function M.setup()
       local cwd = terminal.get_cwd_fast()
       cmd('tabnew')
       session.get_name()
-      terminal.open(cwd)
-      cmd('startinsert')
+      terminal.open(cwd) -- terminal.open handles startinsert
     end, { desc = 'New session' })
 
     vim.keymap.set(mode, '<A-]>', function()

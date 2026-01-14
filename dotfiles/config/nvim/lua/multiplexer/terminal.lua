@@ -279,7 +279,12 @@ end
 M.prefetch_cwd = M.prefetch_info
 
 -- Open a new terminal with optional cwd
-function M.open(cwd)
+-- If start_insert is true (default), enters insert mode after terminal is ready
+function M.open(cwd, start_insert)
+  if start_insert == nil then
+    start_insert = true
+  end
+  
   if cwd and vim.fn.isdirectory(cwd) == 1 then
     vim.cmd('lcd ' .. vim.fn.fnameescape(cwd))
   end
@@ -293,6 +298,10 @@ function M.open(cwd)
       -- Pre-cache the cwd for this new terminal
       if cwd then
         async_cache.cwd[bufnr] = { cwd = cwd, time = vim.loop.now() }
+      end
+      -- Enter insert mode after terminal is ready
+      if start_insert and vim.bo[bufnr].buftype == 'terminal' then
+        vim.cmd('startinsert')
       end
     end
   end)
