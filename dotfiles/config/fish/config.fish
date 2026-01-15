@@ -62,6 +62,18 @@ set -gx MANPAGER 'sh -c "col -bx | bat -l man -p"'
 # Shell Integrations
 # ============================================================================
 
+# >>> conda initialize >>>
+# Lazy-load conda to speed up shell startup
+set -gx CONDA_EXE /Users/nmcintosh/.anaconda3/bin/conda
+set -gx CONDA_PREFIX /Users/nmcintosh/.anaconda3
+
+function conda --description 'Lazy-load conda on first use'
+    functions -e conda  # Remove this function
+    eval $CONDA_EXE "shell.fish" "hook" $argv | source
+    conda $argv  # Run the actual conda command
+end
+# <<< conda initialize <<<
+
 direnv hook fish | source
 starship init fish | source
 zoxide init fish | source

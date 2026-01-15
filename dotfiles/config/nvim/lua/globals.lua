@@ -28,6 +28,9 @@ vim.o.timeoutlen = 300
 
 vim.o.scrolloff = 5
 
+-- Merge command-line with statusline
+vim.o.cmdheight = 0
+
 -- Set completeopt to have a better completion experience
 vim.o.completeopt = 'menu,menuone,noselect'
 

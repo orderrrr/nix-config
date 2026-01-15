@@ -33,7 +33,7 @@
       "sshpass" "opencode" "starship" "tailscale" "telnet" "tinyxml2" "typescript"
       "vulkan-loader" "wget" "yt-dlp" "zig" "zoxide" "jj" "pixi" "colmap" "just"
       "llvm@20" "mtr" "molten-vk" "nx" "macmon" "openjdk@17" "dart" "krunkit" "podman"
-      "steipete/tap/peekaboo" "ripgrep" "steipete/tap/remindctl" "steipete/tap/summarize" "steipete/tap/wacli" "yakitrak/yakitrak/obsidian-cli"
+      "steipete/tap/peekaboo" "ripgrep" "steipete/tap/remindctl" "steipete/tap/summarize" "steipete/tap/wacli"
       "git-delta"
       # "krunvm" "podman"
       # "tracy"
@@ -45,6 +45,7 @@
       "obsidian" "ollamac" "orbstack" "raycast" "spotify" "stats" "tunnelblick" "whatsapp"
       "wireshark-app" "zen" "zulu" "zulu@21" "zulu@8" "zed" "postman" "google-chrome" "plugdata"
       "jordanbaird-ice" "aerospace" "flutter" "android-commandlinetools" "claude" "claude-code" 
+      "upscayl"
 			# "soapui" "splice"
     ];
 
