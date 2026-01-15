@@ -216,6 +216,7 @@ function M.setup()
     -- New panes (optimized: use fast cwd that prefers cache)
     vim.keymap.set(mode, '<A-n>', function()
       if mode == 't' then cmd('stopinsert') end
+      focus.exit_if_active()
       local cwd = terminal.get_cwd_fast()
       cmd('rightbelow vsplit')
       terminal.open(cwd) -- terminal.open handles startinsert
@@ -223,6 +224,7 @@ function M.setup()
     
     vim.keymap.set(mode, '<A-N>', function()
       if mode == 't' then cmd('stopinsert') end
+      focus.exit_if_active()
       local cwd = terminal.get_cwd_fast()
       cmd('rightbelow split')
       terminal.open(cwd) -- terminal.open handles startinsert
