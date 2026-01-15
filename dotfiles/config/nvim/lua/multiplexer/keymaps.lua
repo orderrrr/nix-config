@@ -30,6 +30,27 @@ local function enter_terminal_if_needed()
   end)
 end
 
+-- Check if there's a window in a specific direction
+-- @param direction 'h', 'j', 'k', or 'l' (left, down, up, right)
+-- @return boolean True if there's a window in that direction
+local function has_window_in_direction(direction)
+  local current = fn.winnr()
+  local target = fn.winnr(direction)
+  return current ~= target
+end
+
+-- Check if we're in a horizontal split (windows side-by-side)
+-- Both left and right resize work if you have left OR right neighbors
+local function in_horizontal_split()
+  return has_window_in_direction('h') or has_window_in_direction('l')
+end
+
+-- Check if we're in a vertical split (windows stacked)
+-- Both up and down resize work if you have up OR down neighbors
+local function in_vertical_split()
+  return has_window_in_direction('j') or has_window_in_direction('k')
+end
+
 -- Navigate with wrapping to adjacent sessions
 -- Does not wrap when in focus mode
 local function nav_wrap(dir)
@@ -167,12 +188,11 @@ function M.setup()
       enter_terminal_if_needed()
     end, { desc = 'Move right (wrap session)' })
 
-    -- Resize
+    -- Resize (strict: only resize if we're actually in a split)
     local resize = config.options.resize
     vim.keymap.set(mode, '<A-H>', function()
       if mode == 't' then cmd('stopinsert') end
-      -- Only resize if there are multiple vertical splits
-      if fn.winnr('$') > 1 then
+      if in_horizontal_split() then
         cmd('vertical resize -' .. resize.vertical)
       end
       enter_terminal_if_needed()
@@ -180,12 +200,7 @@ function M.setup()
     
     vim.keymap.set(mode, '<A-J>', function()
       if mode == 't' then cmd('stopinsert') end
-      -- Only resize if there's a window below
-      local current_win = api.nvim_get_current_win()
-      cmd('wincmd j')
-      if api.nvim_get_current_win() ~= current_win then
-        -- We moved, so there's a window below, move back and resize
-        cmd('wincmd k')
+      if in_vertical_split() then
         cmd('resize -' .. resize.horizontal)
       end
       enter_terminal_if_needed()
@@ -193,12 +208,7 @@ function M.setup()
     
     vim.keymap.set(mode, '<A-K>', function()
       if mode == 't' then cmd('stopinsert') end
-      -- Only resize if there's a window above
-      local current_win = api.nvim_get_current_win()
-      cmd('wincmd k')
-      if api.nvim_get_current_win() ~= current_win then
-        -- We moved, so there's a window above, move back and resize
-        cmd('wincmd j')
+      if in_vertical_split() then
         cmd('resize +' .. resize.horizontal)
       end
       enter_terminal_if_needed()
@@ -206,8 +216,7 @@ function M.setup()
     
     vim.keymap.set(mode, '<A-L>', function()
       if mode == 't' then cmd('stopinsert') end
-      -- Only resize if there are multiple vertical splits
-      if fn.winnr('$') > 1 then
+      if in_horizontal_split() then
         cmd('vertical resize +' .. resize.vertical)
       end
       enter_terminal_if_needed()

@@ -233,15 +233,13 @@ function M.setup()
   local augroup = vim.api.nvim_create_augroup('MultiplexerFocus', { clear = true })
 
   -- Auto-exit focus mode when leaving the focus tab (safety net)
-  vim.api.nvim_create_autocmd('TabLeave', {
+  vim.api.nvim_create_autocmd('TabEnter', {
     group = augroup,
     callback = function()
-      if focus_state.active and focus_state.focus_tab then
-        local current_tab = vim.api.nvim_get_current_tabpage()
-        if current_tab == focus_state.focus_tab then
-          debug_log('TabLeave from focus tab, exiting focus mode')
-          exit_focus()
-        end
+      -- If focus mode is active and we enter a tab that isn't the focus tab
+      if focus_state.active and vim.api.nvim_get_current_tabpage() ~= focus_state.focus_tab then
+        debug_log('Entered a non-focus tab, exiting focus mode.')
+        exit_focus()
       end
     end,
   })
