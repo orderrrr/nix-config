@@ -1,5 +1,5 @@
 function ai-commit --description "Auto-generate commit message using Ollama"
-    set -l model "SimonPu/Qwen3-Coder:30B-Instruct_Q4_K_XL"
+    set -l model "gemma3:27b"
     set -l vcs ""
     set -l diff_output ""
 

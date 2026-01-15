@@ -42,8 +42,16 @@ M.defaults = {
     debug = false, -- Enable debug logging for focus mode operations
   },
 
+  -- Search highlight (distinct from neovim default)
+  search = {
+    fg = '#1a1d21',
+    bg = '#e6a86e', -- orange to stand out from neovim's yellow
+  },
+
   -- Statusline colors
   statusline = {
+    -- Background color when not in terminal mode
+    non_terminal_bg = '#3d2a2a',
     mode = {
       normal = { fg = '#1a1d21', bg = '#b8c4b8' },
       insert = { fg = '#1a1d21', bg = '#DBCDB3' },
