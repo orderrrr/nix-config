@@ -23,6 +23,8 @@ set -l paths \
     ~/Library/Android/Sdk/emulator \
     ~/Library/Android/Sdk/platform-tools \
     ~/.sdk/flutter/bin \
+    ~/.zvm/bin \
+    ~/.zvm/self \
     /opt/homebrew/anaconda3/bin \
     /opt/homebrew/anaconda3/envs/myenv/bin
 

@@ -40,6 +40,5 @@
       }
     }
   },
-  "disabled_providers": [ "anthropic" ]
 }
 

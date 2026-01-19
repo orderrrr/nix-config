@@ -38,13 +38,20 @@ vim.keymap.set("n", "<S-C-d>", command("messages_half_page_down"), { desc = "Mes
 
 local _99 = require("99")
 
--- local cwd = vim.uv.cwd()
--- local basename = vim.fs.basename(cwd)
+local cwd = vim.uv.cwd()
+local basename = vim.fs.basename(cwd)
+
 _99.setup({
   logger = {
     level = _99.DEBUG,
-    path = "./out.debug",
+    path = "/tmp/" .. basename .. ".99.debug",
     print_on_error = true,
+  },
+  completion = {
+    custom_rules = {
+      "scratch/custom_rules/",
+    },
+    source = "cmp",
   },
   md_files = {
     "AGENT.md",

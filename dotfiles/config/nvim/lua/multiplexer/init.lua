@@ -28,6 +28,9 @@ function M.setup(opts)
     vim.o[key] = value
   end
 
+  -- Enable mouse move events for scroll-to-focus functionality
+  vim.o.mousemoveevent = true
+
   -- Initialize modules
   local session = require('multiplexer.session')
   local terminal = require('multiplexer.terminal')
@@ -60,6 +63,69 @@ function M.setup(opts)
       terminal.open() -- terminal.open handles startinsert
     end,
   })
+
+  -- Auto-enter terminal mode when entering a terminal window (mouse click, scroll, etc.)
+  -- This ensures scrolling and input are passed to the terminal, not handled by nvim
+  vim.api.nvim_create_autocmd('WinEnter', {
+    callback = function()
+      -- Use schedule to ensure buffer state is updated after window switch
+      vim.schedule(function()
+        local buftype = vim.bo.buftype
+        if buftype == 'terminal' then
+          -- Only enter insert mode if the terminal job is still running
+          local job_id = vim.b.terminal_job_id
+          if job_id and vim.fn.jobwait({ job_id }, 0)[1] == -1 then
+            vim.cmd('startinsert')
+          end
+        end
+      end)
+    end,
+  })
+
+  -- Focus window under mouse on scroll, then pass scroll to terminal if applicable
+  local function focus_and_scroll(scroll_key)
+    return function()
+      local mouse_pos = vim.fn.getmousepos()
+      local target_win = mouse_pos.winid
+
+      if target_win and target_win ~= 0 and vim.api.nvim_win_is_valid(target_win) then
+        local current_win = vim.api.nvim_get_current_win()
+
+        if target_win ~= current_win then
+          -- Switch to the target window
+          vim.api.nvim_set_current_win(target_win)
+        end
+
+        -- Check if target is a terminal and enter terminal mode
+        local bufnr = vim.api.nvim_win_get_buf(target_win)
+        if vim.bo[bufnr].buftype == 'terminal' then
+          local job_id = vim.b[bufnr].terminal_job_id
+          if job_id and vim.fn.jobwait({ job_id }, 0)[1] == -1 then
+            -- Enter terminal mode and send scroll to the terminal
+            vim.cmd('startinsert')
+            -- Send the scroll escape sequence to the terminal
+            local scroll_seq = scroll_key == 'ScrollWheelUp' and '\x1b[5~' or '\x1b[6~'
+            vim.api.nvim_chan_send(job_id, scroll_seq)
+            return
+          end
+        end
+      end
+
+      -- For non-terminal buffers, use default scroll behavior
+      local count = vim.v.count1
+      if scroll_key == 'ScrollWheelUp' then
+        vim.cmd('normal! ' .. count .. '\\<C-y>')
+      else
+        vim.cmd('normal! ' .. count .. '\\<C-e>')
+      end
+    end
+  end
+
+  -- Map scroll events in all modes
+  for _, mode in ipairs({ 'n', 'i', 't' }) do
+    vim.keymap.set(mode, '<ScrollWheelUp>', focus_and_scroll('ScrollWheelUp'), { silent = true })
+    vim.keymap.set(mode, '<ScrollWheelDown>', focus_and_scroll('ScrollWheelDown'), { silent = true })
+  end
 end
 
 return M

@@ -34,7 +34,7 @@
       "vulkan-loader" "wget" "yt-dlp" "zig" "zoxide" "jj" "pixi" "colmap" "just"
       "llvm@20" "mtr" "molten-vk" "nx" "macmon" "openjdk@17" "dart" "krunkit" "podman"
       "steipete/tap/peekaboo" "ripgrep" "steipete/tap/remindctl" "steipete/tap/summarize" "steipete/tap/wacli"
-      "git-delta"
+      "git-delta" "ios-deploy"
       # "krunvm" "podman"
       # "tracy"
     ];
