@@ -103,8 +103,11 @@ function M.setup(opts)
           if job_id and vim.fn.jobwait({ job_id }, 0)[1] == -1 then
             -- Enter terminal mode and send scroll to the terminal
             vim.cmd('startinsert')
-            -- Send the scroll escape sequence to the terminal
-            local scroll_seq = scroll_key == 'ScrollWheelUp' and '\x1b[5~' or '\x1b[6~'
+            -- Send mouse wheel escape sequence (SGR encoding for smooth scrolling)
+            -- Format: CSI < button ; x ; y M (press) / m (release)
+            -- Button 64 = scroll up, 65 = scroll down
+            local button = scroll_key == 'ScrollWheelUp' and 64 or 65
+            local scroll_seq = string.format('\x1b[<%d;%d;%dM', button, mouse_pos.column, mouse_pos.line)
             vim.api.nvim_chan_send(job_id, scroll_seq)
             return
           end

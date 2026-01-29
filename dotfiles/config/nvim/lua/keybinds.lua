@@ -28,30 +28,32 @@ vim.keymap.set('v', '<leader>Cy', util.copy_with_numbers, { silent = true, desc 
 
 -- harpoon
 vim.keymap.set("n", "<leader>a", function()
-	vim.cmd("argadd %")
-	vim.cmd("argdedup")
+  vim.cmd("argadd %")
+  vim.cmd("argdedup")
 end)
 
 vim.keymap.set("n", "<leader>e", function()
-	vim.cmd.args()
+  vim.cmd.args()
 end)
 
 vim.keymap.set("n", "<C-h>", function()
-	vim.cmd('silent! 1argument')
+  vim.cmd('silent! 1argument')
 end)
 
 vim.keymap.set("n", "<C-j>", function()
-	vim.cmd('silent! 2argument')
+  vim.cmd('silent! 2argument')
 end)
 
 vim.keymap.set("n", "<C-k>", function()
-	vim.cmd('silent! 3argument')
+  vim.cmd('silent! 3argument')
 end)
 
 vim.keymap.set("n", "<C-l>", function()
-	vim.cmd('silent! 4argument')
+  vim.cmd('silent! 4argument')
 end)
 
 vim.keymap.set("n", "<leader>uu", function()
   vim.pack.update()
 end)
+
+vim.keymap.set('x', 'P', 'I<C-r>"<Esc>', { noremap = true })

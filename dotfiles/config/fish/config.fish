@@ -16,9 +16,8 @@ set -l paths \
     ~/.rustup/toolchains/nightly-aarch64-apple-darwin/bin \
     ~/.local/share/cargo/bin \
     ~/.local/bin \
-    ~/.local/nvim/bin \
+    ~/.bin/nvim/bin/ \
     ~/.bin \
-    ~/.bin/nvim/bin \
     ~/.bin/slang/bin \
     ~/Library/Android/Sdk/emulator \
     ~/Library/Android/Sdk/platform-tools \

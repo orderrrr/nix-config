@@ -1,0 +1,3 @@
+local function find_files()
+  vim.cmd("Telescope find_files")
+end

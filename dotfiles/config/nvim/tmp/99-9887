@@ -1,0 +1,9 @@
+local function telescope_list_all_files()
+	local builtin = require('telescope.builtin')
+	local ivy = require('telescope.themes').get_ivy()
+	builtin.find_files(vim.tbl_deep_extend('force', ivy, {
+		hidden = true,
+		no_ignore = true,
+		no_ignore_parent = true,
+	}))
+end

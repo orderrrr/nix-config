@@ -134,7 +134,7 @@ local function close_pane()
   if win_count == 1 and tab_count == 1 then
     cmd('qa')
   else
-    cmd('close')
+    cmd('bdelete!')
     enter_terminal_if_needed()
   end
 end
