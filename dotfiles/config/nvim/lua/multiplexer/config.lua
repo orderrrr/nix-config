@@ -1,58 +1,71 @@
+-- Configuration module
 local M = {}
 
-M.palette = {
-  bg = '#f0efeb',
-  bg_alt = '#e0dcd4',
+-- Default configuration
+M.defaults = {
+  -- Editor settings
+  editor = {
+    number = false,
+    relativenumber = false,
+    signcolumn = 'no',
+    scrolloff = 5,
+    laststatus = 3,
+    showtabline = 0,
+    showmode = false,
+    cmdheight = 0,
+  },
 
-  base0 = '#f5f4f2',
-  base1 = '#efeeed',
-  base2 = '#e5e3e0',
-  base3 = '#d8d6d3',
-  base4 = '#b8b5b0',
-  base5 = '#9a9791',
-  base6 = '#7d7a75',
-  base7 = '#5f5c58',
-  base8 = '#2d2a27',
+  -- Session name settings
+  session = {
+    name_length = 4,
+  },
 
-  fg = '#1a1d21',
-  fg_alt = '#4A4D51',
+  -- Terminal info cache settings
+  terminal = {
+    cache_ttl = 2000, -- milliseconds
+  },
 
-  red = '#8B6666',
-  orange = '#7A6D5A',
-  green = '#5A6B5A',
-  yellow = '#8B7E52',
-  blue = '#5A6B7A',
-  cyan = '#64757d',
-  teal = '#4D6B6B',
-  dark_cyan = '#546470',
+  -- Resize increment
+  resize = {
+    horizontal = 3,
+    vertical = 3,
+  },
+
+  -- Focus mode settings
+  focus = {
+    debug = false, -- Enable debug logging for focus mode operations
+  },
+
+  -- Search highlight (distinct from neovim default)
+  search = {
+    fg = '#1a1d21',
+    bg = '#e6a86e', -- orange to stand out from neovim's yellow
+  },
+
+  -- Statusline colors
+  statusline = {
+    -- Background color when not in terminal mode
+    non_terminal_bg = '#3d2a2a',
+    mode = {
+      normal = { fg = '#1a1d21', bg = '#b8c4b8' },
+      insert = { fg = '#1a1d21', bg = '#DBCDB3' },
+      terminal = { fg = '#1a1d21', bg = '#b4bcc4' },
+    },
+    session_colors = {
+      { active = '#b8c4b8', dim = '#5a6258' }, -- green
+      { active = '#DBCDB3', dim = '#6d6558' }, -- yellow
+      { active = '#b4bcc4', dim = '#5a5e62' }, -- blue
+      { active = '#c0b8bc', dim = '#605c5e' }, -- magenta
+      { active = '#b0bcc8', dim = '#585e64' }, -- cyan
+      { active = '#CDACAC', dim = '#665656' }, -- red
+    },
+  },
 }
 
-function M.setup()
-  local p = M.palette
-  local set = vim.api.nvim_set_hl
+M.options = vim.deepcopy(M.defaults)
 
-  -- UI
-  set(0, 'Normal', { fg = p.fg, bg = p.bg_alt })
-  set(0, 'CursorLine', { bg = p.base2 })
-  set(0, 'LineNr', { fg = p.base7 })
-  set(0, 'CursorLineNr', { fg = p.base8, bold = true })
-  set(0, 'Visual', { bg = p.base7, fg = p.bg })
-  set(0, 'Cursor', { fg = p.bg, bg = p.base8 })
-
-  -- Syntax
-  set(0, 'Comment', { fg = p.base7, italic = true })
-  set(0, 'String', { fg = p.fg })
-  set(0, 'Function', { fg = p.fg })
-  set(0, 'Identifier', { fg = p.blue })
-  set(0, 'Keyword', { fg = p.blue, bold = true })
-  set(0, 'Operator', { fg = p.green, bold = true })
-  set(0, 'Type', { fg = p.blue, bold = true })
-
-  -- Diagnostics
-  set(0, 'DiagnosticError', { fg = p.red })
-  set(0, 'DiagnosticWarn', { fg = p.yellow })
-  set(0, 'DiagnosticInfo', { fg = p.green })
-  set(0, 'DiagnosticHint', { fg = p.base7 })
+function M.setup(opts)
+  M.options = vim.tbl_deep_extend('force', M.options, opts or {})
 end
 
 return M

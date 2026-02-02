@@ -94,6 +94,7 @@ git config --global merge.conflictStyle zdiff3
 
 alias e="$EDITOR"
 alias hms="sudo darwin-rebuild switch --flake ~/.config/nix"
+alias hh="sudo darwin-rebuild switch --flake ~/.config/nix --fast"
 alias j8="JAVA_HOME=/Library/Java/JavaVirtualMachines/zulu-8.jdk/Contents/Home"
 alias j17="JAVA_HOME=/Library/Java/JavaVirtualMachines/openjdk-17.jdk/Contents/Home"
 alias j21="JAVA_HOME=/Library/Java/JavaVirtualMachines/zulu-21.jdk/Contents/Home"

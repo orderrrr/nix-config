@@ -1,0 +1,1 @@
+require('themes.cmpline').setup()

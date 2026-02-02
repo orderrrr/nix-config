@@ -5,7 +5,6 @@ vim.g.opencode_opts = {}
 -- Required for `vim.g.opencode_opts.auto_reload`.
 vim.o.autoread = true
 
-
 local opencode = require("opencode")
 
 local function ask()
@@ -55,6 +54,11 @@ _99.setup({
   },
   md_files = {
     "AGENT.md",
+  },
+  provider = {
+    opencode = {
+      model = "moonshot-ai/kimi-k2.5",
+    },
   },
 })
 

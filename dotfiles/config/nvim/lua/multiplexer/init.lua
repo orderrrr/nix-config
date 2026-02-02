@@ -13,10 +13,19 @@ function M.setup(opts)
   vim.pack.add({
     'https://github.com/nvim-lua/plenary.nvim',
     'https://github.com/nvim-telescope/telescope.nvim',
+    'https://github.com/f-person/auto-dark-mode.nvim',
   })
 
   -- Setup theme
-  require("themes.compline").setup()
+  require("auto-dark-mode").setup({
+    set_dark_mode = function()
+      vim.cmd.colorscheme("cmpline")
+    end,
+    set_light_mode = function()
+      vim.cmd.colorscheme("cmpline-light")
+    end,
+    fallback = "dark"
+  })
   vim.cmd('hi statusline guibg=NONE')
 
   -- Apply editor options

@@ -1,6 +1,5 @@
 vim.cmd('set completeopt+=noselect')
 
-require('nvim-treesitter.install').update({ with_sync = true })()
 require("sclang-format").setup()
 require('nvim-treesitter.configs').setup({
 	modules = {},

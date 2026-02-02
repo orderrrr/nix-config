@@ -11,6 +11,7 @@
     ".config/nvim/init.lua".source = dotfiles/config/nvim/init.lua;
     ".config/nvim/init_multiplexer.lua".source = dotfiles/config/nvim/init_multiplexer.lua;
 
+    ".config/nvim/colors".source = dotfiles/config/nvim/colors;
     ".config/nvim/lua".source = dotfiles/config/nvim/lua;
     ".config/nvim/.env".source = dotfiles/config/nvim/.env;
 

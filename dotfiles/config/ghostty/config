@@ -403,8 +403,8 @@ freetype-load-flags = hinting,force-autohint,monochrome,autohint
 # 
 #   - macOS: titlebar tabs style is not updated when switching themes.
 # 
-theme = "dark:kanagawa-paper-ink,light:kanagawa-paper-canvas"
-# theme = "dark:compline,light:lauds"
+# theme = "dark:kanagawa-paper-ink,light:kanagawa-paper-canvas"
+theme = "dark:compline,light:lauds"
 
 # Background color for the window.
 # Specified as either hex (`#RRGGBB` or `RRGGBB`) or a named X11 color.
