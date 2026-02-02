@@ -1,4 +1,4 @@
-local util = require("util")
+local util = require("dev.util")
 
 vim.keymap.set({ 'v', 'n' }, '<leader>y', '"+y');
 vim.keymap.set({ 'v', 'n' }, '<leader>Y', '"+yg_');

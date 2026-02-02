@@ -139,7 +139,7 @@ if type -q rg
 end
 
 function t --description 'Launch multiplexer'
-  nvim -u $HOME/.config/nvim/init_multiplexer.lua
+  NVIM_MODE="multiplexer" nvim
 end
 
 function ssh --description 'SSH with xterm-256color support'

@@ -1,4 +1,4 @@
-local pf = require('util').pf
+local pf = require('dev.util').pf
 
 vim.g.opencode_opts = {}
 
