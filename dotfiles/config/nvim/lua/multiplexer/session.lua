@@ -67,7 +67,7 @@ function M.close()
 end
 
 -- Go to a specific session by tab number
-function M.goto(tabnr)
+function M.goto_tab(tabnr)
   ensure_not_focused()
   cmd('tabnext ' .. tabnr)
 end

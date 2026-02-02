@@ -82,7 +82,6 @@ fzf_configure_bindings --directory=\ct --history=\cr --variables=\cv --git_statu
 
 # Load custom functions
 source ~/.config/fish/functions/archives.fish
-source ~/.config/fish/functions/diff.fish
 
 git config --global core.pager delta
 git config --global interactive.diffFilter 'delta --color-only'
@@ -152,3 +151,7 @@ function vk --description 'Run command with Vulkan/MoltenVK environment'
     set -lx MTL_HUD_ENABLED 1
     $argv
 end
+
+alias ss=rsh
+alias oo=opencode
+alias cc=claude

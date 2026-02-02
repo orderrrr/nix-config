@@ -52,14 +52,28 @@ local function in_vertical_split()
 end
 
 -- Navigate with wrapping to adjacent sessions
--- Does not wrap when in focus mode
+-- In focus mode: exits focus, navigates, re-enters focus on new pane
 local function nav_wrap(dir)
-  -- Don't wrap sessions in focus mode
   if focus.is_active() then
+    -- In focus mode: exit focus, navigate, then re-enter focus on new pane
+    local current_buf = api.nvim_get_current_buf()
+    focus.exit_if_active()
+    
+    -- Try to navigate
+    local win_before = api.nvim_get_current_win()
     cmd('wincmd ' .. dir)
+    local win_after = api.nvim_get_current_win()
+    local new_buf = api.nvim_get_current_buf()
+    
+    -- Only re-enter focus if we actually moved to a different buffer
+    -- This handles the "stop at edge" behavior
+    if new_buf ~= current_buf and win_before ~= win_after then
+      focus.toggle()
+    end
     return
   end
 
+  -- Normal mode: wrap sessions at edges
   local win_before = api.nvim_get_current_win()
   cmd('wincmd ' .. dir)
   local win_after = api.nvim_get_current_win()
@@ -189,8 +203,10 @@ function M.setup()
     end, { desc = 'Move right (wrap session)' })
 
     -- Resize (strict: only resize if we're actually in a split)
+    -- Does nothing in focus mode
     local resize = config.options.resize
     vim.keymap.set(mode, '<A-H>', function()
+      if focus.is_active() then return end
       if mode == 't' then cmd('stopinsert') end
       if in_horizontal_split() then
         cmd('vertical resize -' .. resize.vertical)
@@ -199,6 +215,7 @@ function M.setup()
     end, { desc = 'Resize left' })
     
     vim.keymap.set(mode, '<A-J>', function()
+      if focus.is_active() then return end
       if mode == 't' then cmd('stopinsert') end
       if in_vertical_split() then
         cmd('resize -' .. resize.horizontal)
@@ -207,6 +224,7 @@ function M.setup()
     end, { desc = 'Resize down' })
     
     vim.keymap.set(mode, '<A-K>', function()
+      if focus.is_active() then return end
       if mode == 't' then cmd('stopinsert') end
       if in_vertical_split() then
         cmd('resize +' .. resize.horizontal)
@@ -215,6 +233,7 @@ function M.setup()
     end, { desc = 'Resize up' })
     
     vim.keymap.set(mode, '<A-L>', function()
+      if focus.is_active() then return end
       if mode == 't' then cmd('stopinsert') end
       if in_horizontal_split() then
         cmd('vertical resize +' .. resize.vertical)
@@ -286,7 +305,7 @@ function M.setup()
       if mode == 't' then cmd('stopinsert') end
       focus.exit_if_active()
       ui.show_session_picker(function(tabnr)
-        session.goto(tabnr)
+        session.goto_tab(tabnr)
         enter_terminal_if_needed()
       end)
     end, { desc = 'Pick session' })
