@@ -90,7 +90,8 @@ function M.setup(opts)
 
   -- Floating windows & popups
   set(0, 'NormalFloat', { fg = p.fg, bg = bg })
-  set(0, 'FloatBorder', { fg = p.base5, bg = bg })
+  set(0, 'FloatBorder', { fg = light_mode and p.base7 or p.base4, bg = bg })
+  set(0, 'TelescopeBorder', { fg = p.base3, bg = bg })
   set(0, 'FloatTitle', { fg = p.fg_alt, bg = bg })
   set(0, 'Pmenu', { fg = p.fg, bg = pmenu_bg })
   set(0, 'PmenuSel', { fg = p.fg, bg = pmenu_sel_bg })

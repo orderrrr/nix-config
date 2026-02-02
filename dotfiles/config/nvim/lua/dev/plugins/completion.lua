@@ -1,5 +1,5 @@
 require('luasnip.loaders.from_vscode').lazy_load()
-require('plugins.snippets')
+require('dev.plugins.snippets')
 
 require("supermaven-nvim").setup({
 	keymaps = {

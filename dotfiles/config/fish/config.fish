@@ -7,6 +7,8 @@ status is-interactive; or return
 # NVM
 set -U nvm_default_version v22.21.1
 
+set NVIM_MODE "dev"
+
 set -l paths \
     /opt/homebrew/sbin \
     /opt/homebrew/bin \

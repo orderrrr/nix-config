@@ -168,12 +168,7 @@ function M.setup()
   vim.keymap.set('n', '<C-w>v', function() smart_split('v') end, { desc = 'Vertical split' })
   vim.keymap.set('n', '<C-w>s', function() smart_split('s') end, { desc = 'Horizontal split' })
 
-  -- Clipboard keymaps
-  vim.keymap.set({ 'v', 'n' }, '<leader>y', '"+y', { desc = 'Copy to clipboard' })
-  vim.keymap.set({ 'v', 'n' }, '<leader>Y', '"+yg_', { desc = 'Copy to clipboard (end of line)' })
-  vim.keymap.set({ 'v', 'n' }, '<leader>yy', '"+yy', { desc = 'Copy line to clipboard' })
-  vim.keymap.set({ 'v', 'n' }, '<leader>p', '"+p', { desc = 'Paste from clipboard' })
-  vim.keymap.set({ 'v', 'n' }, '<leader>P', '"+P', { desc = 'Paste before from clipboard' })
+
 
   -- Alt keymaps (work in normal and terminal mode)
   for _, mode in ipairs({ 'n', 't' }) do

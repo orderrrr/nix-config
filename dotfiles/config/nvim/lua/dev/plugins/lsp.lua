@@ -89,7 +89,7 @@ local capabilities = vim.lsp.protocol.make_client_capabilities()
 local on_attach = function(_, _)
 end
 
-require('plugins.filetypes.jdtls')(on_attach, capabilities)
+require('dev.plugins.filetypes.jdtls')(on_attach, capabilities)
 require("flutter-tools").setup {
 	debugger = {
 		enabled = true,
