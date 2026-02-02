@@ -19,10 +19,10 @@ function M.setup(opts)
   -- Setup theme
   require("auto-dark-mode").setup({
     set_dark_mode = function()
-      vim.cmd.colorscheme("cmpline")
+      vim.cmd.colorscheme("compline")
     end,
     set_light_mode = function()
-      vim.cmd.colorscheme("cmpline-light")
+      vim.cmd.colorscheme("compline-light")
     end,
     fallback = "dark"
   })

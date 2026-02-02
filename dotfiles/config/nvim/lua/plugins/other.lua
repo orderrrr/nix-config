@@ -19,14 +19,14 @@ vim.keymap.set({ 't' }, '<C-\\>', '<C-\\><C-n>')
 
 -- require("kanagawa-paper").setup({ transparent = false })
 -- vim.cmd.colorscheme("kanagawa-paper")
--- require("themes.cmpline").setup({ light_mode = false, transparent_background = true })
+-- require("themes.compline").setup({ light_mode = false, transparent_background = true })
 
 require("auto-dark-mode").setup({
   set_dark_mode = function()
-    vim.cmd.colorscheme("cmpline")
+    vim.cmd.colorscheme("compline")
   end,
   set_light_mode = function()
-    vim.cmd.colorscheme("cmpline-light")
+    vim.cmd.colorscheme("compline-light")
   end,
   fallback = "dark"
 })

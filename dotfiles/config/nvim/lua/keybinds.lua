@@ -9,6 +9,7 @@ vim.keymap.set({ 'v', 'n' }, '<leader>P', '"+P');
 
 vim.keymap.set('n', '<leader>so', ':update<CR> :so<CR>');
 vim.keymap.set('n', '<leader>w', ':write<CR>');
+vim.keymap.set('n', '<leader>q', ':quit<CR>');
 
 vim.keymap.set('n', 'S', ":%s//g<Left><Left>", { desc = "Find and replace in file" })
 vim.keymap.set('v', 'S', ":s//g<Left><Left>", { desc = "Find and replace in selection" })
