@@ -16,7 +16,6 @@ vim.pack.add({
   'https://github.com/nvim-treesitter/playground',
   'https://github.com/nvim-treesitter/nvim-treesitter-context',
 
-  "https://github.com/nvim-telescope/telescope.nvim",
   "https://github.com/nvim-telescope/telescope-ui-select.nvim",
   "https://github.com/gbrlsnchs/telescope-lsp-handlers.nvim",
 
@@ -30,7 +29,6 @@ vim.pack.add({
 
   'https://github.com/mfussenegger/nvim-jdtls',
 
-  "https://github.com/nvim-lua/plenary.nvim",
   'https://github.com/stevearc/dressing.nvim',
   "https://github.com/stevearc/oil.nvim",
 
@@ -45,8 +43,6 @@ vim.pack.add({
   'https://github.com/nvim-flutter/flutter-tools.nvim',
 
   'https://github.com/orderrrr/99',
-
-  'https://github.com/f-person/auto-dark-mode.nvim',
 
   'https://github.com/MeanderingProgrammer/render-markdown.nvim',
 })

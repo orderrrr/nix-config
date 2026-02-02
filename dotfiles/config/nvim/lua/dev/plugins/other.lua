@@ -17,22 +17,6 @@ require('snacks').setup({
 vim.keymap.set({ 'n', 't' }, '<leader>tt', function() require('snacks').terminal() end)
 vim.keymap.set({ 't' }, '<C-\\>', '<C-\\><C-n>')
 
--- require("kanagawa-paper").setup({ transparent = false })
--- vim.cmd.colorscheme("kanagawa-paper")
--- require("themes.compline").setup({ light_mode = false, transparent_background = true })
-
-require("auto-dark-mode").setup({
-  set_dark_mode = function()
-    vim.cmd.colorscheme("compline")
-  end,
-  set_light_mode = function()
-    vim.cmd.colorscheme("compline-light")
-  end,
-  fallback = "dark"
-})
-
-vim.cmd('hi statusline guibg=NONE')
-
 require('illuminate').configure {
   providers = {
     'lsp',

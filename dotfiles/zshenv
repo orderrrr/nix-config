@@ -1,0 +1,5 @@
+export PATH="/opt/homebrew/anaconda3/envs/myenv/bin:/opt/homebrew/anaconda3/bin:$HOME/.zvm/self:$HOME/.zvm/bin:$HOME/.sdk/flutter/bin:$HOME/Library/Android/Sdk/platform-tools:$HOME/Library/Android/Sdk/emulator:$HOME/.bin/slang/bin:$HOME/.bin:$HOME/.bin/nvim/bin/:$HOME/.local/bin:$HOME/.local/share/cargo/bin:$HOME/.rustup/toolchains/nightly-aarch64-apple-darwin/bin:$HOME/.cargo/bin:/usr/local/bin:/run/current-system/sw/bin:/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"
+
+export VK_ICD_FILENAMES=/opt/homebrew/opt/molten-vk/etc/vulkan/icd.d/MoltenVK_icd.json
+export DYLD_FALLBACK_LIBRARY_PATH=/opt/homebrew/opt/vulkan-loader/lib:/opt/homebrew/opt/molten-vk/lib
+export MTL_HUD_ENABLED=1

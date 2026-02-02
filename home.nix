@@ -19,6 +19,7 @@
 
     ".config/opencode/opencode.json".source = dotfiles/config/opencode/opencode.json;
 
+    ".zshenv".source = dotfiles/zshenv;
 
     ".config/fish/config.fish".source = dotfiles/config/fish/config.fish;
     ".config/fish/functions/archives.fish".source = dotfiles/config/fish/functions/archives.fish;

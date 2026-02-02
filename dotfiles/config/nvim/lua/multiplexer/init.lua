@@ -9,24 +9,9 @@ function M.setup(opts)
   local config = require('multiplexer.config')
   config.setup(opts or {})
 
-  -- Setup plugins
-  vim.pack.add({
-    'https://github.com/nvim-lua/plenary.nvim',
-    'https://github.com/nvim-telescope/telescope.nvim',
-    'https://github.com/f-person/auto-dark-mode.nvim',
-  })
-
-  -- Setup theme
-  require("auto-dark-mode").setup({
-    set_dark_mode = function()
-      vim.cmd.colorscheme("compline")
-    end,
-    set_light_mode = function()
-      vim.cmd.colorscheme("compline-light")
-    end,
-    fallback = "dark"
-  })
-  vim.cmd('hi statusline guibg=NONE')
+  -- Setup shared plugins
+  local base = require('base')
+  vim.pack.add(base.shared_plugins)
 
   -- Apply editor options
   local editor = config.options.editor
@@ -39,7 +24,8 @@ function M.setup(opts)
   -- Enable full mouse support so terminals handle scroll natively
   vim.o.mouse = 'a'
 
-  require('base.keybinds')
+  -- Setup base configuration (keybinds, theme, etc.)
+  base.setup()
 
   -- Initialize modules
   local session = require('multiplexer.session')

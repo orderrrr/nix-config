@@ -1,6 +1,13 @@
 -- Base configuration shared by both IDE and Multiplexer modes
 local M = {}
 
+-- Shared plugins used by both modes
+M.shared_plugins = {
+  'https://github.com/nvim-lua/plenary.nvim',
+  'https://github.com/nvim-telescope/telescope.nvim',
+  'https://github.com/f-person/auto-dark-mode.nvim',
+}
+
 function M.setup()
   -- Leader keys (shared by both modes)
   vim.g.mapleader = ' '
@@ -41,6 +48,7 @@ function M.setup()
   vim.opt.expandtab = true
 
   require("base.keybinds")
+  require("base.theme").setup()
 end
 
 return M

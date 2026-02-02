@@ -1,17 +1,15 @@
 -- Terminal utilities module
 local config = require('multiplexer.config')
 local state = require('multiplexer.state')
+local constants = require('multiplexer.constants')
 
 local M = {}
 
 -- Use vim.uv (newer API) with fallback to vim.loop
 local uv = vim.uv or vim.loop
 
--- Pre-computed shell lookup table (faster than table iteration)
-local SHELLS = {
-  zsh = true, bash = true, fish = true, sh = true, dash = true,
-  ksh = true, tcsh = true, csh = true,
-}
+-- Pre-computed shell lookup from constants
+local SHELLS = constants.SHELLS
 
 -- Cache for async operations to avoid redundant shell calls
 local async_cache = {

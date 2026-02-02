@@ -5,14 +5,12 @@ local terminal = require('multiplexer.terminal')
 local focus = require('multiplexer.focus')
 local ui = require('multiplexer.ui')
 local state = require('multiplexer.state')
+local constants = require('multiplexer.constants')
 
 local M = {}
 
--- Pre-computed shell lookup (same as terminal.lua)
-local SHELLS = {
-  zsh = true, bash = true, fish = true, sh = true, dash = true,
-  ksh = true, tcsh = true, csh = true,
-}
+-- Pre-computed shell lookup from constants
+local SHELLS = constants.SHELLS
 
 -- Cached API functions for faster access in hot paths
 local api = vim.api
