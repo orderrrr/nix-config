@@ -13,13 +13,10 @@ function M.setup(opts)
   vim.pack.add({
     'https://github.com/nvim-lua/plenary.nvim',
     'https://github.com/nvim-telescope/telescope.nvim',
-    'https://github.com/thesimonho/kanagawa-paper.nvim',
   })
 
   -- Setup theme
-  local theme_opts = config.options.theme
-  require('kanagawa-paper').setup({ transparent = theme_opts.transparent })
-  vim.cmd.colorscheme(theme_opts.name)
+  require("themes.compline").setup()
   vim.cmd('hi statusline guibg=NONE')
 
   -- Apply editor options

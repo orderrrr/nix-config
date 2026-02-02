@@ -17,8 +17,10 @@ require('snacks').setup({
 vim.keymap.set({ 'n', 't' }, '<leader>tt', function() require('snacks').terminal() end)
 vim.keymap.set({ 't' }, '<C-\\>', '<C-\\><C-n>')
 
-require("kanagawa-paper").setup({ transparent = false })
-vim.cmd.colorscheme("kanagawa-paper")
+-- require("kanagawa-paper").setup({ transparent = false })
+-- vim.cmd.colorscheme("kanagawa-paper")
+require("themes.compline").setup()
+
 vim.cmd('hi statusline guibg=NONE')
 
 require('illuminate').configure {

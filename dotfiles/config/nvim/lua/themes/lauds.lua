@@ -3,7 +3,6 @@ local M = {}
 M.palette = {
   bg = '#f0efeb',
   bg_alt = '#e0dcd4',
-
   base0 = '#f5f4f2',
   base1 = '#efeeed',
   base2 = '#e5e3e0',
@@ -13,7 +12,6 @@ M.palette = {
   base6 = '#7d7a75',
   base7 = '#5f5c58',
   base8 = '#2d2a27',
-
   fg = '#1a1d21',
   fg_alt = '#4A4D51',
 
