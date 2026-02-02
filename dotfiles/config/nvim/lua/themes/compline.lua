@@ -190,6 +190,11 @@ function M.setup(opts)
 
   -- Filetypes
   set(0, "Directory", { fg = p.blue })
+
+  -- Markdown
+  set(0, "@markup.raw", { fg = p.base7 })
+  set(0, "@markup.raw.markdown_inline", { fg = p.base7 })
+  set(0, "markdownCode", { fg = p.base7 })
 end
 
 return M
