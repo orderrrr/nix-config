@@ -293,15 +293,18 @@ function M.setup()
       enter_terminal_if_needed()
     end, { desc = 'Close session' })
 
-    -- Session picker
+    -- Session picker (now shows panes)
     vim.keymap.set(mode, '<A-s>', function()
       if mode == 't' then cmd('stopinsert') end
       focus.exit_if_active()
-      ui.show_session_picker(function(tabnr)
+      ui.show_session_picker(function(tabnr, winid)
         session.goto_tab(tabnr)
+        if winid and vim.api.nvim_win_is_valid(winid) then
+          vim.api.nvim_set_current_win(winid)
+        end
         enter_terminal_if_needed()
       end)
-    end, { desc = 'Pick session' })
+    end, { desc = 'Pick pane' })
 
     -- Focused mode
     vim.keymap.set(mode, '<A-f>', function()
