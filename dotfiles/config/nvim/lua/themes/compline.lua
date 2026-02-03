@@ -192,6 +192,13 @@ function M.setup(opts)
   -- Filetypes
   set(0, "Directory", { fg = p.blue })
 
+  -- Quickfix
+  set(0, "QuickFixLine", { bg = p.base3, bold = true })
+  set(0, "qfFileName", { fg = p.blue })
+  set(0, "qfLineNr", { fg = p.base5 })
+  set(0, "qfError", { fg = p.red })
+  set(0, "qfWarning", { fg = p.yellow })
+
   -- Markdown
   set(0, "@markup.raw", { fg = p.base7 })
   set(0, "@markup.raw.markdown_inline", { fg = p.base7 })

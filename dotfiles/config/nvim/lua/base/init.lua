@@ -16,6 +16,24 @@ function M.setup()
   -- Enable true color support
   vim.o.termguicolors = true
 
+  -- Ghostty OSC passthrough configuration
+  -- This allows Ghostty shell integration features (password lock icon,
+  -- command progress bars) to work when running inside Neovim's :terminal
+  if vim.env.GHOSTTY_RESOURCES_DIR or vim.env.TERM == 'xterm-ghostty' then
+    -- Enable OSC 52 clipboard integration (optional but recommended)
+    vim.g.clipboard = {
+      name = 'OSC 52',
+      copy = {
+        ['+'] = require('vim.ui.clipboard.osc52').copy('+'),
+        ['*'] = require('vim.ui.clipboard.osc52').copy('*'),
+      },
+      paste = {
+        ['+'] = function() return { vim.fn.split(vim.fn.getreg(''), '\n'), vim.fn.getregtype('') } end,
+        ['*'] = function() return { vim.fn.split(vim.fn.getreg(''), '\n'), vim.fn.getregtype('') } end,
+      },
+    }
+  end
+
   -- Minimal shared options that both modes want
   vim.o.swapfile = false
   vim.o.undofile = true

@@ -13,7 +13,13 @@ function M.setup(opts)
   local base = require('base')
   vim.pack.add(base.shared_plugins)
 
-  -- Apply editor options
+  -- Setup base configuration (keybinds, theme, etc.)
+  -- Note: This must be called BEFORE applying multiplexer-specific options
+  -- because base.setup() sets some options (like signcolumn) that we want to override
+  base.setup()
+
+  -- Apply multiplexer-specific editor options AFTER base.setup()
+  -- This ensures settings like signcolumn='no' and cmdheight=0 take precedence
   local editor = config.options.editor
   for key, value in pairs(editor) do
     vim.o[key] = value
@@ -23,9 +29,6 @@ function M.setup(opts)
   vim.o.mousemoveevent = true
   -- Enable full mouse support so terminals handle scroll natively
   vim.o.mouse = 'a'
-
-  -- Setup base configuration (keybinds, theme, etc.)
-  base.setup()
 
   -- Initialize modules
   local session = require('multiplexer.session')
