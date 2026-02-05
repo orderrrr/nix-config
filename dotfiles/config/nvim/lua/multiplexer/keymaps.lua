@@ -277,6 +277,12 @@ function M.setup()
       enter_terminal_if_needed()
     end, { desc = 'Previous session' })
 
+    vim.keymap.set(mode, '<A-;>', function()
+      if mode == 't' then cmd('stopinsert') end
+      terminal.resize_terminal_jobs()
+      enter_terminal_if_needed()
+    end, { desc = 'Refresh terminals' })
+
     vim.keymap.set(mode, '<A-r>', function()
       if mode == 't' then cmd('stopinsert') end
       vim.ui.input({ prompt = 'Session name: ' }, function(name)

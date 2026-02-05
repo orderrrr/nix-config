@@ -305,6 +305,26 @@ function M.open(cwd, start_insert)
   end)
 end
 
+-- Resize all terminal jobs in a tabpage to match their window dimensions
+-- This sends proper SIGWINCH to nested terminals without touching window size
+-- @param tabpage? number Tabpage to process (defaults to current)
+function M.resize_terminal_jobs(tabpage)
+  tabpage = tabpage or vim.api.nvim_get_current_tabpage()
+  
+  for _, win in ipairs(vim.api.nvim_tabpage_list_wins(tabpage)) do
+    local bufnr = vim.api.nvim_win_get_buf(win)
+    if vim.bo[bufnr].buftype == 'terminal' then
+      local job_id = vim.b[bufnr].terminal_job_id
+      if job_id then
+        local width = vim.api.nvim_win_get_width(win)
+        local height = vim.api.nvim_win_get_height(win)
+        -- Resize the PTY directly - sends SIGWINCH to the process
+        pcall(vim.fn.jobresize, job_id, width, height)
+      end
+    end
+  end
+end
+
 -- Check if buffer has a running process (not just shell)
 -- Optimized: checks cache first, uses pre-computed shell lookup
 function M.has_running_process(bufnr)

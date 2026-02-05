@@ -33,8 +33,7 @@
       "sshpass" "opencode" "starship" "tailscale" "telnet" "tinyxml2" "typescript"
       "vulkan-loader" "wget" "yt-dlp" "zig" "zoxide" "jj" "pixi" "colmap" "just" "glfw"
       "llvm@20" "mtr" "molten-vk" "nx" "macmon" "openjdk@17" "dart" "krunkit" "podman"
-      "steipete/tap/peekaboo" "ripgrep" "steipete/tap/remindctl" "steipete/tap/summarize" "steipete/tap/wacli"
-      "git-delta" "ios-deploy"
+      "ripgrep" "git-delta" "ios-deploy" "wasmtime" "wabt"
       # "krunvm" "podman"
       # "tracy"
     ];

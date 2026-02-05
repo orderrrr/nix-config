@@ -188,6 +188,10 @@ function M.setup(opts)
   set(0, "@keyword.directive.define", { fg = p.teal })
   set(0, "@comment", { fg = light_mode and p.base6 or p.base4, italic = true })
   set(0, "@comment.documentation", { fg = light_mode and p.base6 or p.base4, italic = true })
+  set(0, "@tag", { fg = p.blue })
+  set(0, "@tag.builtin", { fg = p.blue })
+  set(0, "@tag.delimiter", { fg = p.base6 })
+  set(0, "@tag.attribute", { fg = p.cyan })
 
   -- Filetypes
   set(0, "Directory", { fg = p.blue })

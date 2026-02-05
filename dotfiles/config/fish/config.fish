@@ -155,6 +155,27 @@ function vk --description 'Run command with Vulkan/MoltenVK environment'
     $argv
 end
 
+# ============================================================================
+# Keybindings
+# ============================================================================
+
+# Ctrl+O: Open whatever is on the command line in nvim (read-only).
+# Designed to pair with Ghostty's Cmd+Shift+S (write_scrollback_file:paste),
+# which pastes a scrollback temp-file path onto the command line.
+# Workflow: Cmd+Shift+S → Ctrl+O → scrollback opens in nvim for searching.
+function __open_cmdline_in_nvim
+    set -l buf (string trim (commandline -b))
+    test -z "$buf"; and return
+    set -l prev_cmd (commandline -b)
+    commandline -r ""
+    commandline -f repaint
+    nvim -R $buf
+    commandline -r ""
+    commandline -f repaint
+end
+bind -M insert \co __open_cmdline_in_nvim
+bind -M default \co __open_cmdline_in_nvim
+
 alias ss=rsh
 alias oo=opencode
-alias cc=claude
+alias co=claude

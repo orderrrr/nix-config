@@ -150,26 +150,6 @@ local function exit_focus()
 
   vim.cmd('redrawstatus')
 
-  -- Force terminal panes to recalculate dimensions after exiting focus mode
-  -- Nested terminals/neovim may not properly resize otherwise (e.g., missing line numbers)
-  -- Schedule this to run after the tab close is fully processed
-  vim.schedule(function()
-    -- Trigger a resize event by briefly changing window size and restoring
-    -- This sends SIGWINCH to terminal processes
-    for _, win in ipairs(vim.api.nvim_tabpage_list_wins(vim.api.nvim_get_current_tabpage())) do
-      local bufnr = vim.api.nvim_win_get_buf(win)
-      if vim.bo[bufnr].buftype == 'terminal' then
-        local width = vim.api.nvim_win_get_width(win)
-        local height = vim.api.nvim_win_get_height(win)
-        -- Briefly resize to trigger SIGWINCH, then restore
-        pcall(vim.api.nvim_win_set_width, win, width + 1)
-        pcall(vim.api.nvim_win_set_width, win, width)
-        pcall(vim.api.nvim_win_set_height, win, height + 1)
-        pcall(vim.api.nvim_win_set_height, win, height)
-      end
-    end
-  end)
-
   debug_log('Exited focus mode')
 end
 

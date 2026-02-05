@@ -45,6 +45,8 @@ vim.pack.add({
   'https://github.com/orderrrr/99',
 
   'https://github.com/MeanderingProgrammer/render-markdown.nvim',
+
+  'https://github.com/pixelsandpointers/slang.nvim',
 })
 
 local plugins_dir = vim.fn.stdpath("config") .. "/lua/dev/plugins"
