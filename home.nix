@@ -8,41 +8,55 @@ in
   home.username = user;
   home.homeDirectory = if isDarwin then "/Users/${user}" else "/home/${user}";
   home.stateVersion = "24.05";
-  home.packages = with pkgs; [
-    zinit
-    vim
-    rename
-    btop
-    eza
-    lsd
-    fzf
-    fish
-    starship
-    direnv
-    zoxide
-    neofetch
-    yt-dlp
-    zig
-    jj
-    pixi
-    just
-    ripgrep
-    git
-    gh
-    lazygit
-    curl
-    wget
-    mtr
-    tailscale
-    ffmpeg
-    imagemagick
-    graphviz
-    cmake
-    coreutils
-    nixfmt-rfc-style
-    curlie
-    ollama
-  ];
+   home.packages =
+     with pkgs;
+     [
+       zinit
+       vim
+       rename
+       btop
+       eza
+       lsd
+       fzf
+       fish
+       starship
+       direnv
+       zoxide
+       neofetch
+       yt-dlp
+       zig
+       jj
+       pixi
+       just
+       ripgrep
+       git
+       gh
+       lazygit
+       curl
+       wget
+       mtr
+       tailscale
+       ffmpeg
+       imagemagick
+       graphviz
+       cmake
+       coreutils
+       nixfmt-rfc-style
+       curlie
+       ollama
+       xdg-desktop-portal-hyprland
+       xdg-desktop-portal-gtk
+     ]
+     (
+       if isDarwin then
+         [ ]
+       else
+         [
+           darkman
+           gnome-themes-extra
+           adwaita-icon-theme
+         ]
+     );
 
   home.file = {
     ".config/nvim/nvim-nightly.sh".source = dotfiles/config/nvim/nvim-nightly.sh;
@@ -58,6 +72,7 @@ in
     ".config/opencode/opencode.json".source = dotfiles/config/opencode/opencode.json;
 
     "AGENTS.md".source = dotfiles/AGENTS.md;
+    ".config/hypr/hyprland.conf".source = dotfiles/config/hypr/hyprland.conf;
 
     ".zshenv".source = dotfiles/zshenv;
 
@@ -69,10 +84,12 @@ in
   }
   // pkgs.lib.optionalAttrs isDarwin {
     ".aerospace.toml".source = dotfiles/aerospace.toml;
+  }
+  // pkgs.lib.optionalAttrs (!isDarwin) {
+    ".config/xdg-desktop-portal/portals.conf".source = dotfiles/config/xdg-desktop-portal/portals.conf;
   };
 
-  home.sessionVariables = {
-  };
+  home.sessionVariables = if isDarwin then { } else { };
 
   programs.home-manager.enable = true;
 }
