@@ -45,6 +45,7 @@ in
       curlie
       ollama
       xdg-desktop-portal-hyprland
+      xdg-desktop-portal-gtk
     ]
     ++ (
       if isDarwin then
@@ -88,15 +89,7 @@ in
     ".config/xdg-desktop-portal/portals.conf".source = dotfiles/config/xdg-desktop-portal/portals.conf;
   };
 
-  home.sessionVariables =
-    if isDarwin then
-      { }
-    else
-      {
-        GTK_THEME = "Adwaita:dark";
-        QT_QPA_PLATFORMTHEME = "gtk2";
-        QT_STYLE_OVERRIDE = "adwaita-dark";
-      };
+  home.sessionVariables = if isDarwin then { } else { };
 
   programs.home-manager.enable = true;
 }
