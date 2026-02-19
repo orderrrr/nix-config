@@ -1,10 +1,9 @@
-{ pkgs, ... }: {
+{ pkgs, ... }:
 
-  environment.systemPackages =
-    [
-      pkgs.vim
-      pkgs.rename
-    ];
+let
+  isDarwin = pkgs.system == "aarch64-darwin" || pkgs.system == "x86_64-darwin";
+  user = "nmcintosh";
+in {
 
   nix.enable = true;
 
@@ -12,16 +11,16 @@
 
   system.stateVersion = 5;
 
-  nixpkgs.hostPlatform = "aarch64-darwin";
+  nixpkgs.hostPlatform = if isDarwin then "aarch64-darwin" else "x86_64-linux";
 
-  users.users.nmcintosh = {
-    name = "nmcintosh";
-    home = "/Users/nmcintosh";
+  users.users.${user} = {
+    name = user;
+    home = if isDarwin then "/Users/${user}" else "/home/${user}";
   };
 
-  system.primaryUser = "nmcintosh";
+  system.primaryUser = user;
 
-  homebrew = {
+  nix-darwin.settings.homebrew = if isDarwin then {
     enable = true;
 
     taps = ["nikitabobko/tap" "sst/tap" "dart-lang/dart" "slp/krunkit" "steipete/tap"];
@@ -33,9 +32,8 @@
       "sshpass" "opencode" "starship" "tailscale" "telnet" "tinyxml2" "typescript"
       "vulkan-loader" "wget" "yt-dlp" "zig" "zoxide" "jj" "pixi" "colmap" "just" "glfw"
       "llvm@20" "mtr" "molten-vk" "nx" "macmon" "openjdk@17" "dart" "krunkit" "podman"
-      "ripgrep" "git-delta" "ios-deploy" "wasmtime" "wabt"
-      # "krunvm" "podman"
-      # "tracy"
+      "steipete/tap/peekaboo" "ripgrep" "steipete/tap/remindctl" "steipete/tap/summarize" "steipete/tap/wacli"
+      "git-delta" "ios-deploy" "wasmtime" "wabt"
     ];
 
     casks = [
@@ -45,7 +43,6 @@
       "wireshark-app" "zen" "zulu" "zulu@21" "zulu@8" "zed" "postman" "google-chrome" "plugdata"
       "jordanbaird-ice" "aerospace" "flutter" "android-commandlinetools" "claude" "claude-code" 
       "upscayl"
-			# "soapui" "splice"
     ];
 
     masApps = {};
@@ -55,5 +52,7 @@
       upgrade = true;
       cleanup = "zap";
     };
-  };
+  } else {};
+
+  programs.hyprland.enable = !isDarwin;
 }

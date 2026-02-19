@@ -45,7 +45,7 @@ require('blink.cmp').setup({
 		},
 	},
 	fuzzy = {
-		implementation = 'prefer_rust',
+		implementation = 'lua',
 	},
 	appearance = {
 		use_nvim_cmp_as_default = true,

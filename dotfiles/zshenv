@@ -3,5 +3,3 @@ export PATH="/opt/homebrew/anaconda3/envs/myenv/bin:/opt/homebrew/anaconda3/bin:
 export VK_ICD_FILENAMES=/opt/homebrew/opt/molten-vk/etc/vulkan/icd.d/MoltenVK_icd.json
 export DYLD_FALLBACK_LIBRARY_PATH=/opt/homebrew/opt/vulkan-loader/lib:/opt/homebrew/opt/molten-vk/lib
 export MTL_HUD_ENABLED=1
-
-export OPENCODE_API_KEY="sk-EivRCDOs9j7XN43aoqoruxsfpzmJgEolVbam0lnDgukLYpIVfY7TEwwhrHxmMA16"

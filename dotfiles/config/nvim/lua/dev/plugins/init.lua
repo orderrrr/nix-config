@@ -13,7 +13,6 @@ vim.pack.add({
   'https://github.com/uga-rosa/ccc.nvim',
 
   'https://github.com/nvim-treesitter/nvim-treesitter',
-  'https://github.com/nvim-treesitter/playground',
   'https://github.com/nvim-treesitter/nvim-treesitter-context',
 
   "https://github.com/nvim-telescope/telescope-ui-select.nvim",
