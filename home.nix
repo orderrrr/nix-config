@@ -8,41 +8,54 @@ in
   home.username = user;
   home.homeDirectory = if isDarwin then "/Users/${user}" else "/home/${user}";
   home.stateVersion = "24.05";
-  home.packages = with pkgs; [
-    zinit
-    vim
-    rename
-    btop
-    eza
-    lsd
-    fzf
-    fish
-    starship
-    direnv
-    zoxide
-    neofetch
-    yt-dlp
-    zig
-    jj
-    pixi
-    just
-    ripgrep
-    git
-    gh
-    lazygit
-    curl
-    wget
-    mtr
-    tailscale
-    ffmpeg
-    imagemagick
-    graphviz
-    cmake
-    coreutils
-    nixfmt-rfc-style
-    curlie
-    ollama
-  ];
+  home.packages =
+    with pkgs;
+    [
+      zinit
+      vim
+      rename
+      btop
+      eza
+      lsd
+      fzf
+      fish
+      starship
+      direnv
+      zoxide
+      neofetch
+      yt-dlp
+      zig
+      jj
+      pixi
+      just
+      ripgrep
+      git
+      gh
+      lazygit
+      curl
+      wget
+      mtr
+      tailscale
+      ffmpeg
+      imagemagick
+      graphviz
+      cmake
+      coreutils
+      nixfmt-rfc-style
+      curlie
+      ollama
+      xdg-desktop-portal-hyprland
+    ]
+    ++ (
+      if isDarwin then
+        [ ]
+      else
+        [
+          darkman
+          gnome-themes-extra
+          adwaita-icon-theme
+        ]
+    );
 
   home.file = {
     ".config/nvim/nvim-nightly.sh".source = dotfiles/config/nvim/nvim-nightly.sh;
@@ -57,20 +70,33 @@ in
 
     ".config/opencode/opencode.json".source = dotfiles/config/opencode/opencode.json;
 
+    ".config/hypr/hyprland.conf".source = dotfiles/config/hypr/hyprland.conf;
+
     ".zshenv".source = dotfiles/zshenv;
 
     ".config/fish/config.fish".source = dotfiles/config/fish/config.fish;
-    ".config/fish/os.fish".source = if isDarwin then dotfiles/config/fish/os/macos.fish else dotfiles/config/fish/os/linux.fish;
+    ".config/fish/os.fish".source =
+      if isDarwin then dotfiles/config/fish/os/macos.fish else dotfiles/config/fish/os/linux.fish;
     ".config/fish/functions/archives.fish".source = dotfiles/config/fish/functions/archives.fish;
     ".config/fish/functions/rsh.fish".source = dotfiles/config/fish/functions/rsh.fish;
     ".config/fish/functions/ai-commit.fish".source = dotfiles/config/fish/functions/ai-commit.fish;
   }
   // pkgs.lib.optionalAttrs isDarwin {
     ".aerospace.toml".source = dotfiles/aerospace.toml;
+  }
+  // pkgs.lib.optionalAttrs (!isDarwin) {
+    ".config/xdg-desktop-portal/portals.conf".source = dotfiles/config/xdg-desktop-portal/portals.conf;
   };
 
-  home.sessionVariables = {
-  };
+  home.sessionVariables =
+    if isDarwin then
+      { }
+    else
+      {
+        GTK_THEME = "Adwaita:dark";
+        QT_QPA_PLATFORMTHEME = "gtk2";
+        QT_STYLE_OVERRIDE = "adwaita-dark";
+      };
 
   programs.home-manager.enable = true;
 }

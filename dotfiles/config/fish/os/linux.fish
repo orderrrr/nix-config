@@ -17,7 +17,7 @@ set -gx VULKAN_SDK /usr
 set -gx BROWSER xdg-open
 
 # Linux aliases
-alias hms="home-manager switch --flake ~/.config/nix"
+alias hms="home-manager switch --extra-experimental-features 'nix-command flakes' --flake ~/.config/nix"
 
 # Hyprland specific
 if test -n "$HYPRLAND_INSTANCE_SIGNATURE"

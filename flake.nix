@@ -23,40 +23,48 @@
     };
   };
 
-  outputs = { self, home-manager, nix-darwin, nix-homebrew, nixpkgs, ... }:
-  let
-    darwinUser = "nmcintosh";
-    linuxUser = "order";
-  in
-  {
-    darwinConfigurations."nathaniels-MacBook-Pro" = nix-darwin.lib.darwinSystem {
-      modules = [ 
-        ./configuration.nix
+  outputs =
+    {
+      self,
+      home-manager,
+      nix-darwin,
+      nix-homebrew,
+      nixpkgs,
+      ...
+    }:
+    let
+      darwinUser = "nmcintosh";
+      linuxUser = "order";
+    in
+    {
+      darwinConfigurations."nathaniels-MacBook-Pro" = nix-darwin.lib.darwinSystem {
+        modules = [
+          ./configuration.nix
 
-        nix-homebrew.darwinModules.nix-homebrew
-        {
-          nix-homebrew = {
-            enable = true;
-            enableRosetta = true;
-            user = darwinUser;
-            autoMigrate = true;
-          };
-        }
+          nix-homebrew.darwinModules.nix-homebrew
+          {
+            nix-homebrew = {
+              enable = true;
+              enableRosetta = true;
+              user = darwinUser;
+              autoMigrate = true;
+            };
+          }
 
-        home-manager.darwinModules.home-manager
-        {
+          home-manager.darwinModules.home-manager
+          {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.users.${darwinUser} = import ./home.nix;
-        }
-      ];
-    };
+          }
+        ];
+      };
 
-    homeConfigurations.${linuxUser} = home-manager.lib.homeManagerConfiguration {
-      pkgs = import nixpkgs { system = "x86_64-linux"; };
-      modules = [ ./home.nix ];
-    };
+      homeConfigurations.${linuxUser} = home-manager.lib.homeManagerConfiguration {
+        pkgs = import nixpkgs { system = "x86_64-linux"; };
+        modules = [ ./home.nix ];
+      };
 
-    darwinPackages = self.darwinConfigurations."nathaniels-MacBook-Pro".pkgs;
-  };
+      darwinPackages = self.darwinConfigurations."nathaniels-MacBook-Pro".pkgs;
+    };
 }
