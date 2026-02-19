@@ -2,7 +2,7 @@
 
 let
   isDarwin = pkgs.system == "aarch64-darwin" || pkgs.system == "x86_64-darwin";
-  user = if builtins.getEnv "USER" != "" then builtins.getEnv "USER" else "order";
+  user = if isDarwin then "nmcintosh" else "order";
 in
 {
   home.username = user;
@@ -17,12 +17,10 @@ in
     lsd
     fzf
     fish
-    fishPlugins.fzf-fish
     starship
     direnv
     zoxide
     neofetch
-    neovim
     yt-dlp
     zig
     jj

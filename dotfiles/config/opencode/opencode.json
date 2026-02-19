@@ -1,5 +1,24 @@
 {
   "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    "jetbrains": {
+      "command": [
+        "npx",
+        "-y",
+        "@jetbrains/mcp-proxy"
+      ]
+    },
+    "clickup": {
+      "type": "local",
+      "command": [
+        "npx",
+        "-y",
+        "mcp-remote",
+        "https://mcp.clickup.com/mcp"
+      ],
+      "enabled": true
+    }
+  },
   "provider": {
     "ollama": {
       "npm": "@ai-sdk/openai-compatible",
@@ -9,14 +28,14 @@
       },
       "models": {
         "SimonPu/Qwen3-Coder:30B-Instruct_Q4_K_XL": {
-          "name": "Qwen3 Coder Instruct Local",
+          "name": "Qwen3 Coder Instruct Local"
         },
         "qwen3-coder:30b-a3b-q4_K_M": {
-          "name": "Qwen3 Coder Local",
+          "name": "Qwen3 Coder Local"
         },
         "gemma3:27b": {
           "name": "Gemma3 Local"
-        },
+        }
       }
     },
     "openrouter": {

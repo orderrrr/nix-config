@@ -25,8 +25,8 @@
 
   outputs = { self, home-manager, nix-darwin, nix-homebrew, nixpkgs, ... }:
   let
-    user = if builtins.getEnv "USER" != "" then builtins.getEnv "USER" else "order";
-    hostname = if builtins.getEnv "HOSTNAME" != "" then builtins.getEnv "HOSTNAME" else "arch-linux";
+    darwinUser = "nmcintosh";
+    linuxUser = "order";
   in
   {
     darwinConfigurations."nathaniels-MacBook-Pro" = nix-darwin.lib.darwinSystem {
@@ -38,7 +38,7 @@
           nix-homebrew = {
             enable = true;
             enableRosetta = true;
-            user = user;
+            user = darwinUser;
             autoMigrate = true;
           };
         }
@@ -47,12 +47,12 @@
         {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.${user} = import ./home.nix;
+            home-manager.users.${darwinUser} = import ./home.nix;
         }
       ];
     };
 
-    homeConfigurations.${user} = home-manager.lib.homeManagerConfiguration {
+    homeConfigurations.${linuxUser} = home-manager.lib.homeManagerConfiguration {
       pkgs = import nixpkgs { system = "x86_64-linux"; };
       modules = [ ./home.nix ];
     };

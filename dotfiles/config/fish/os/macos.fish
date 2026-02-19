@@ -11,7 +11,8 @@ set -l macos_paths \
     ~/.zvm/bin \
     ~/.zvm/self \
     /opt/homebrew/anaconda3/bin \
-    /opt/homebrew/anaconda3/envs/myenv/bin
+    /opt/homebrew/anaconda3/envs/myenv/bin \
+    ~/.bin/nvim/bin
 
 for p in $macos_paths
     test -d $p; and fish_add_path --move --path $p
@@ -38,8 +39,8 @@ function conda --description 'Lazy-load conda on first use'
 end
 
 # macOS aliases
-alias hms="sudo darwin-rebuild switch --flake ~/.config/nix"
-alias hh="sudo darwin-rebuild switch --flake ~/.config/nix --fast"
+alias hms="sudo darwin-rebuild switch --flake ~/.config/nix#nathaniels-MacBook-Pro"
+alias hh="sudo darwin-rebuild switch --flake ~/.config/nix#nathaniels-MacBook-Pro --fast"
 alias j8="JAVA_HOME=/Library/Java/JavaVirtualMachines/zulu-8.jdk/Contents/Home"
 alias j17="JAVA_HOME=/Library/Java/JavaVirtualMachines/openjdk-17.jdk/Contents/Home"
 alias j21="JAVA_HOME=/Library/Java/JavaVirtualMachines/zulu-21.jdk/Contents/Home"

@@ -1,7 +1,6 @@
 { pkgs, ... }:
 
 let
-  isDarwin = pkgs.system == "aarch64-darwin" || pkgs.system == "x86_64-darwin";
   user = "nmcintosh";
 in {
 
@@ -11,19 +10,19 @@ in {
 
   system.stateVersion = 5;
 
-  nixpkgs.hostPlatform = if isDarwin then "aarch64-darwin" else "x86_64-linux";
+  nixpkgs.hostPlatform = "aarch64-darwin";
 
   users.users.${user} = {
     name = user;
-    home = if isDarwin then "/Users/${user}" else "/home/${user}";
+    home = "/Users/${user}";
   };
 
   system.primaryUser = user;
 
-  nix-darwin.settings.homebrew = if isDarwin then {
+  homebrew = {
     enable = true;
 
-    taps = ["nikitabobko/tap" "sst/tap" "dart-lang/dart" "slp/krunkit" "steipete/tap"];
+    taps = ["nikitabobko/tap" "sst/tap" "dart-lang/dart" "slp/krunkit" "oven-sh/bun"];
 
     brews = [
       "ansible" "ansible-lint" "btop" "cmake" "coreutils" "curl" "docker" "docker-compose" "direnv"
@@ -32,8 +31,7 @@ in {
       "sshpass" "opencode" "starship" "tailscale" "telnet" "tinyxml2" "typescript"
       "vulkan-loader" "wget" "yt-dlp" "zig" "zoxide" "jj" "pixi" "colmap" "just" "glfw"
       "llvm@20" "mtr" "molten-vk" "nx" "macmon" "openjdk@17" "dart" "krunkit" "podman"
-      "steipete/tap/peekaboo" "ripgrep" "steipete/tap/remindctl" "steipete/tap/summarize" "steipete/tap/wacli"
-      "git-delta" "ios-deploy" "wasmtime" "wabt"
+      "ripgrep" "git-delta" "ios-deploy" "wasmtime" "wabt" "oven-sh/bun/bun" "entr"
     ];
 
     casks = [
@@ -52,7 +50,5 @@ in {
       upgrade = true;
       cleanup = "zap";
     };
-  } else {};
-
-  programs.hyprland.enable = !isDarwin;
+  };
 }

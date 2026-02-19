@@ -41,26 +41,29 @@ local cwd = vim.uv.cwd()
 local basename = vim.fs.basename(cwd)
 
 _99.setup({
+  provider = _99.Providers.ClaudeCodeProvider,
+  model = "claude-sonnet-4-6",
+  -- model = "opencode/minimax-m2.5",
+  show_in_flight_requests = true,
   logger = {
     level = _99.DEBUG,
     path = "/tmp/" .. basename .. ".99.debug",
     print_on_error = true,
   },
+  tmp_dir = "./tmp",
   completion = {
-    custom_rules = {
-      "scratch/custom_rules/",
-    },
-    source = "cmp",
+    custom_rules = {}, -- "scratch/custom_rules/"
+    source = "blink",
   },
   md_files = {
     "AGENT.md",
   },
 })
 
--- vim.keymap.set("n", "<leader>9f", function() _99.fill_in_function() end)
--- vim.keymap.set("v", "<leader>9v", function() _99.visual() end)
-
--- vim.keymap.set("v", "<leader>9s", function() _99.stop_all_requests() end)
-
--- vim.keymap.set("n", "<leader>9F", _99.fill_in_function_prompt)
--- vim.keymap.set("v", "<leader>9V", _99.visual_prompt)
+local Worker = _99.Extensions.Worker
+vim.keymap.set("v", "<leader>9v", function() _99.visual() end)
+vim.keymap.set("n", "<leader>9x", function() _99.stop_all_requests() end)
+vim.keymap.set("n", "<leader>9s", function() _99.search() end)
+vim.keymap.set("n", "<leader>9w", function() Worker.set_work() end)
+vim.keymap.set("n", "<leader>9W", function() Worker.work() end)
+vim.keymap.set("n", "<leader>9r", function() Worker.last_search_results() end)

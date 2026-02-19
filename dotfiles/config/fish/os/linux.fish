@@ -16,6 +16,9 @@ set -gx VULKAN_SDK /usr
 # Browser
 set -gx BROWSER xdg-open
 
+# Linux aliases
+alias hms="home-manager switch --flake ~/.config/nix"
+
 # Hyprland specific
 if test -n "$HYPRLAND_INSTANCE_SIGNATURE"
     set -gx WAYLAND_DISPLAY "wayland-1"
