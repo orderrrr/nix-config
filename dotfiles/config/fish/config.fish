@@ -24,6 +24,9 @@ for p in $common_paths
     test -d $p; and fish_add_path --move --path $p
 end
 
+# Ensure system binaries take priority over nix (fixes Steam/Proton)
+fish_add_path --prepend --move /usr/bin
+
 # Load OS-specific config
 source ~/.config/fish/os.fish
 
@@ -139,5 +142,6 @@ bind -M insert \co __open_cmdline_in_nvim
 bind -M default \co __open_cmdline_in_nvim
 
 alias ss=rsh
-alias oo="opencode"
+alias oo=opencode
+alias co=claude
 alias co=claude

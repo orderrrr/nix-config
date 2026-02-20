@@ -8,55 +8,54 @@ in
   home.username = user;
   home.homeDirectory = if isDarwin then "/Users/${user}" else "/home/${user}";
   home.stateVersion = "24.05";
-   home.packages =
-     with pkgs;
-     [
-       zinit
-       vim
-       rename
-       btop
-       eza
-       lsd
-       fzf
-       fish
-       starship
-       direnv
-       zoxide
-       neofetch
-       yt-dlp
-       zig
-       jj
-       pixi
-       just
-       ripgrep
-       git
-       gh
-       lazygit
-       curl
-       wget
-       mtr
-       tailscale
-       ffmpeg
-       imagemagick
-       graphviz
-       cmake
-       coreutils
-       nixfmt-rfc-style
-        curlie
-        ollama
-      ]
-      ++ (
-        if isDarwin then
-          [ ]
-        else
-          [
-            darkman
-            gnome-themes-extra
-            adwaita-icon-theme
-            xdg-desktop-portal-hyprland
-            xdg-desktop-portal-gtk
-          ]
-      );
+  home.packages =
+    with pkgs;
+    [
+      zinit
+      vim
+      rename
+      btop
+      eza
+      lsd
+      fzf
+      fish
+      starship
+      direnv
+      zoxide
+      neofetch
+      yt-dlp
+      zig
+      jj
+      pixi
+      just
+      ripgrep
+      git
+      gh
+      lazygit
+      curl
+      wget
+      mtr
+      ffmpeg
+      imagemagick
+      graphviz
+      cmake
+      coreutils
+      nixfmt-rfc-style
+      curlie
+      ollama
+      xdg-desktop-portal-hyprland
+      xdg-desktop-portal-gtk
+    ]
+    ++ (
+      if isDarwin then
+        [ ]
+      else
+        [
+          darkman
+          gnome-themes-extra
+          adwaita-icon-theme
+        ]
+    );
 
   home.file = {
     ".config/nvim/nvim-nightly.sh".source = dotfiles/config/nvim/nvim-nightly.sh;
