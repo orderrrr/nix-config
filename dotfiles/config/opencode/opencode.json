@@ -1,12 +1,10 @@
 {
   "$schema": "https://opencode.ai/config.json",
   "mcp": {
-    "jetbrains": {
-      "command": [
-        "npx",
-        "-y",
-        "@jetbrains/mcp-proxy"
-      ]
+    "datagrip": {
+      "type": "remote",
+      "url": "http://localhost:64342/sse",
+      "enabled": true
     },
     "clickup": {
       "type": "local",

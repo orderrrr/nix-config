@@ -57,6 +57,8 @@ in
 
     ".config/opencode/opencode.json".source = dotfiles/config/opencode/opencode.json;
 
+    "AGENTS.md".source = dotfiles/AGENTS.md;
+
     ".zshenv".source = dotfiles/zshenv;
 
     ".config/fish/config.fish".source = dotfiles/config/fish/config.fish;
