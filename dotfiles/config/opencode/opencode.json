@@ -4,7 +4,12 @@
     "datagrip": {
       "type": "remote",
       "url": "http://localhost:64342/sse",
-      "enabled": true
+      "enabled": false
+    },
+    "teams-mcp": {
+      "type": "local",
+      "command": ["npx", "-y", "@floriscornel/teams-mcp@latest"],
+      "enabled": false
     },
     "clickup": {
       "type": "local",
@@ -14,7 +19,7 @@
         "mcp-remote",
         "https://mcp.clickup.com/mcp"
       ],
-      "enabled": true
+      "enabled": false
     }
   },
   "provider": {

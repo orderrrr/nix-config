@@ -11,12 +11,12 @@ local mason_path = vim.fn.stdpath("data") .. "/mason/packages/codelldb/extension
 local codelldb_path = mason_path .. "adapter/codelldb"
 
 dap.adapters.codelldb = {
-	type = "server",
-	port = "${port}",
-	executable = {
-		command = codelldb_path,
-		args = { "--port", "${port}" },
-	},
+  type = "server",
+  port = "${port}",
+  executable = {
+    command = codelldb_path,
+    args = { "--port", "${port}" },
+  },
 }
 
 local function zig_default_program()

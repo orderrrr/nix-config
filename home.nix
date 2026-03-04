@@ -42,21 +42,21 @@ in
        cmake
        coreutils
        nixfmt-rfc-style
-       curlie
-       ollama
-       xdg-desktop-portal-hyprland
-       xdg-desktop-portal-gtk
-     ]
-     (
-       if isDarwin then
-         [ ]
-       else
-         [
-           darkman
-           gnome-themes-extra
-           adwaita-icon-theme
-         ]
-     );
+        curlie
+        ollama
+      ]
+      ++ (
+        if isDarwin then
+          [ ]
+        else
+          [
+            darkman
+            gnome-themes-extra
+            adwaita-icon-theme
+            xdg-desktop-portal-hyprland
+            xdg-desktop-portal-gtk
+          ]
+      );
 
   home.file = {
     ".config/nvim/nvim-nightly.sh".source = dotfiles/config/nvim/nvim-nightly.sh;
@@ -81,6 +81,7 @@ in
     ".config/fish/functions/archives.fish".source = dotfiles/config/fish/functions/archives.fish;
     ".config/fish/functions/rsh.fish".source = dotfiles/config/fish/functions/rsh.fish;
     ".config/fish/functions/ai-commit.fish".source = dotfiles/config/fish/functions/ai-commit.fish;
+    ".config/fish/functions/java_auto.fish".source = dotfiles/config/fish/functions/java_auto.fish;
   }
   // pkgs.lib.optionalAttrs isDarwin {
     ".aerospace.toml".source = dotfiles/aerospace.toml;

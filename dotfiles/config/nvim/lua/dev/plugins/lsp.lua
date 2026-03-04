@@ -27,6 +27,7 @@ vim.lsp.config('lua_ls',
 require('mason').setup()
 require('mason-lspconfig').setup {
   automatic_enable = {
+    'codelldb',
     'lua_ls',
     'zls',
     'cpplint',

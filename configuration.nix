@@ -19,6 +19,16 @@ in {
 
   system.primaryUser = user;
 
+  launchd.user.agents.opencode-serve = {
+    serviceConfig = {
+      ProgramArguments = [ "/opt/homebrew/bin/opencode" "serve" "--port" "4141" ];
+      RunAtLoad = true;
+      KeepAlive = true;
+      StandardOutPath = "/tmp/opencode-serve.log";
+      StandardErrorPath = "/tmp/opencode-serve.log";
+    };
+  };
+
   homebrew = {
     enable = true;
 
@@ -31,7 +41,7 @@ in {
       "sshpass" "opencode" "starship" "tailscale" "telnet" "tinyxml2" "typescript"
       "vulkan-loader" "wget" "yt-dlp" "zig" "zoxide" "jj" "pixi" "colmap" "just" "glfw"
       "llvm@20" "mtr" "molten-vk" "nx" "macmon" "openjdk@17" "dart" "krunkit" "podman"
-      "ripgrep" "git-delta" "ios-deploy" "wasmtime" "wabt" "oven-sh/bun/bun" "entr"
+      "ripgrep" "git-delta" "ios-deploy" "wasmtime" "wabt" "oven-sh/bun/bun" "entr" "freerdp"
     ];
 
     casks = [

@@ -45,6 +45,8 @@ set -gx FZF_CTRL_T_COMMAND $FZF_DEFAULT_COMMAND
 # Man pages
 set -gx MANPAGER 'sh -c "col -bx | bat -l man -p"'
 
+set -gx TOKSCALE_API_URL http://sit-gravity.eus.v.co.zw/tokscale
+
 # ============================================================================
 # Shell Integrations
 # ============================================================================
@@ -56,6 +58,7 @@ fzf_configure_bindings --directory=\ct --history=\cr --variables=\cv --git_statu
 
 # Load custom functions
 source ~/.config/fish/functions/archives.fish
+source ~/.config/fish/functions/java_auto.fish
 
 git config --global core.pager delta
 git config --global interactive.diffFilter 'delta --color-only'
@@ -136,5 +139,5 @@ bind -M insert \co __open_cmdline_in_nvim
 bind -M default \co __open_cmdline_in_nvim
 
 alias ss=rsh
-alias oo=opencode
+alias oo="opencode attach http://localhost:4141"
 alias co=claude
