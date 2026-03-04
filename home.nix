@@ -70,8 +70,8 @@ in
     ".config/ghostty".source = dotfiles/config/ghostty;
 
     ".config/opencode/opencode.json".source = dotfiles/config/opencode/opencode.json;
+    ".config/opencode/AGENTS.md".source = dotfiles/config/opencode/AGENTS.md;
 
-    "AGENTS.md".source = dotfiles/AGENTS.md;
     ".config/hypr/hyprland.conf".source = dotfiles/config/hypr/hyprland.conf;
 
     ".zshenv".source = dotfiles/zshenv;
