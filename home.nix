@@ -70,7 +70,10 @@ in
     ".config/ghostty".source = dotfiles/config/ghostty;
 
     ".config/opencode/opencode.json".source = dotfiles/config/opencode/opencode.json;
+    ".config/opencode/vibeguard.config.json".source = dotfiles/config/opencode/vibeguard.config.json;
     ".config/opencode/AGENTS.md".source = dotfiles/config/opencode/AGENTS.md;
+    ".config/opencode/plugins/superpowers.js".source = dotfiles/config/opencode/superpowers/.opencode/plugins/superpowers.js;
+    ".config/opencode/skills/superpowers".source = dotfiles/config/opencode/superpowers/skills;
 
     ".config/hypr/hyprland.conf".source = dotfiles/config/hypr/hyprland.conf;
 

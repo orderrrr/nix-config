@@ -1,0 +1,31 @@
+{
+  "enabled": true,
+  "debug": false,
+  "placeholder_prefix": "__VG_",
+  "session": {
+    "ttl": "1h",
+    "max_mappings": 100000
+  },
+  "patterns": {
+    "keywords": [],
+    "regex": [
+      { "pattern": "\\b[0-9]{4}[\\s-]?[0-9]{4}[\\s-]?[0-9]{4}[\\s-]?[0-9]{1,7}\\b", "category": "PAN" },
+
+      { "pattern": "%B[0-9]{13,19}\\^[^\\^]{2,26}\\^[0-9]{4}[0-9]*", "category": "TRACK1_DATA" },
+      { "pattern": ";[0-9]{13,19}=[0-9]{4}[0-9]*\\?", "category": "TRACK2_DATA" },
+
+      { "pattern": "(?:cvv2?|cvc2?|cid|cvn|csv)\\s*[:=]\\s*[\"']?[0-9]{3,4}[\"']?", "flags": "i", "category": "CVV_CVC" },
+      { "pattern": "(?:pin[_-]?block|pinblock)\\s*[:=]\\s*[\"']?[0-9A-Fa-f]{16}[\"']?", "flags": "i", "category": "PIN_BLOCK" },
+      { "pattern": "(?:service[_-]?code)\\s*[:=]\\s*[\"']?[0-9]{3}[\"']?", "flags": "i", "category": "SERVICE_CODE" },
+
+      { "pattern": "[A-Za-z0-9_-]{20,}\\.[A-Za-z0-9_-]{20,}\\.[A-Za-z0-9_-]{20,}", "category": "JWT" },
+      { "pattern": "[a-zA-Z0-9-]+\\.sec\\.[a-zA-Z0-9-]+\\.zw\\b", "category": "URL_ZW" },
+
+      { "pattern": "(?:aes|encryption|cipher|symmetric)[_-]?(?:key|secret)\\s*[:=]\\s*[\"']?[0-9a-fA-F]{16,64}[\"']?", "flags": "i", "category": "AES_KEY" },
+      { "pattern": "(?:aes|encryption|cipher|symmetric)[_-]?(?:key|secret)\\s*[:=]\\s*[\"']?[A-Za-z0-9+/]{12,88}={0,2}[\"']?", "flags": "i", "category": "AES_KEY_B64" },
+      { "pattern": "(?:private[_-]?key|secret[_-]?key|api[_-]?secret|hmac[_-]?(?:key|secret)|master[_-]?key|dek|kek)\\s*[:=]\\s*[\"']?[0-9a-fA-F]{32,128}[\"']?", "flags": "i", "category": "CRYPTO_KEY" }
+    ],
+    "builtin": ["email", "ipv4"],
+    "exclude": ["example.com", "localhost", "127.0.0.1", "0.0.0.0", "0000000000000000", "1234567890123456"]
+  }
+}

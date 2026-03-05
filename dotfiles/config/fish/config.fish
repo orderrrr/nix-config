@@ -58,7 +58,7 @@ fzf_configure_bindings --directory=\ct --history=\cr --variables=\cv --git_statu
 
 # Load custom functions
 source ~/.config/fish/functions/archives.fish
-source ~/.config/fish/functions/java_auto.fish
+# source ~/.config/fish/functions/java_auto.fish
 
 git config --global core.pager delta
 git config --global interactive.diffFilter 'delta --color-only'
@@ -139,5 +139,5 @@ bind -M insert \co __open_cmdline_in_nvim
 bind -M default \co __open_cmdline_in_nvim
 
 alias ss=rsh
-alias oo="opencode attach http://localhost:4141"
+alias oo="opencode"
 alias co=claude

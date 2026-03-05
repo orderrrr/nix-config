@@ -19,15 +19,15 @@ in {
 
   system.primaryUser = user;
 
-  launchd.user.agents.opencode-serve = {
-    serviceConfig = {
-      ProgramArguments = [ "/opt/homebrew/bin/opencode" "serve" "--port" "4141" ];
-      RunAtLoad = true;
-      KeepAlive = true;
-      StandardOutPath = "/tmp/opencode-serve.log";
-      StandardErrorPath = "/tmp/opencode-serve.log";
-    };
-  };
+  # launchd.user.agents.opencode-serve = {
+  #   serviceConfig = {
+  #     ProgramArguments = [ "/opt/homebrew/bin/opencode" "serve" "--port" "4141" ];
+  #     RunAtLoad = true;
+  #     KeepAlive = true;
+  #     StandardOutPath = "/tmp/opencode-serve.log";
+  #     StandardErrorPath = "/tmp/opencode-serve.log";
+  #   };
+  # };
 
   homebrew = {
     enable = true;
@@ -37,7 +37,7 @@ in {
     brews = [
       "ansible" "ansible-lint" "btop" "cmake" "coreutils" "curl" "docker" "docker-compose" "direnv"
       "eza" "ffmpeg" "fzf" "fish" "gh" "git" "graphviz" "imagemagick" "ipatool" "lazygit" "maven"
-       "neofetch" "neovim" "ollama" "python@3.10" "rustup" "spirv-cross" "fisher"
+       "neofetch" "neovim" "ollama" "python" "rustup" "spirv-cross" "fisher"
       "sshpass" "opencode" "starship" "tailscale" "telnet" "tinyxml2" "typescript"
       "vulkan-loader" "wget" "yt-dlp" "zig" "zoxide" "jj" "pixi" "colmap" "just" "glfw"
       "llvm@20" "mtr" "molten-vk" "nx" "macmon" "openjdk@17" "dart" "krunkit" "podman"
